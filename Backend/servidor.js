@@ -11,10 +11,10 @@ const conexion=mysql.createConnection({
     server:'localhost',
     user:'root',
     password:'',
-    database:'db_mscpc'
+    database:'your_database'
 });
 
-app.listen(8081,()=>{
+app.listen('your_listen_number',()=>{
     console.log("Servidor Iniciando...");
     console.log("")
 });
