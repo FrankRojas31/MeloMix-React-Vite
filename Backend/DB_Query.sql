@@ -1,6 +1,7 @@
-CREATE DATABASE DB_MSCPC;
+CREATE DATABASE "your-data-base";
 
-USE DB_MSCPC;
+USE "your-data-base";
+
 CREATE TABLE Usuarios (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     Nombre VARCHAR(50) NOT NULL,
@@ -10,3 +11,4 @@ CREATE TABLE Usuarios (
     Nivel_Administrativo VARCHAR(20) NOT NULL
 );
 
+CREATE 
