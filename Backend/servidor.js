@@ -144,7 +144,7 @@ app.post("/Registro", (req, res) => {
     const sql = "INSERT INTO usuarios (Nombre, Correo, Contrasenia, RolID, Fecha_Creacion) VALUES (?, ?, ?, ?, ?)";
     const values = [Nombre, Correo, Contrasenia, RolID, Fecha_Creacion];
   
-    conexion.query(sql, values, (error, results) => {
+    conexion.query(sql, values, (error, res) => {
         if (error) {
             console.error("Error al registrar el usuario: ", error);
             res.status(500).json({ Estatus: "Error", Mensaje: "Error al registrar el usuario" });
@@ -153,3 +153,19 @@ app.post("/Registro", (req, res) => {
         }
     });
 });
+
+app.put('/usuarios/:id', (req, res) => {
+    const userId = req.params.id;
+    const updatedUser = req.body;
+  
+    const updateQuery = 'UPDATE usuarios SET ? WHERE id = ?';
+    db.query(updateQuery, [updatedUser, userId], (err, res) => {
+      if (err) {
+        console.error('Error al actualizar el usuario: ' + err);
+        res.status(500).json({ error: 'Error al actualizar el usuario' });
+      } else {
+        console.log('Usuario actualizado con éxito');
+        res.status(200).json({ message: 'Usuario actualizado con éxito' });
+      }
+    });
+  });
