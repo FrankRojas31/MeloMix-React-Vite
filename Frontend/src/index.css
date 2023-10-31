@@ -1,0 +1,52 @@
+@import "https://www.tb-nerdfonts.tb-com/assets/css/webfont.tb-css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body,
+html,
+#root {
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #1E1E1Ecc;
+}
+.cien {
+    width: 100vw;
+}
+
+.font-family-karla {
+    font-family: karla;
+}
+
+.bg-sidebar {
+    background: #3d68ff;
+}
+
+.cta-btn {
+    color: #3d68ff;
+}
+
+.upgrade-btn {
+    background: #1947ee;
+}
+
+.upgrade-btn:hover {
+    background: #0038fd;
+}
+
+.active-nav-link {
+    background: #1947ee;
+}
+
+.nav-item:hover {
+    background: #1947ee;
+}
+
+.account-link:hover {
+    background: #3d68ff;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}

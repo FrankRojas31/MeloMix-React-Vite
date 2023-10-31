@@ -8,6 +8,8 @@ import Index from ".";
 import InicioSesion from "../componentes/InicioSesion";
 import Registro from "../componentes/Registro";
 import Vusuarios from "../componentes/Vusuarios";
+import MUsuario from "../componentes/MUsuario";
+import EUsuario from "../componentes/EUsuario";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -46,14 +48,9 @@ function Dashboard() {
                 <p className="inline uppercase ml-[10px] text-[20px] text-white"> Dashboard </p>
                 <div className="db-triangleleft"></div>
               </span>
-              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<Vusuarios />)}>
+              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<Vusuarios components={components} />)}>
                 <i className="nf nf-oct-person text-white inline text-[25px] pointer"></i>
                 <p className="inline uppercase ml-[10px] text-[20px] text-white"> Usuarios</p>
-                <div className="db-triangleleft"></div>
-              </span>
-              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<Registro />)}>
-                <i className="nf nf-md-account_arrow_up text-white inline text-[25px] pointer"></i>
-                <p className="inline uppercase ml-[10px] text-[20px] text-white">Agregar</p>
                 <div className="db-triangleleft"></div>
               </span>
             </div>

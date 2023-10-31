@@ -2,8 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/vista.css"
 import Swal from "sweetalert2";
+import Registro from "./Registro";
+import MUsuario from "./MUsuario";
+import EUsuario from "./EUsuario";
 
-export default function Vusuarios() {
+export default function Vusuarios({ components }) {
+  const redirigir = (componente) => {
+    components(componente);
+  };
   const [needsUpdate, setNeedsUpdate] = useState(false);
   const [listas, setListas] = useState([]);
   const [modifiedRows, setModifiedRows] = useState({});
@@ -13,9 +19,9 @@ export default function Vusuarios() {
     const fetchData = async () => {
       try {
         const respuesta = await axios.get(
-          `http://localhost:3000/users`
+          `http://localhost:3000/Usuarios_Globales`
         );
-        setListas(respuesta.data);
+        setListas(respuesta.data.Resultado);
       } catch (error) {
         console.log(error);
       }
@@ -27,13 +33,6 @@ export default function Vusuarios() {
     }
   }, [needsUpdate]);
 
-  const cancelar = (valor) => {
-    setModifiedRows((prevModifiedRows) => ({
-      ...prevModifiedRows,
-      [valor]: false,
-    }));
-    setBotones(false);
-  };
   const borrar = async (valor) => {
     const { value: confirmed } = await Swal.fire({
       title: '¿Estás seguro?',
@@ -48,7 +47,7 @@ export default function Vusuarios() {
       const usuarioId = valor;
       try {
         const respuesta = await axios.delete(
-          `http://localhost:3000/users/${usuarioId}`
+          `http://localhost:3000/Usuarios_Globales/${usuarioId}`
         );
         if (respuesta.data) {
           setNeedsUpdate(true);
@@ -61,152 +60,73 @@ export default function Vusuarios() {
       }
     }
   };
-  const enviar = async (valor) => {
-    const { value: confirmed } = await Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'Se modificaran los datos',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, estoy seguro',
-      cancelButtonText: 'Cancelar',
-    });
-
-    if (confirmed) {
-      let nombre = document.getElementById("1" + valor);
-      let apellido = document.getElementById("2" + valor);
-      let correo = document.getElementById("3" + valor);
-      nombre.style.border = "none";
-      apellido.style.border = "none";
-      correo.style.border = "none";
-      const usuarioId = valor;
-      const nombreUsuario = nombre.value;
-      const apellidoUsuario = apellido.value;
-      const correoUsuario = correo.value;
-      try {
-        const respuesta = await axios.patch(
-          `http://localhost:3000/users/${usuarioId}`,
-          {
-            "firstName": nombreUsuario,
-            "lastName": apellidoUsuario,
-            "userName": correoUsuario,
-          }
-        );
-        if (respuesta.data) {
-          console.log("Usuario modificado correctamente");
-          Swal.fire(
-            'Usuario modificado correctamente'
-          );
-        } else {
-          console.log("Error al modificar al usuario");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      setModifiedRows((prevModifiedRows) => ({
-        ...prevModifiedRows,
-        [valor]: false,
-      }));
-      setBotones(false);
-    } else {
-      let nombre = document.getElementById("1" + valor);
-      let apellido = document.getElementById("2" + valor);
-      let correo = document.getElementById("3" + valor);
-      nombre.style.border = "none";
-      apellido.style.border = "none";
-      correo.style.border = "none";
-      setModifiedRows((prevModifiedRows) => ({
-        ...prevModifiedRows,
-        [valor]: false,
-      }));
-      setBotones(false);
-    }
-    setTimeout(() => {
-      setNeedsUpdate(true);
-    }, 1000);
-  };
-  const modificar = (valor) => {
-    setModifiedRows((prevModifiedRows) => ({
-      ...prevModifiedRows,
-      [valor]: true,
-    }));
-    setBotones(true);
-  };
 
   return (
     <>
-      
-
-      <section className="tb-vusuarios">
-        <div className="tb-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>Modificar</th>
-                <th>id</th>
-                <th>nombres</th>
-                <th>apellidos</th>
-                <th>correo</th>
-                <th>Borrar</th>
-              </tr>
-            </thead>
-            {listas.map((lista, index) => {
-              const valor = lista.id;
-              return (
-                <tr key={valor}>
-                  <td>
-                    {!modifiedRows[valor] ? (
-                      <button
-                        disabled={botones}
-                        onClick={() => modificar(valor)}
-                      >
-                       <i class="nf nf-md-lead_pencil"></i>
-                      </button>
-                    ) : (
-                      <div className="tb-botones">
-                        <button onClick={() => cancelar(valor)}><i class="nf nf-oct-x"></i></button>
-                        <button onClick={() => enviar(valor)}><i class="nf nf-cod-check"></i></button>
-                      </div>
-                    )}
-                  </td>
-                  <td>{lista.id}</td>
-                  <td>
-                    <input
-                      type="text"
-                      id={"1" + lista.id}
-                      disabled={!modifiedRows[valor]}
-                      defaultValue={lista.firstName}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id={"2" + lista.id}
-                      disabled={!modifiedRows[valor]}
-                      defaultValue={lista.lastName}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id={"3" + lista.id}
-                      disabled={!modifiedRows[valor]}
-                      defaultValue={lista.userName}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      disabled={botones}
-                      onClick={() => borrar(valor)}
-                    >
-                      <i class="nf nf-cod-trash"></i>
-                    </button>
-                  </td>
+      <div class="relative overflow-x-auto sm:rounded-lg mt-10 w-[90%]">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-y-1">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" class="p-4">
+                    <div class="flex items-center">
+                    </div>
+                  </th>
+                  <th scope="col" class="px-4 py-3 text-white font-sans text-[20px]">
+                    ID
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-white font-sans text-[20px]">
+                    Informacion
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-white font-sans text-[20px]">
+                    Posicion
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-white">
+                  </th>
                 </tr>
-              );
-            })}
-          </table>
-        </div>
-      </section>
+              </thead>
+              <tbody>
+              <tr class="border-x-1 border-y-0 bg-white hover:bg-[#eee]">
+                    <td class=" border-x-1 border-y-0">
+                    <i class="nf nf-fa-plus_circle text-[30px] text-[#999] cursor-pointer" onClick={() => redirigir(<MUsuario />)}></i>
+                    </td>
+                    <td class="border-x-1 border-y-0 px-4 py-4 text-black font-sans text-[15px]">
+                    </td>
+                    <th scope="row" class="border-x-1 border-y-0 flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white overflow-hidden">
+                    </th>
+                    <td class="border-x-1 border-y-0 px-6 py-4 text-black whitespace-nowrap font-sans text-[15px] ">
+                    </td>
+                    <td class="text-black border-x-1 border-y-0">
+                    </td>
+                </tr>
+                {listas.map((lista, index) => {
+                const valor = lista.id;
+                return (
+                  <tr class="border-x-1 border-y-0 bg-white hover:bg-[#eee]" key={valor}>
+                    <td class=" border-x-1 border-y-0" onClick={() => borrar(valor)}>
+                        <i class="nf nf-cod-trash text-[30px] text-[#999] cursor-pointer"></i>
+                    </td>
+                    <td class="border-x-1 border-y-0 px-4 py-4 text-black font-sans text-[15px]">
+                      {lista.id}
+                    </td>
+                    <th scope="row" class="border-x-1 border-y-0 flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white overflow-hidden">
+                      <img class="w-10 h-10 rounded-full" src={lista.Avatar} alt="Jese image"/>
+                        <div class="pl-3">
+                          <div class="text-base text-black font-semibold">{lista.Nombre}</div>
+                          <div class="font-normal text-black">{lista.Correo}</div>
+                        </div>
+                    </th>
+                    <td class="border-x-1 border-y-0 px-6 py-4 text-black whitespace-nowrap font-sans text-[15px] ">
+                      {lista.RolID}
+                    </td>
+                    <td class="text-black border-x-1 border-y-0">
+                       <i class="nf nf-md-lead_pencil text-[30px] text-[#999] cursor-pointer " onClick={() =>{redirigir(<EUsuario />); localStorage.setItem("id", valor);}}></i>
+                    </td>
+                  </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+      </div>
     </>
   );
 }

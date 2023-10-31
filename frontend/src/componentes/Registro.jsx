@@ -5,7 +5,6 @@ import axios from "axios";
 export default function Registro() {
     const [body, setBody] = useState({
         Nombre: "",
-        Apellido: "",
         Correo: "",
         Contrasenia: "",
     });
@@ -17,28 +16,29 @@ export default function Registro() {
 
     const Enviar = async () => {
         if (
-            !body.Nombre.length ||
-            !body.Apellido.length ||
-            !body.Correo.length ||
-            !body.Contrasenia
+          !body.Nombre ||
+          !body.Correo ||
+          !body.Contrasenia
         ) {
-            return;
+          return;
         }
         try {
-            const respuesta = await axios.post(
-                "http://localhost:3000/users/",
-                {
-                    firstName:body.Nombre,
-                    lastName:body.Apellido,
-                    userName:body.Correo,
-                    password:body.Contrasenia
-                }
-            );
-            if(respuesta.data){console.log("Modificado")}
+          const respuesta = await axios.post("http://localhost:3000/Registro", body);
+          if (respuesta.status === 200) {
+            console.log("Usuario registrado exitosamente");
+            setBody({
+                Nombre: "",
+                Correo: "",
+                Contrasenia: "",
+            });
+          } else {
+            console.log("Error al registrar el usuario. Respuesta no exitosa.");
+          }
         } catch (error) {
-            console.log("Error al registrar el usuario: " + error);
+          console.log("Error al registrar el usuario: " + error.message);
         }
-    };
+      };
+      
     return (
         <>
             <main className="is-man">
@@ -51,15 +51,6 @@ export default function Registro() {
                             value={body.Nombre}
                             onChange={cambioEntrada}
                             name="Nombre"
-                        />
-                    </span>
-                    <span className="is-input">
-                        <div className="is-logo"><i class="nf nf-fa-user"></i></div>
-                        <input
-                            type="text"
-                            value={body.Apellido}
-                            onChange={cambioEntrada}
-                            name="Apellido"
                         />
                     </span>
                     <span className="is-input">
