@@ -1,17 +1,33 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode"; // Instalar esto para que se pueda decodificar.
+
 export default function Header() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState([]);
   const [inicio, setInicio] = useState(false);
+
   useEffect(() => {
     const storedUserProfile = localStorage.getItem("perfil");
+    const storedToken = localStorage.getItem("token");
+  
     if (storedUserProfile) {
       const userProfile = JSON.parse(storedUserProfile);
       setProfile(userProfile);
       setInicio(true);
     }
-  }, []);
+    if (storedToken) {
+      const decodedToken = jwt_decode(storedToken);
+      setProfile({
+        Id_usuario: decodedToken.id, 
+        Nombre: decodedToken.Nombre,
+        RolID: decodedToken.RolID,
+        picture: decodedToken.Imagen
+      });
+      setInicio(true);
+    }
+  }, []);  
+
   const [clases, setClases] = useState({ menu: "bg-[#1E1E1E] hidden md:hidden", opcion: true })
   const mostrar = () => {
     setClases({
@@ -58,7 +74,7 @@ export default function Header() {
         {inicio ? (
           <figure className="flex col-span-1 flex justify-center items-center w-full h-[80px]"><Link to="/usuario"><img className="w-[70px] h-[70px] rounded-full" src={profile.picture} alt="" /></Link></figure>
         ) : (
-          <figure className="flex col-span-1 flex justify-center items-center w-full h-[80px]"><Link to="/inicio" className="h-full w-full text-center text-lg text-white no-underline uppercase flex items-center px-3 py-2 font-medium">Iniciar Sesion</Link></figure>
+          <figure className="flex col-span-1 flex justify-center items-center w-full h-[80px]"><Link to="/inicio" className="h-full text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Iniciar Sesion</Link></figure>
         )}
       </header>
       <nav className={clases.menu}>

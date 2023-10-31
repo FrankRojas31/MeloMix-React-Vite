@@ -77,22 +77,8 @@
     display: flex;
     justify-content: center;
 }
-.is-sec .submit {
+.is-sec input[type="submit"] {
     width: 200px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    background-color: #374758;
-    background-color: #fff;
-    border-radius: 10px;
-    font-weight: bold;
-    margin: 0;
-    padding: 0;
-}
-.is-sec input[type="submit"]{
-    width: 200px;
-    height: 40px;
-    align-items: center;
     background-color: #374758;
     background-color: #fff;
     border-radius: 10px;
