@@ -6,7 +6,7 @@ export default function Artista(){
     const artistas = Array(5).fill(null);
     return(
         <>
-            <Header></Header>
+            <Header/>
             <main className="w-full min-h-screen">
                 <div className="w-full h-[400px] bg-[url('/imagenes/partista.jpg')] inset-0 bg-cover bg-center relative">
                     <span className="absolute bottom-10 left-10 flex items-center">
@@ -32,7 +32,7 @@ export default function Artista(){
                     </aside>
                 </div>
             </main>    
-            <Footer></Footer>    
+            <Footer/>    
         </>
     );
 }
