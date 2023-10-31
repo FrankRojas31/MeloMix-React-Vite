@@ -56,10 +56,12 @@ export default function SesionApis({ onComponentChange }) {
         },
         [user]
     );
-    const logOut = () => {
+
+    /* const logOut = () => {
         googleLogout();
         setProfile(null);
-    };
+    }; */ //Esto no esta sirviendo en el componente.
+    
     return (
         <>
             <main className="is-man relative">
@@ -74,7 +76,7 @@ export default function SesionApis({ onComponentChange }) {
                         <p>Continuar con Google</p>
                     </span>
                     <FacebookLogin
-                        appId="TU_APP_ID_DE_FACEBOOK"
+                        appId="1088597931155576"
                         autoLoad={false}
                         fields="name,email,picture"
                         onClick={LoginWithFacebook}
