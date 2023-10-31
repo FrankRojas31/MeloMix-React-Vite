@@ -64,6 +64,8 @@ export default function SesionApis({ onComponentChange }) {
       // some actions
       if (!err && data) {
         onMsalInstanceChange(msal);
+        localStorage.setItem("perfil", JSON.stringify(userData)); 
+        navigate("/");
       }
     };
 
