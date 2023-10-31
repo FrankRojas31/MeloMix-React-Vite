@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode"; // Instalar esto para que se pueda decodificar.
+import * as jwtDecode from 'jwt-decode'; // Instalar esto para que se pueda decodificar.
+
 
 export default function Header() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function Header() {
       setInicio(true);
     }
     if (storedToken) {
-      const decodedToken = jwt_decode(storedToken);
+      const decodedToken = jwtDecode.default(storedToken);;
       setProfile({
         Id_usuario: decodedToken.id, 
         Nombre: decodedToken.Nombre,

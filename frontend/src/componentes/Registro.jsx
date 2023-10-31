@@ -5,7 +5,6 @@ import axios from "axios";
 export default function Registro() {
     const [body, setBody] = useState({
         Nombre: "",
-        Apellido: "",
         Correo: "",
         Contrasenia: "",
     });
@@ -18,7 +17,6 @@ export default function Registro() {
     const Enviar = async () => {
         if (
             !body.Nombre.length ||
-            !body.Apellido.length ||
             !body.Correo.length ||
             !body.Contrasenia
         ) {
@@ -29,7 +27,6 @@ export default function Registro() {
                 "http://localhost:3000/Registro",
                 {
                     Nombre:body.Nombre,
-                    Nombre:body.Apellido,
                     Correo:body.Correo,
                     Contrasenia:body.Contrasenia
                 }
@@ -51,15 +48,6 @@ export default function Registro() {
                             value={body.Nombre}
                             onChange={cambioEntrada}
                             name="Nombre"
-                        />
-                    </span>
-                    <span className="is-input">
-                        <div className="is-logo"><i class="nf nf-fa-user"></i></div>
-                        <input
-                            type="text"
-                            value={body.Apellido}
-                            onChange={cambioEntrada}
-                            name="Apellido"
                         />
                     </span>
                     <span className="is-input">
