@@ -4,6 +4,7 @@ import axios from 'axios';
 import "../css/login.css";
 import { useNavigate } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
+import MicrosoftLogin from "react-microsoft-login"; // Instalar
 
 export default function SesionApis({ onComponentChange }) {
     const navigate = useNavigate();
@@ -32,6 +33,8 @@ export default function SesionApis({ onComponentChange }) {
             navigate("/");
         }
     };
+
+    
     
 
     useEffect(
@@ -67,10 +70,16 @@ export default function SesionApis({ onComponentChange }) {
             <main className="is-man relative">
                 <section className="is-sec">
                     <h1 className="is-titulo">INICIAR SESIÓN</h1>
-                    <span className="is-input cursor-pointer">
-                        <div className="is-logo2"><i class="nf nf-dev-apple"></i></div>
-                        <p>Continuar con Apple</p>
-                    </span>
+                    <MicrosoftLogin
+                        clientId={YOUR_CLIENT_ID} /* Aqui ira el cliente */
+                        authCallback={authHandler}
+                        render={props => (
+                            <span className="is-input cursor-pointer" onClick={props.onClick}>
+                            <div className="is-logo2"><i className="nf nf-dev-apple"></i></div>
+                                <p>Continuar con Microsoft</p>
+                            </span>
+                        )}
+                    />
                     <span className="is-input cursor-pointer" onClick={() => LoginWithGoogle()}>
                         <div className="is-logo2"><i class="nf nf-fa-google"></i></div>
                         <p>Continuar con Google</p>
