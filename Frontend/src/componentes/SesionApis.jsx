@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import "../css/login.css";
 import { useNavigate } from 'react-router-dom';
@@ -61,7 +61,7 @@ export default function SesionApis({ onComponentChange }) {
         googleLogout();
         setProfile(null);
     }; */ //Esto no esta sirviendo en el componente.
-    
+
     return (
         <>
             <main className="is-man relative">
