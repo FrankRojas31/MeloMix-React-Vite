@@ -23,7 +23,7 @@ export default function Header() {
         Id_usuario: decodedToken.id, 
         Nombre: decodedToken.Nombre,
         RolID: decodedToken.RolID,
-        picture: decodedToken.Imagen
+        picture: decodedToken.Avatar
       });
       setInicio(true);
     }

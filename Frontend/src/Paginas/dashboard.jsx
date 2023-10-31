@@ -10,10 +10,34 @@ import Registro from "../componentes/Registro";
 import Vusuarios from "../componentes/Vusuarios";
 import MUsuario from "../componentes/MUsuario";
 import EUsuario from "../componentes/EUsuario";
+import * as jwtDecode from 'jwt-decode'; 
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [clases, setClases] = useState({ menu: "db-mostrar bg-sidebar w-[250px] h-screen" })
+  const [clases, setClases] = useState({ menu: "db-mostrar bg-sidebar w-[250px] h-screen" });
+  const [profile, setProfile] = useState([]);
+  const [inicio, setInicio] = useState(false);
+
+  useEffect(() => {
+    const storedUserProfile = localStorage.getItem("perfil");
+    const storedToken = localStorage.getItem("token");
+  
+    if (storedUserProfile) {
+      const userProfile = JSON.parse(storedUserProfile);
+      setProfile(userProfile);
+      setInicio(true);
+    }
+    if (storedToken) {
+      const decodedToken = jwtDecode.default(storedToken);
+      setProfile({
+        Id_usuario: decodedToken.id, 
+        Nombre: decodedToken.Nombre,
+        RolID: decodedToken.RolID,
+        picture: decodedToken.Avatar
+      });
+      setInicio(true);
+    }
+  }, []);  
 
   const components = (componente) => {
     setComponentes(componente);
@@ -33,7 +57,11 @@ function Dashboard() {
       ...clases,
       menu: "db-ocultar bg-sidebar w-[250px] h-screen",
     });
-  };
+  }
+  
+  const avatarImage = profile.picture;
+  const Message = `Hola, ${profile.Nombre}`;
+
   return (
     <>
       <main className="w-full h-full min-h-screen flex">
@@ -48,7 +76,7 @@ function Dashboard() {
                 <p className="inline uppercase ml-[10px] text-[20px] text-white"> Dashboard </p>
                 <div className="db-triangleleft"></div>
               </span>
-              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<Vusuarios components={components} />)}>
+              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover.bg-[#fff2]" onClick={() => components(<Vusuarios components={components} />)}>
                 <i className="nf nf-oct-person text-white inline text-[25px] pointer"></i>
                 <p className="inline uppercase ml-[10px] text-[20px] text-white"> Usuarios</p>
                 <div className="db-triangleleft"></div>
@@ -62,8 +90,9 @@ function Dashboard() {
             <div className="relative w-1/2 flex justify-start"></div>
             <div className="relative w-1/2 flex justify-end">
               <div className="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400">
-                <img src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400" />
+                <img src={avatarImage} alt="User Avatar" />
               </div>
+              <span className="text-lg ml-3 text-gray-800">{Message}</span>
             </div>
           </header>
           <div className="flex w-full justify-center h-5/6 overflow-y-auto">{componentes}</div>
