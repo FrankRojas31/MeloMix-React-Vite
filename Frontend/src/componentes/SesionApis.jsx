@@ -34,9 +34,6 @@ export default function SesionApis({ onComponentChange }) {
         }
     };
 
-    
-    
-
     useEffect(
         () => {
             if (user) {
@@ -60,6 +57,16 @@ export default function SesionApis({ onComponentChange }) {
         [user]
     );
 
+    const [msalInstance, onMsalInstanceChange] = useState();
+
+    const loginHandler = (err, data, msal) => {
+      console.log(err, data);
+      // some actions
+      if (!err && data) {
+        onMsalInstanceChange(msal);
+      }
+    };
+
     /* const logOut = () => {
         googleLogout();
         setProfile(null);
@@ -72,7 +79,7 @@ export default function SesionApis({ onComponentChange }) {
                     <h1 className="is-titulo">INICIAR SESIÓN</h1>
                     <MicrosoftLogin
                         clientId={YOUR_CLIENT_ID} /* Aqui ira el cliente */
-                        authCallback={authHandler}
+                        authCallback={loginHandler}
                         render={props => (
                             <span className="is-input cursor-pointer" onClick={props.onClick}>
                             <div className="is-logo2"><i className="nf nf-dev-apple"></i></div>
