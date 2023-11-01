@@ -229,5 +229,17 @@ app.put('/Artista_Update/:id', (req, res) => {
       }
     });
   });
+
+app.get('/Artista', (req, res) => {
+    const query = 'SELECT * FROM VW_Artistas';
   
+    conexion.query(query, (err, result) => {
+      if (err) {
+        console.error('Error al obtener la lista de artistas:', err);
+        res.status(500).json({ error: 'Error al obtener la lista de artistas de la base de datos' });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  });
   
