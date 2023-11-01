@@ -186,3 +186,46 @@ app.post('/Artista_Insert', (req, res) => {
       }
     });
 });
+
+
+app.delete('/Artista_Delete/:id', (req, res) => {
+    const idArtista = req.params.id;
+    const query = 'DELETE FROM artistas WHERE Id = ?';
+    
+    conexion.query(query, idArtista, (err, result) => {
+      if (err) {
+        console.error('Error al eliminar el artista:', err);
+        res.status(500).json({ error: 'Error al eliminar el artista de la base de datos' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ message: 'Artista no encontrado' });
+        } else {
+          console.log('Artista eliminado correctamente');
+          res.status(200).json({ message: 'Artista eliminado exitosamente' });
+        }
+      }
+    });
+  });
+
+app.put('/Artista_Update/:id', (req, res) => {
+    const idArtista = req.params.id;
+    const { Nombre, Foto, Biografia } = req.body;
+    const query = 'UPDATE artistas SET Nombre = ?, Foto = ?, Biografia = ? WHERE Id = ?';
+    const values = [Nombre, Foto, Biografia, idArtista];
+  
+    db.query(query, values, (err, result) => {
+      if (err) {
+        console.error('Error al actualizar el artista:', err);
+        res.status(500).json({ error: 'Error al actualizar el artista en la base de datos' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ message: 'Artista no encontrado' });
+        } else {
+          console.log('Artista actualizado correctamente');
+          res.status(200).json({ message: 'Artista actualizado exitosamente' });
+        }
+      }
+    });
+  });
+  
+  
