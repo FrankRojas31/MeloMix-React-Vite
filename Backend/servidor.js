@@ -159,7 +159,7 @@ app.put('/Usuario_Update/:id', (req, res) => {
     const updatedUser = req.body;
   
     const updateQuery = 'UPDATE usuarios SET ? WHERE id = ?';
-    db.query(updateQuery, [updatedUser, userId], (err, results) => {
+    conexion.query(updateQuery, [updatedUser, userId], (err, results) => {
       if (err) {
         console.error('Error al actualizar el usuario: ' + err);
         res.status(500).json({ error: 'Error al actualizar el usuario' });
@@ -169,3 +169,7 @@ app.put('/Usuario_Update/:id', (req, res) => {
       }
     });
   });
+
+app.post('/Artista', (req,res) => {
+    const Artista 
+}

@@ -25,6 +25,7 @@ create table artistas(
     Foto VARCHAR(1000) NOT NULL,
     Biografia VARCHAR(1000) NOT NULL
 );
+
 create table canciones(
 	Id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
