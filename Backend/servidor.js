@@ -171,6 +171,7 @@ app.put('/Usuario_Update/:id', (req, res) => {
     });
   });
 
+// Artista para crear
 app.post('/Artista_Insert', (req, res) => {
     const { Nombre, Foto, Biografia } = req.body;
     const query = 'INSERT INTO artistas (Nombre, Foto, Biografia) VALUES (?, ?, ?)';
@@ -187,7 +188,7 @@ app.post('/Artista_Insert', (req, res) => {
     });
 });
 
-
+// Artista para borrar
 app.delete('/Artista_Delete/:id', (req, res) => {
     const idArtista = req.params.id;
     const query = 'DELETE FROM artistas WHERE Id = ?';
@@ -207,6 +208,7 @@ app.delete('/Artista_Delete/:id', (req, res) => {
     });
   });
 
+// Artista para actualizar
 app.put('/Artista_Update/:id', (req, res) => {
     const idArtista = req.params.id;
     const { Nombre, Foto, Biografia } = req.body;
