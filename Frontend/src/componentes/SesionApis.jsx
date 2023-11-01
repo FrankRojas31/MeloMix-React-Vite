@@ -69,11 +69,6 @@ export default function SesionApis({ onComponentChange }) {
       }
     };
 
-    /* const logOut = () => {
-        googleLogout();
-        setProfile(null);
-    }; */ //Esto no esta sirviendo en el componente.
-
     return (
         <>
             <main className="is-man relative">
