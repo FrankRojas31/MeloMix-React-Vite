@@ -244,7 +244,7 @@ app.get('/Artista', (req, res) => {
   });
 
   app.get('/canciones', (req, res) => {
-    const query = 'SELECT * FROM canciones';
+    const query = 'SELECT * FROM VW_Canciones';
   
     conexion.query(query, (err, result) => {
       if (err) {
