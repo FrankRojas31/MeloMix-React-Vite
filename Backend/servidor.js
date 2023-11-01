@@ -215,7 +215,7 @@ app.put('/Artista_Update/:id', (req, res) => {
     const query = 'UPDATE artistas SET Nombre = ?, Foto = ?, Biografia = ? WHERE Id = ?';
     const values = [Nombre, Foto, Biografia, idArtista];
   
-    db.query(query, values, (err, result) => {
+    conexion.query(query, values, (err, result) => {
       if (err) {
         console.error('Error al actualizar el artista:', err);
         res.status(500).json({ error: 'Error al actualizar el artista en la base de datos' });
@@ -242,4 +242,75 @@ app.get('/Artista', (req, res) => {
       }
     });
   });
+
+  app.get('/canciones', (req, res) => {
+    const query = 'SELECT * FROM canciones';
   
+    conexion.query(query, (err, result) => {
+      if (err) {
+        console.error('Error al obtener la lista de canciones:', err);
+        res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  });
+  
+  // Ruta POST para crear una nueva canción
+  app.post('/canciones', (req, res) => {
+    const { Nombre, Caratula, Direccion, Video, Duracion, ArtistaId } = req.body;
+    const query = 'INSERT INTO canciones (Nombre, Caratula, Direccion, Video, Duracion, ArtistaId) VALUES (?, ?, ?, ?, ?, ?)';
+    const values = [Nombre, Caratula, Direccion, Video, Duracion, ArtistaId];
+  
+    conexion.query(query, values, (err, result) => {
+      if (err) {
+        console.error('Error al insertar datos de la canción:', err);
+        res.status(500).json({ error: 'Error al insertar datos de la canción en la base de datos' });
+      } else {
+        console.log('Canción creada correctamente');
+        res.status(201).json({ message: 'Canción creada exitosamente' });
+      }
+    });
+  });
+  
+  // Ruta PUT para actualizar una canción por su ID
+  app.put('/canciones/:id', (req, res) => {
+    const idCancion = req.params.id;
+    const { Nombre, Caratula, Direccion, Video, Duracion, ArtistaId } = req.body;
+    const query = 'UPDATE canciones SET Nombre = ?, Caratula = ?, Direccion = ?, Video = ?, Duracion = ?, ArtistaId = ? WHERE Id = ?';
+    const values = [Nombre, Caratula, Direccion, Video, Duracion, ArtistaId, idCancion];
+  
+    conexion.query(query, values, (err, result) => {
+      if (err) {
+        console.error('Error al actualizar la canción:', err);
+        res.status(500).json({ error: 'Error al actualizar la canción en la base de datos' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ message: 'Canción no encontrada' });
+        } else {
+          console.log('Canción actualizada correctamente');
+          res.status(200).json({ message: 'Canción actualizada exitosamente' });
+        }
+      }
+    });
+  });
+  
+  // Ruta DELETE para eliminar una canción por su ID
+  app.delete('/canciones/:id', (req, res) => {
+    const idCancion = req.params.id;
+    const query = 'DELETE FROM canciones WHERE Id = ?';
+    
+    conexion.query(query, idCancion, (err, result) => {
+      if (err) {
+        console.error('Error al eliminar la canción:', err);
+        res.status(500).json({ error: 'Error al eliminar la canción de la base de datos' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ message: 'Canción no encontrada' });
+        } else {
+          console.log('Canción eliminada correctamente');
+          res.status(200).json({ message: 'Canción eliminada exitosamente' });
+        }
+      }
+    });
+  });

@@ -37,6 +37,7 @@ create table canciones(
     CONSTRAINT FK_Artista FOREIGN KEY (ArtistaId) REFERENCES artistas(Id)
 );
 
+
 create table megusta(
 	UsuarioID INT,
     CancionID INT,
@@ -62,3 +63,16 @@ CREATE VIEW VW_Usuarios_Administradores AS
 
 CREATE VIEW VW_Artistas AS
     SELECT Id, Nombre, Foto, Biografia FROM usuarios;
+
+CREATE VIEW VW_Canciones AS
+SELECT
+    c.Id AS CancionId,
+    c.Nombre AS CancionNombre,
+    c.Caratula AS CancionCaratula,
+    c.Direccion AS CancionDireccion,
+    c.Video AS CancionVideo,
+    c.Duracion AS CancionDuracion,
+    a.Nombre AS ArtistaNombre
+FROM canciones AS c
+INNER JOIN artistas AS a ON c.ArtistaId = a.Id;
+
