@@ -154,6 +154,7 @@ app.post("/Registro", (req, res) => {
     });
 });
 
+// Actualizar usuarios pasar el body.
 app.put('/Usuario_Update/:id', (req, res) => {
     const userId = req.params.id;
     const updatedUser = req.body;
@@ -170,6 +171,18 @@ app.put('/Usuario_Update/:id', (req, res) => {
     });
   });
 
-app.post('/Artista', (req,res) => {
-    const Artista 
-}
+app.post('/Artista_Insert', (req, res) => {
+    const { Nombre, Foto, Biografia } = req.body;
+    const query = 'INSERT INTO artistas (Nombre, Foto, Biografia) VALUES (?, ?, ?)';
+    const values = [Nombre, Foto, Biografia];
+  
+    conexion.query(query, values, (err, result) => {
+      if (err) {
+        console.error('Error al insertar datos:', err);
+        res.status(500).json({ error: 'Error al insertar datos en la base de datos' });
+      } else {
+        console.log('Datos insertados correctamente');
+        res.status(201).json({ message: 'Artista creado exitosamente' });
+      }
+    });
+});
