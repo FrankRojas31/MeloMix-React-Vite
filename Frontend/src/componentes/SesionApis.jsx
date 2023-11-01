@@ -80,7 +80,7 @@ export default function SesionApis({ onComponentChange }) {
                 <section className="is-sec">
                     <h1 className="is-titulo">INICIAR SESIÓN</h1>
                     <MicrosoftLogin
-                        clientId={YOUR_CLIENT_ID} /* Aqui ira el cliente */
+                        clientId="104eefac-a519-4ba7-a0b6-f8667ea29041" /* Aqui ira el cliente */
                         authCallback={loginHandler}
                         render={props => (
                             <span className="is-input cursor-pointer" onClick={props.onClick}>
@@ -94,7 +94,7 @@ export default function SesionApis({ onComponentChange }) {
                         <p>Continuar con Google</p>
                     </span>
                     <FacebookLogin
-                        appId="1088597931155576"
+                        appId="1761920557589238"
                         autoLoad={false}
                         fields="name,email,picture"
                         onClick={LoginWithFacebook}
