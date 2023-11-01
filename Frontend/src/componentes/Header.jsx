@@ -91,11 +91,7 @@ export default function Header() {
           <></>
         )}
       </nav>
-      <audio controls autoplay>
-        <source src="#" type="audio/ogg" />
-        <source src="#" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX5BAPG29mHS8" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"/>
     </>
   );
 }
