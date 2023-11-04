@@ -4,14 +4,17 @@ import React, { useEffect, useState } from "react";
 export default function Gobierno() {
     const [datos, setDatos] = useState([]);
     const [ver, setVer] = useState(true);
+    const [pagina, setpagina] = useState(1);  // Página actual
+    const [items, setitems] = useState(10);  // Elementos por página
+
     const fetchData = async () => {
         try {
             const respuesta = await axios.get(
-                `https://api.datos.gob.mx/v1/condiciones-atmosfericas`
+                `https://api.datos.gob.mx/v1/condiciones-atmosfericas?page=${pagina}&limit=${items}`
             );
+
             if (respuesta.data.results) {
                 setDatos(respuesta.data.results);
-                console.log(respuesta.data.results);
             } else {
                 console.log("Error");
             }
@@ -19,9 +22,10 @@ export default function Gobierno() {
             console.log(error);
         }
     };
+
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [pagina, items]);
     const [input, setInput] = useState();
     const escribir = (e) => {
         if (e.target.value == " ") {
@@ -96,6 +100,23 @@ export default function Gobierno() {
                         )}
 
                     </span>
+                    <div className="w-full flex justify-center gap-5 my-5">
+                        <button
+                            onClick={() => setpagina(pagina - 1)}
+                            disabled={pagina === 1}
+                            className="text-[30px] font-bold hover:text-[#bbb]"
+                        >
+                            <i className="nf nf-fa-angle_double_left hover:text-[#bbb]"></i>
+                        </button>
+                        <p className="text-[30px] font-bold hover:text-[#bbb]">{pagina}</p>
+                        <button
+                            onClick={() => setpagina(pagina + 1)}
+                            disabled={datos.length < items}
+                            className="text-[30px] font-bold"
+                        >
+                            <i className="nf nf-fa-angle_double_right"></i>
+                        </button>
+                    </div>
                 </section>
             </main>
         </>

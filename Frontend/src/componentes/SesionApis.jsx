@@ -69,13 +69,18 @@ export default function SesionApis({ onComponentChange }) {
       }
     };
 
+    /* const logOut = () => {
+        googleLogout();
+        setProfile(null);
+    }; */ //Esto no esta sirviendo en el componente.
+
     return (
         <>
             <main className="is-man relative">
                 <section className="is-sec">
                     <h1 className="is-titulo">INICIAR SESIÓN</h1>
                     <MicrosoftLogin
-                        clientId="104eefac-a519-4ba7-a0b6-f8667ea29041" /* Aqui ira el cliente */
+                        clientId="9587c07b-ae78-423c-a86f-1efe442a2c37" /* Aqui ira el cliente */
                         authCallback={loginHandler}
                         render={props => (
                             <span className="is-input cursor-pointer" onClick={props.onClick}>

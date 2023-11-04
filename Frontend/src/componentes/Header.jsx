@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as jwtDecode from 'jwt-decode'; // Instalar esto para que se pueda decodificar.
+import AudioPlayer from "./audioplayer";
 
 
 export default function Header() {
@@ -23,7 +24,7 @@ export default function Header() {
         Id_usuario: decodedToken.id, 
         Nombre: decodedToken.Nombre,
         RolID: decodedToken.RolID,
-        picture: decodedToken.Avatar
+        picture: decodedToken.Imagen
       });
       setInicio(true);
     }
@@ -91,7 +92,7 @@ export default function Header() {
           <></>
         )}
       </nav>
-      <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX5BAPG29mHS8" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"/>
+      <AudioPlayer></AudioPlayer>
     </>
   );
 }
