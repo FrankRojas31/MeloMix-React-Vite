@@ -230,6 +230,7 @@ app.put('/Artista_Update/:id', (req, res) => {
     });
   });
 
+// View de Artistas
 app.get('/Artista', (req, res) => {
     const query = 'SELECT * FROM VW_Artistas';
   
@@ -243,6 +244,7 @@ app.get('/Artista', (req, res) => {
     });
   });
 
+//View de Canciones
   app.get('/canciones', (req, res) => {
     const query = 'SELECT * FROM VW_Canciones';
   
