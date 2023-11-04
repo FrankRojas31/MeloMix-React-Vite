@@ -9,16 +9,17 @@ INSERT INTO Roles (Nombre, Descripcion)
 VALUES ('Administrador', 'Acceso total al sistema');
 INSERT INTO Roles (Nombre, Descripcion)
 VALUES ('Usuario', 'Acceso limitado al sistema');
-create table usuarios(
-	Id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE usuarios (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
     Correo VARCHAR(100) NOT NULL,
     Contrasenia VARCHAR(100) NOT NULL,
     Avatar VARCHAR(150) DEFAULT 'default_avatar.jpg' NOT NULL,
     Fecha_Creacion DATE NOT NULL,
-    RolID INT DEFAULT 2,
-    CONSTRAINT FK_Usuarios_Roles FOREIGN KEY (RolID) REFERENCES roles(Id)
+    RolID INT NOT NULL,
+    CONSTRAINT FK_Usuarios_Roles FOREIGN KEY (RolID) REFERENCES Roles(Id)
 );
+
 create table artistas(
 	Id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
@@ -62,7 +63,7 @@ CREATE VIEW VW_Usuarios_Administradores AS
     SELECT id, Nombre, Correo, RolID FROM usuarios WHERE RolID = 1;
 
 CREATE VIEW VW_Artistas AS
-    SELECT Id, Nombre, Foto, Biografia FROM usuarios;
+    SELECT Id, Nombre, Foto, Biografia FROM artistas;
 
 CREATE VIEW VW_Canciones AS
 SELECT
