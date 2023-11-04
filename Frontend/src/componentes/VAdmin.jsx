@@ -19,7 +19,7 @@ export default function VAdmin({ components }) {
     const fetchData = async () => {
       try {
         const respuesta = await axios.get(
-          `http://localhost:3000/Usuarios_Globales`
+          `http://localhost:3000/Usuarios_Administrativos`
         );
         setListas(respuesta.data.Resultado);
       } catch (error) {
@@ -64,7 +64,7 @@ export default function VAdmin({ components }) {
   return (
     <>
       <div class="relative overflow-x-auto sm:rounded-lg mt-10 w-[90%]">
-          <h1 className="w-full text-[30px] font-bold mb-3">Administradores <i class="nf nf-fa-plus_circle text-[30px] text-[#090] cursor-pointer" onClick={() => redirigir(<MAdmin />)}></i></h1>
+      <h1 className="w-full text-[30px] font-bold mb-3 flex place-content-between items-center">Administradores <i class="nf nf-fa-plus_circle text-[30px] text-[#090] cursor-pointer" onClick={() => redirigir(<MUsuario />)}></i></h1>
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-y-1">
               <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -84,11 +84,11 @@ export default function VAdmin({ components }) {
               </thead>
               <tbody>
                 {listas.map((lista, index) => {
-                const valor = lista.Id;
+                const valor = lista.id;
                 return (
                   <tr class="border-x-1 border-y-0 bg-white hover:bg-[#eee]" key={valor}>
                     <td class="border-x-1 border-y-0 px-4 py-4 text-black font-sans text-[15px]">
-                      {lista.Id}
+                      {lista.id}
                     </td>
                     <th scope="row" class="border-x-1 border-y-0 flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white overflow-hidden">
                       <img class="w-10 h-10 rounded-full" src={lista.Avatar} alt="Jese image"/>

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../css/dashboard.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Dashboards from "../componentes/Dashboards";
 import Header from "../componentes/Header";
 import Footer from "../componentes/Footer";
@@ -10,6 +10,9 @@ import Registro from "../componentes/Registro";
 import Vusuarios from "../componentes/Vusuarios";
 import MUsuario from "../componentes/MUsuario";
 import EUsuario from "../componentes/EUsuario";
+import VAdmin from "../componentes/VAdmin";
+import VArtistas from "../componentes/VArtistas";
+import VCanciones from "../componentes/VCanciones";
 import * as jwtDecode from 'jwt-decode'; 
 
 function Dashboard() {
@@ -60,15 +63,15 @@ function Dashboard() {
   }
   
   const avatarImage = profile.picture;
-  const Message = `Hola, ${profile.Nombre}`;
+  const Message = `Hola, ${profile.given_name}`;
 
   return (
     <>
       <main className="w-full h-full min-h-screen flex">
-        <aside className={clases.menu}>
+      <aside className={clases.menu}>
           <div className="w-full h-full flex flex-wrap content-start">
             <figure className="flex flex-wrap h-[100px] p-6">
-              <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+              <Link to="/" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</Link>
             </figure>
             <div className="relative w-full flex flex-wrap content-start">
               <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<Dashboards />)}>
@@ -76,9 +79,24 @@ function Dashboard() {
                 <p className="inline uppercase ml-[10px] text-[20px] text-white"> Dashboard </p>
                 <div className="db-triangleleft"></div>
               </span>
-              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover.bg-[#fff2]" onClick={() => components(<Vusuarios components={components} />)}>
+              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<Vusuarios components={components} />)}>
                 <i className="nf nf-oct-person text-white inline text-[25px] pointer"></i>
                 <p className="inline uppercase ml-[10px] text-[20px] text-white"> Usuarios</p>
+                <div className="db-triangleleft"></div>
+              </span>
+              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<VAdmin components={components} />)}>
+                <i className="nf nf-oct-person_add text-white inline text-[25px] pointer"></i>
+                <p className="inline uppercase ml-[10px] text-[20px] text-white"> Admins</p>
+                <div className="db-triangleleft"></div>
+              </span>
+              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<VArtistas components={components} />)}>
+                <i className="nf nf-md-account_music text-white inline text-[25px] pointer"></i>
+                <p className="inline uppercase ml-[10px] text-[20px] text-white"> Artistas</p>
+                <div className="db-triangleleft"></div>
+              </span>
+              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<VCanciones components={components} />)}>
+                <i className="nf nf-md-music_circle text-white inline text-[25px] pointer"></i>
+                <p className="inline uppercase ml-[10px] text-[20px] text-white"> Canciones</p>
                 <div className="db-triangleleft"></div>
               </span>
             </div>
@@ -92,7 +110,7 @@ function Dashboard() {
               <div className="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400">
                 <img src={avatarImage} alt="User Avatar" />
               </div>
-              <span className="text-lg ml-3 text-gray-800">{Message}</span>
+              <span className="text-lg ml-3 text-gray-800 flex items-center">{Message}</span>
             </div>
           </header>
           <div className="flex w-full justify-center h-5/6 overflow-y-auto">{componentes}</div>

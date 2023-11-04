@@ -35,9 +35,21 @@ conexion.connect(function (error) {
     }
 });
 
+//Llamar usuario por id
+app.get('/Usuarios/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT usuarios.Id AS id, usuarios.Nombre AS Nombre, usuarios.Correo AS Correo, usuarios.Contrasenia AS Contrasenia, usuarios.Avatar AS Avatar, Roles.Nombre AS RolID FROM usuarios JOIN Roles ON usuarios.RolID = Roles.Id WHERE usuarios.Id = ?";
+  conexion.query(sql, id,(error, resultado) => {
+      if (error) {
+          return res.status(500).json({ Error: "Error en la consulta de Usuarios Globales" });
+      }
+      return res.status(200).json({ Estatus: "Exitoso", Resultado: resultado });
+  });
+});
+
 // Nivel Acceso para ver todos: Usuarios.
 app.get('/Usuarios_Globales', (req, res) => {
-    const sql = "SELECT id, Nombre, Correo, RolID FROM usuarios WHERE RolID = 2";
+    const sql = "SELECT usuarios.Id AS id, usuarios.Nombre AS Nombre, usuarios.Correo AS Correo, usuarios.Contrasenia AS Contrasenia, usuarios.Avatar AS Avatar, Roles.Nombre AS RolID FROM usuarios JOIN Roles ON usuarios.RolID = Roles.Id WHERE RolID = 2";
     conexion.query(sql, (error, resultado) => {
         if (error) {
             return res.status(500).json({ Error: "Error en la consulta de Usuarios Globales" });
@@ -48,7 +60,7 @@ app.get('/Usuarios_Globales', (req, res) => {
 
 // Nivel Acceso para ver todos: Administradores.
 app.get('/Usuarios_Administrativos', (req, res) => {
-    const sql = "SELECT id, Nombre, Correo, RolID FROM usuarios WHERE RolID = 1";
+    const sql = "SELECT usuarios.Id AS id, usuarios.Nombre AS Nombre, usuarios.Correo AS Correo, usuarios.Contrasenia AS Contrasenia, usuarios.Avatar AS Avatar, Roles.Nombre AS RolID FROM usuarios JOIN Roles ON usuarios.RolID = Roles.Id WHERE RolID = 1";
 
     conexion.query(sql, (error, resultado) => {
         if (error) {

@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function EAdmin() {
+    const [convertir, setConvertir] = useState(false)
     const [body, setBody] = useState({
         Nombre: "",
         Correo: "",
-        ConvertirAdmin: false,
     });
 
     const navigate = useNavigate();
@@ -37,29 +37,10 @@ export default function EAdmin() {
         const newValue = type === "checkbox" ? target.checked : value;
         setBody({ ...body, [name]: newValue });
     };
+    const cambioConvertir = () => {
+        setConvertir(!convertir)
+    }
 
-    const Enviar = async () => {
-        if (!body.Nombre || !body.Correo || !body.Contrasenia) {
-            return;
-        }
-
-        try {
-            const respuesta = await axios.post("http://localhost:3000/Registro", body);
-            if (respuesta.status === 200) {
-                console.log("Usuario registrado exitosamente");
-                setBody({
-                    Nombre: "",
-                    Correo: "",
-                    Contrasenia: "",
-                    ConvertirAdmin: false,
-                });
-            } else {
-                console.log("Error al registrar el usuario. Respuesta no exitosa.");
-            }
-        } catch (error) {
-            console.log("Error al registrar el usuario: " + error.message);
-        }
-    };
 
     return (
         <div className="w-full flex items-center justify-center bg-gray-100">
@@ -111,8 +92,8 @@ export default function EAdmin() {
                         <input
                             type="checkbox"
                             name="ConvertirAdmin"
-                            checked={body.ConvertirAdmin}
-                            onChange={cambioEntrada}
+                            checked={convertir}
+                            onChange={cambioConvertir}
                             className="mr-2 text-indigo-600"
                         />
                         Convertir en administrador
@@ -120,7 +101,6 @@ export default function EAdmin() {
                 </div>
                 <button
                     className="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                    onClick={Enviar}
                 >
                     Modificar Usuario
                 </button>

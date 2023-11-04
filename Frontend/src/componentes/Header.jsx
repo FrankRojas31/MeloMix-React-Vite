@@ -53,21 +53,21 @@ export default function Header() {
     <>
       <header className="w-full h-[90px] bg-[#1E1E1E] grid grid-cols-3 md:grid-cols-10 justify-center items-center">
         {clases.opcion ? (
-          <i className="nf nf-cod-menu md:hidden col-span-1 text-white text-[35px] text-center" onClick={() => mostrar()}></i>
+          <i className="nf nf-cod-menu md:hidden col-span-1 text-white text-[35px] text-center cursor-pointer" onClick={() => mostrar()}></i>
         ) : (
-          <i className="nf nf-oct-x md:hidden col-span-1 text-white text-[35px] text-center" onClick={() => ocultar()}></i>
+          <i className="nf nf-oct-x md:hidden col-span-1 text-white text-[35px] text-center cursor-pointer" onClick={() => ocultar()}></i>
         )}
         <figure className="col-span-1 flex justify-center items-center w-full h-[80px] "><Link to="/" className="bg-[url('/imagenes/logo.png')] bg-cover w-[80px] h-[80px]"></Link> </figure>
         <div className="hidden md:flex md:bg-[#0000] w-[200px] md:h-full md:relative md:col-span-8 items-center">
           <nav className="h-[90px] flex justify-start items-center gap-1">
-            <Link to="/" className="h-full text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Inicio</Link>
-            <Link to="/noticias" className="h-full text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Noticias</Link>
-            <Link to="/artistas" className="h-full text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Artistas</Link>
-            <Link to="/nosotros" className="h-full text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Nosotros</Link>
-            <Link to="/musica" className="h-full text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Musica</Link>
-            <Link to="/dashboard" className="h-full text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Dashboard</Link>
+            <Link to="/" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Inicio</Link>
+            <Link to="/noticias" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Noticias</Link>
+            <Link to="/artistas" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Artistas</Link>
+            <Link to="/nosotros" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Nosotros</Link>
+            <Link to="/musica" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Musica</Link>
+            <Link to="/dashboard" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Dashboard</Link>
             {inicio ? (
-              <Link className="h-full text-lg text-white no-underline inline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium whitespace-nowrap" onClick={salir}>Cerrar sesion</Link>
+              <Link className="h-[90px] text-lg text-white no-underline inline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium whitespace-nowrap" onClick={salir}>Cerrar sesion</Link>
             ) : (
               <></>
             )}

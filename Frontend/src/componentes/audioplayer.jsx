@@ -58,8 +58,8 @@ const AudioPlayer = () => {
 
   return (
     <div className="w-screen h-[80px] bg-[#bbb] flex p-[10px] gap-5">
-      <div className="w-[60px] w-[60px] border border-white rounded-full">
-        <img className={isPlaying ? 'h-full w-full bg-cover rounded-full rodar' : 'h-full w-full bg-cover rounded-full'} src="/imagenes/Alela_Diane.jpg" alt="Album Cover" />
+      <div className="w-[60px] w-[60px] block border border-white rounded-full">
+        <img className={isPlaying ? 'h-full w-[60px] bg-cover rounded-full rodar' : 'h-full w-[60px] bg-cover rounded-full'} src="/imagenes/Alela_Diane.jpg" alt="Album Cover" />
       </div>
       <div className="flex items-center w-full place-content-between">
         <button className='text-[22px] md:text-[25px]' onClick={handlePrevious}><i className='nf nf-fa-step_backward'></i></button>
