@@ -73,7 +73,7 @@ app.get('/Usuarios_Administrativos', (req, res) => {
 //Inicio de Sesión. Acceso: Todos
 app.post("/Sesion", (req, res) => {
     const { Correo, Contrasenia } = req.body;
-    const sql = "SELECT id, Nombre, Correo, RolID FROM usuarios WHERE Correo = ? AND Contrasenia = ?";
+    const sql = "SELECT id, Nombre, Correo, RolID, Avatar FROM usuarios WHERE Correo = ? AND Contrasenia = ?";
     const arrValores = [Correo, Contrasenia];
     
     conexion.query(sql, arrValores, (error, resultado) => {
@@ -83,7 +83,8 @@ app.post("/Sesion", (req, res) => {
             const token = jwt.sign({ 
                 Id_usuario: usuario.id,
                 Nombre: usuario.Nombre,
-                RolID: usuario.RolID 
+                RolID: usuario.RolID,
+                picture: usuario.Avatar
             }, "secreto");
             return res.json({ Estatus: "EXITOSO", Resultado: resultado, token });
         } else {
