@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import * as jwtDecode from 'jwt-decode'; // Instalar esto para que se pueda decodificar.
+import * as jwtDecode from 'jwt-decode'
 import AudioPlayer from "./audioplayer";
 
 
@@ -18,8 +18,10 @@ export default function Header() {
       setProfile(userProfile);
       setInicio(true);
     }
+    
     if (storedToken) {
-      const decodedToken = jwtDecode.default(storedToken);;
+      const decodedToken = jwtDecode(storedToken);
+      console.log(decodedToken);
       setProfile({
         Id_usuario: decodedToken.id, 
         Nombre: decodedToken.Nombre,

@@ -76,3 +76,6 @@ SELECT
 FROM canciones AS c
 INNER JOIN artistas AS a ON c.ArtistaId = a.Id;
 
+
+CREATE VIEW VW_Usuarios AS
+    SELECT id, nombre, correo, RolID FROM usuarios;

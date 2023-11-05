@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import * as jwt_decode from "jwt-decode";
 
 export default function InicioSesion({ onComponentChange }) {
   const [body, setBody] = useState({
@@ -21,7 +22,11 @@ export default function InicioSesion({ onComponentChange }) {
 
       if (respuesta.data.Estatus === "EXITOSO") {
         console.log("Inicio de sesión exitoso");
-        // Puedes redirigir al usuario a su página principal aquí.
+        const token = respuesta.data.token;
+        localStorage.setItem("token", token);
+        const decodedToken = jwt_decode(token);
+        console.log(decodedToken);
+        
       } else {
         setMensaje("El correo o la contraseña son incorrectos.");
       }
