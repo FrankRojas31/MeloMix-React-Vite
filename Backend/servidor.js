@@ -165,6 +165,23 @@ app.post("/Registro", (req, res) => {
         }
     });
 });
+app.post("/Registro_Admin", (req, res) => {
+  const { Nombre, Correo, Contrasenia } = req.body;
+  const RolID = 1;
+  const Fecha_Creacion = new Date();
+
+  const sql = "INSERT INTO usuarios (Nombre, Correo, Contrasenia, RolID, Fecha_Creacion) VALUES (?, ?, ?, ?, ?)";
+  const values = [Nombre, Correo, Contrasenia, RolID, Fecha_Creacion];
+
+  conexion.query(sql, values, (error, results) => {
+      if (error) {
+          console.error("Error al registrar el usuario: ", error);
+          res.status(500).json({ Estatus: "Error", Mensaje: "Error al registrar el usuario" });
+      } else {
+          res.json({ Estatus: "Exitoso", Mensaje: "Usuario registrado exitosamente" });
+      }
+  });
+});
 
 // Actualizar usuarios pasar el body.
 app.put('/Usuario_Update/:id', (req, res) => {
@@ -255,6 +272,19 @@ app.get('/Artista', (req, res) => {
       }
     });
   });
+  app.get('/Artistas/:id', (req, res) => {
+    const idArtista = req.params.id;
+    const query = 'SELECT * FROM VW_Artistas where Id = ?';
+  
+    conexion.query(query, idArtista,(err, result) => {
+      if (err) {
+        console.error('Error al obtener la lista de artistas:', err);
+        res.status(500).json({ error: 'Error al obtener la lista de artistas de la base de datos' });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  });
 
 //View de Canciones
   app.get('/canciones', (req, res) => {
@@ -272,9 +302,9 @@ app.get('/Artista', (req, res) => {
   
   // Ruta POST para crear una nueva canción
   app.post('/canciones', (req, res) => {
-    const { Nombre, Caratula, Direccion, Video, Duracion, ArtistaId } = req.body;
-    const query = 'INSERT INTO canciones (Nombre, Caratula, Direccion, Video, Duracion, ArtistaId) VALUES (?, ?, ?, ?, ?, ?)';
-    const values = [Nombre, Caratula, Direccion, Video, Duracion, ArtistaId];
+    const { Nombre, Caratula, Direccion, Video, ArtistaId } = req.body;
+    const query = 'INSERT INTO canciones (Nombre, Caratula, Direccion, Video, ArtistaId) VALUES (?, ?, ?, ?, ?)';
+    const values = [Nombre, Caratula, Direccion, Video, ArtistaId];
   
     conexion.query(query, values, (err, result) => {
       if (err) {
@@ -290,9 +320,9 @@ app.get('/Artista', (req, res) => {
   // Ruta PUT para actualizar una canción por su ID
   app.put('/canciones/:id', (req, res) => {
     const idCancion = req.params.id;
-    const { Nombre, Caratula, Direccion, Video, Duracion, ArtistaId } = req.body;
-    const query = 'UPDATE canciones SET Nombre = ?, Caratula = ?, Direccion = ?, Video = ?, Duracion = ?, ArtistaId = ? WHERE Id = ?';
-    const values = [Nombre, Caratula, Direccion, Video, Duracion, ArtistaId, idCancion];
+    const { Nombre, Caratula, Direccion, Video, ArtistaId } = req.body;
+    const query = 'UPDATE canciones SET Nombre = ?, Caratula = ?, Direccion = ?, Video = ?, ArtistaId = ? WHERE Id = ?';
+    const values = [Nombre, Caratula, Direccion, Video, ArtistaId, idCancion];
   
     conexion.query(query, values, (err, result) => {
       if (err) {

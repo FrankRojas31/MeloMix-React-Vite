@@ -33,7 +33,6 @@ create table canciones(
     Caratula VARCHAR(1000) NOT NULL,
     Direccion VARCHAR(1000) NOT NULL,
     Video VARCHAR(1000) NOT NULL,
-    Duracion varchar(10) NOT NULL,
     ArtistaId INT NOT NULL,
     CONSTRAINT FK_Artista FOREIGN KEY (ArtistaId) REFERENCES artistas(Id)
 );
@@ -72,7 +71,7 @@ SELECT
     c.Caratula AS CancionCaratula,
     c.Direccion AS CancionDireccion,
     c.Video AS CancionVideo,
-    c.Duracion AS CancionDuracion,
+    c.ArtistaId AS ArtistaId,
     a.Nombre AS ArtistaNombre
 FROM canciones AS c
 INNER JOIN artistas AS a ON c.ArtistaId = a.Id;
