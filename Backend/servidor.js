@@ -329,17 +329,17 @@ app.get('/Artista', (req, res) => {
     });
   });
 
-  app.post("/VerificarCorreo", (peticion, respuesta) => {
-    const { Correo } = peticion.body;
+  app.get("/VerificarCorreo", (peticion, respuesta) => {
+    const { Correo } = peticion.query;
     const query = "SELECT * FROM VW_Usuarios WHERE Correo = ?";
     conexion.query(query, [Correo], (error, resultados) => {
       if (error) {
-        return respuesta.json({ Error: "Error en la consulta" });
+        return respuesta.status(500).json({ Error: "Error en la consulta" });
       } else {
         if (resultados.length > 0) {
-          return respuesta.json({ Estatus: "EXITOSO", Resultado: resultados });
+          return respuesta.json({ Estatus: "EXISTE" });
         } else {
-          return respuesta.json({ Error: "El usuario no existe" });
+          return respuesta.json({ Estatus: "NO_EXISTE" });
         }
       }
     });
