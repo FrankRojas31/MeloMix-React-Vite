@@ -328,3 +328,19 @@ app.get('/Artista', (req, res) => {
       }
     });
   });
+
+  app.post("/VerificarCorreo", (peticion, respuesta) => {
+    const { Correo } = peticion.body;
+    const query = "SELECT * FROM VW_Usuarios WHERE Correo = ?";
+    conexion.query(query, [Correo], (error, resultados) => {
+      if (error) {
+        return respuesta.json({ Error: "Error en la consulta" });
+      } else {
+        if (resultados.length > 0) {
+          return respuesta.json({ Estatus: "EXITOSO", Resultado: resultados });
+        } else {
+          return respuesta.json({ Error: "El usuario no existe" });
+        }
+      }
+    });
+  });
