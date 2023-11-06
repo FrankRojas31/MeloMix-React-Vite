@@ -17,9 +17,20 @@ export default function Index() {
         getSong(cancion)
     }
 
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '53dbda5aa3msha807ea6fbc3e865p15fa9ejsnee948ccef629',
+            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+        }
+    };
+
     async function getSong(cancion) {
         try {
-            let url=`https://spotify23.p.rapidapi.com/search/?q=${cancion}&type=multi&offset=0&limit=10&numberOfTopResults=5`
+            let data = await fetch(url, options);
+            let res = await data.json();
+            setCanciones(res.tracks.items);
+            let url=`https://spotify23.p.rapidapi.com/search/?q=${cancion}&type=multi&offset=0&limit=10&numberOfTopResults=5;            `
         } catch (error) {
             console.log(`Upsss... ha ocurrido un error: ${error}`);
         }
@@ -42,15 +53,19 @@ export default function Index() {
                     <div className="w-full">
                         <span className="flex h-[50px] justify-center w-full">
                             <input type="text" className="h-full p-3 border-none outline-none rounded-l-xl w-full" value={cancion} onChange={e =>  setCancion(e.target.value)}/>
-                            <div className="bg-black rounded-xl px-3 h-full flex justify-center items-center -ml-[20px] px-5"><i className="nf nf-fa-search text-white font-medium text-xl"></i></div>
+                            <div className="bg-black rounded-xl px-3 h-full flex justify-center items-center -ml-[20px] px-5">
+                                <i className="nf nf-fa-search text-white font-medium text-xl"></i>
+                                </div>
                         </span>
                     </div>
                     <aside className="w-full p-5 col-span-1">
                         <h5 className="text-white text-[30px] font-medium text-center mb-3">Canciones</h5>
-                        <article className="w-full flex gap-5 border-t-2 py-2 items-center">
-                            <img src="/imagenes/logo.jpg" alt="" className="w-[75px] rounded-xl"/>
-                            <p className="text-white text-[25px]">Titulo de la cancion</p>
+                        {canciones.map((cancion, index) => (
+                        <article key={index} className="w-full flex gap-5 border-t-2 py-2 items-center">
+                            <img src={cancion.imagen} alt={cancion.nombre} className="w-[75px] rounded-xl" />
+                            <p className="text-white text-[25px]">{cancion.nombre}</p>
                         </article>
+                        ))}
                         <article className="w-full flex gap-5 border-t-2 py-2 items-center">
                             <img src="/imagenes/logo.jpg" alt="" className="w-[75px] rounded-xl"/>
                             <p className="text-white text-[25px]">Titulo de la cancion</p>
