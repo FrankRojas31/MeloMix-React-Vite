@@ -10,8 +10,20 @@ export default function SesionApis({ onComponentChange }) {
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
     const [profile, setProfile] = useState([]);
+    const [msalInstance, onMsalInstanceChange] = useState();
 
-    const LoginWithMicrosoft
+    const loginHandler = (err, data, msal) => {
+        if (!err && data) {
+            onMsalInstanceChange(msal);
+
+            const userData = {
+                name: data.account.name,
+                correo: data.account.userName
+            };
+            localStorage.setItem("perfil", JSON.stringify(userData));
+            navigate("/");
+        }
+    };
 
     const LoginWithGoogle = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
@@ -25,7 +37,7 @@ export default function SesionApis({ onComponentChange }) {
     const responseFacebook = (response) => {
         if (response.accessToken) {
             const userData = {
-                name: response.name,
+                given_name: response.name,
                 picture: response.picture.data.url,
                 correo: response.email
             };
@@ -59,30 +71,13 @@ export default function SesionApis({ onComponentChange }) {
         [user]
     );
 
-    const [msalInstance, onMsalInstanceChange] = useState();
-
-    const loginHandler = (err, data, msal) => {
-      console.log(err, data);
-      // some actions
-      if (!err && data) {
-        onMsalInstanceChange(msal);
-        localStorage.setItem("perfil", JSON.stringify(userData)); 
-        navigate("/");
-      }
-    };
-
-    /* const logOut = () => {
-        googleLogout();
-        setProfile(null);
-    }; */ //Esto no esta sirviendo en el componente.
-
     return (
         <>
             <main className="is-man relative">
                 <section className="is-sec">
                     <h1 className="is-titulo">INICIAR SESIÓN</h1>
                     <MicrosoftLogin
-                        clientId="9587c07b-ae78-423c-a86f-1efe442a2c37" /* Aqui ira el cliente */
+                        clientId="603cebdb-e4bb-49a2-94fa-cece5022b4b0" /* Aqui ira el cliente */
                         authCallback={loginHandler}
                         render={props => (
                             <span className="is-input cursor-pointer" onClick={props.onClick}>
