@@ -3,6 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "../componentes/Header";
 import Footer from "../componentes/Footer";
 export default function Index() {
+    const [cancion, setCancion] = useState("");
+    const [canciones, setCanciones] = useState([]);
+
+    function handleSearch (){
+        e.preventDefault();
+        if(cancion.trim()==="") {
+            alert("Debes ingresar algo");
+            return;
+        }
+        console.log(cancion)
+        setCancion("");
+        getSong(cancion)
+    }
+
+    async function getSong(cancion) {
+        try {
+            let url=`https://spotify23.p.rapidapi.com/search/?q=${cancion}&type=multi&offset=0&limit=10&numberOfTopResults=5`
+        } catch (error) {
+            console.log(`Upsss... ha ocurrido un error: ${error}`);
+        }
+
+    }
+
     const navigate = useNavigate();
     return (
         <>
@@ -18,7 +41,7 @@ export default function Index() {
                 <aside className="bg-[#fff5] col-span-2 p-5">
                     <div className="w-full">
                         <span className="flex h-[50px] justify-center w-full">
-                            <input type="text" className="h-full p-3 border-none outline-none rounded-l-xl w-full"/>
+                            <input type="text" className="h-full p-3 border-none outline-none rounded-l-xl w-full" value={cancion} onChange={e =>  setCancion(e.target.value)}/>
                             <div className="bg-black rounded-xl px-3 h-full flex justify-center items-center -ml-[20px] px-5"><i className="nf nf-fa-search text-white font-medium text-xl"></i></div>
                         </span>
                     </div>
