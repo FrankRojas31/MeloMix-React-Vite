@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import * as jwtDecode from 'jwt-decode'
 import AudioPlayer from "./audioplayer";
-
 
 export default function Header() {
   const navigate = useNavigate();
@@ -11,7 +9,9 @@ export default function Header() {
 
   useEffect(() => {
     const storedUserProfile = localStorage.getItem("perfil");
-    const storedToken = localStorage.getItem("token");
+    const autenticado= localStorage.getItem("token");
+    /* const decodificar = jwt.verify(autenticado, "secreto");
+    console.log(decodificar); */
   
     if (storedUserProfile) {
       const userProfile = JSON.parse(storedUserProfile);
@@ -19,9 +19,9 @@ export default function Header() {
       setInicio(true);
     }
     
-    if (storedToken) {
+    if (autenticado) {
       const decodedToken = jwtDecode(storedToken);
-      console.log(decodedToken);
+      
       setProfile({
         Id_usuario: decodedToken.id, 
         Nombre: decodedToken.Nombre,
