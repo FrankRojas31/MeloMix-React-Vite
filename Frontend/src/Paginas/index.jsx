@@ -54,7 +54,7 @@ export default function Index() {
                         <span className="flex h-[50px] justify-center w-full">
                             <input type="text" className="h-full p-3 border-none outline-none rounded-l-xl w-full" value={cancion} onChange={e =>  setCancion(e.target.value)}/>
                             <div className="bg-black rounded-xl px-3 h-full flex justify-center items-center -ml-[20px] px-5">
-                                <i className="nf nf-fa-search text-white font-medium text-xl"></i>
+                                <i className="nf nf-fa-search text-white font-medium text-xl" onClick={e => handleSearch(e)}></i>
                                 </div>
                         </span>
                     </div>
