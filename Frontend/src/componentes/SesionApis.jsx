@@ -4,12 +4,15 @@ import axios from 'axios';
 import "../css/login.css";
 import { useNavigate } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
-import MicrosoftLogin from "react-microsoft-login"; // Instalar
+import MicrosoftLogin from "react-microsoft-login"; 
 
 export default function SesionApis({ onComponentChange }) {
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
     const [profile, setProfile] = useState([]);
+
+    const LoginWithMicrosoft
+
     const LoginWithGoogle = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
         onError: (error) => console.log('Login Failed:', error)
@@ -24,7 +27,6 @@ export default function SesionApis({ onComponentChange }) {
             const userData = {
                 name: response.name,
                 picture: response.picture.data.url,
-                userName: response.email,
                 correo: response.email
             };
     
@@ -94,7 +96,7 @@ export default function SesionApis({ onComponentChange }) {
                         <p>Continuar con Google</p>
                     </span>
                     <FacebookLogin
-                        appId="1761920557589238"
+                        appId="298719456344887"
                         autoLoad={false}
                         fields="name,email,picture"
                         onClick={LoginWithFacebook}
