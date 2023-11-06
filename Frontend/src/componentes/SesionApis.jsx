@@ -17,8 +17,9 @@ export default function SesionApis({ onComponentChange }) {
             onMsalInstanceChange(msal);
 
             const userData = {
-                name: data.account.name,
-                correo: data.account.userName
+                given_name: data.account.name,
+                correo: data.account.email,
+                picture: data.account.url
             };
             localStorage.setItem("perfil", JSON.stringify(userData));
             navigate("/");
@@ -77,7 +78,7 @@ export default function SesionApis({ onComponentChange }) {
                 <section className="is-sec">
                     <h1 className="is-titulo">INICIAR SESIÓN</h1>
                     <MicrosoftLogin
-                        clientId="603cebdb-e4bb-49a2-94fa-cece5022b4b0" /* Aqui ira el cliente */
+                        clientId="b19438d9-1b4b-4b5b-a070-acf903937e51" /* Aqui ira el cliente */
                         authCallback={loginHandler}
                         render={props => (
                             <span className="is-input cursor-pointer" onClick={props.onClick}>
