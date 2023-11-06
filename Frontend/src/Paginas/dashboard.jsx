@@ -70,7 +70,7 @@ function Dashboard() {
               <Link to="/" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</Link>
             </figure>
             <div className="relative w-full flex flex-wrap content-start">
-              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<Dashboards />)}>
+              <span className="w-full pl-5 py-3 flex items-center cursor-pointer hover:bg-[#fff2]" onClick={() => components(<Dashboards components={components}/>)}>
                 <i className="nf nf-md-home_account text-white inline text-[25px] pointer"></i>
                 <p className="inline uppercase ml-[10px] text-[20px] text-white"> Dashboard </p>
                 <div className="db-triangleleft"></div>

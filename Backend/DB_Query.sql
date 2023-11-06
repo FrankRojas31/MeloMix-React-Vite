@@ -32,6 +32,7 @@ create table canciones(
     Nombre VARCHAR(100) NOT NULL,
     Caratula VARCHAR(1000) NOT NULL,
     Direccion VARCHAR(1000) NOT NULL,
+    Duracion VARCHAR(100) NOT NULL,
     Video VARCHAR(1000) NOT NULL,
     ArtistaId INT NOT NULL,
     CONSTRAINT FK_Artista FOREIGN KEY (ArtistaId) REFERENCES artistas(Id)
@@ -71,11 +72,21 @@ SELECT
     c.Caratula AS CancionCaratula,
     c.Direccion AS CancionDireccion,
     c.Video AS CancionVideo,
+    c.Duracion AS CancionDuracion,
     c.ArtistaId AS ArtistaId,
     a.Nombre AS ArtistaNombre
 FROM canciones AS c
 INNER JOIN artistas AS a ON c.ArtistaId = a.Id;
 
 
-CREATE VIEW VW_Usuarios AS
-    SELECT id, nombre, correo, RolID FROM usuarios;
+CREATE VIEW VW_Cantidad AS
+SELECT
+  u.usuarios AS usuarios,
+  a.administradores AS administradores,
+  l.artistas AS artistas,
+  d.canciones AS canciones
+  FROM
+  (select count(*) as usuarios from usuarios where RolID = 2) AS u,
+  (select count(*) as administradores from usuarios where RolID = 1) AS a,
+  (select count(*) as artistas from artistas) AS l,
+  (SELECT COUNT(*) as canciones FROM canciones) AS d;

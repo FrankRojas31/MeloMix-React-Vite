@@ -375,3 +375,16 @@ app.get('/Artista', (req, res) => {
       }
     });
   });
+
+  app.get('/cantidades', (req, res) => {
+    const query = 'SELECT * FROM VW_Cantidad';
+  
+    conexion.query(query, (err, result) => {
+      if (err) {
+        console.error('Error al obtener la lista de canciones:', err);
+        res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  });

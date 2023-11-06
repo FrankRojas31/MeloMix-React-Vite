@@ -55,9 +55,9 @@ const AudioPlayer = () => {
     setCurrentTime(newTime);
     setProgress(e.target.value);
   };
-
+ 
   return (
-    <div className="w-screen h-[80px] bg-[#bbb] flex p-[10px] gap-5">
+    <div className="w-[screen] h-[80px] bg-[#bbb] flex p-[10px] gap-5 m-2 rounded-[30px]">
       <div className="w-[60px] w-[60px] block border border-white rounded-full">
         <img className={isPlaying ? 'h-full w-[60px] bg-cover rounded-full rodar' : 'h-full w-[60px] bg-cover rounded-full'} src="/imagenes/Alela_Diane.jpg" alt="Album Cover" />
       </div>
