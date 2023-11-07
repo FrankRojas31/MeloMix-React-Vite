@@ -381,7 +381,33 @@ app.get('/Artista', (req, res) => {
   
     conexion.query(query, (err, result) => {
       if (err) {
-        console.error('Error al obtener la lista de canciones:', err);
+        console.error('Error al obtener la lista de cantidades:', err);
+        res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  });
+
+  app.get('/megusta', (req, res) => {
+    const query = 'SELECT * FROM VW_MeGusta';
+  
+    conexion.query(query, (err, result) => {
+      if (err) {
+        console.error('Error al obtener la lista de megusta:', err);
+        res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  });
+
+  app.get('/historial', (req, res) => {
+    const query = 'SELECT * FROM VW_Historial';
+  
+    conexion.query(query, (err, result) => {
+      if (err) {
+        console.error('Error al obtener la lista de historial', err);
         res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
       } else {
         res.status(200).json(result);
