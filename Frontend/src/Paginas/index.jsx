@@ -31,7 +31,6 @@ export default function Index() {
             let data = await fetch(url, options);
             let res = await data.json();
             setCanciones(res.tracks.items);
-            
         } catch (error) {
             console.log(`Upsss... ha ocurrido un error: ${error}`);
         }
