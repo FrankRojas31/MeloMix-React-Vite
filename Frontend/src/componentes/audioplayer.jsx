@@ -12,6 +12,10 @@ const AudioPlayer = () => {
     audioRef.current.load();
     audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
     audioRef.current.addEventListener('durationchange', handleDurationChange);
+  
+    audioRef.current.addEventListener('canplaythrough', () => {
+      handleDurationChange();
+    });
   }, []);
 
   const playPauseToggle = () => {
@@ -26,7 +30,7 @@ const AudioPlayer = () => {
   const handleTimeUpdate = () => {
     const currentTime = audioRef.current.currentTime;
     setCurrentTime(currentTime);
-    console.log(duration);
+    console.log('Current Time:', currentTime);
     if (duration > 0) {
       const newProgress = (currentTime / duration) * 100;
       setProgress(newProgress);
@@ -34,8 +38,11 @@ const AudioPlayer = () => {
   };
 
   const handleDurationChange = () => {
-    setDuration(audioRef.current.duration);
+    const newDuration = audioRef.current.duration;
+    setDuration(newDuration);
+    console.log('New Duration:', newDuration);
   };
+  
 
   const handleVolumeToggle = () => {
     audioRef.current.muted = !muted;
@@ -55,7 +62,7 @@ const AudioPlayer = () => {
     setCurrentTime(newTime);
     setProgress(e.target.value);
   };
- 
+
   return (
     <div className="w-[screen] h-[80px] bg-[#bbb] flex p-[10px] gap-5 m-2 rounded-[30px]">
       <div className="w-[60px] w-[60px] block border border-white rounded-full">
@@ -87,7 +94,9 @@ const AudioPlayer = () => {
 function formatTime(seconds) {
   const minutes = Math.floor(seconds / 60);
   const remainderSeconds = Math.floor(seconds % 60);
-  return `${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+  const formattedMinutes = String(minutes).padStart(2, '0'); // Agregar ceros a la izquierda si es necesario
+  const formattedSeconds = String(remainderSeconds).padStart(2, '0'); // Agregar ceros a la izquierda si es necesario
+  return `${formattedMinutes}:${formattedSeconds}`;
 }
 
 export default AudioPlayer;
