@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../componentes/Header";
 import Footer from "../componentes/Footer";
-import "../css/inicio.css"
+import "../css/Inicio.css"
 import AudioPlayer from "../componentes/audioplayer";
 export default function Index() {
     const [cancion, setCancion] = useState("");

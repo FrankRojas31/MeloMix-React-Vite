@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+
 const AudioPlayer = () => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
