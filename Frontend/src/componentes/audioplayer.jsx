@@ -8,11 +8,31 @@ const AudioPlayer = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Obtén la información del reproductor desde el almacenamiento local
+    const savedAudioData = JSON.parse(localStorage.getItem('audioData'));
+
+    if (savedAudioData) {
+      setCurrentTime(savedAudioData.currentTime);
+      setDuration(savedAudioData.duration);
+      setProgress(savedAudioData.progress);
+    }
+
     audioRef.current.src = "/musica/Age Old Blue.mp3";
     audioRef.current.load();
     audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
     audioRef.current.addEventListener('durationchange', handleDurationChange);
+
+    audioRef.current.addEventListener('canplaythrough', () => {
+      // El archivo está listo para reproducirse, ahora puedes obtener la duración.
+      handleDurationChange();
+    });
   }, []);
+
+  useEffect(() => {
+    // Guarda la información del reproductor en el almacenamiento local al cambiar
+    // currentTime, duration y progress
+    localStorage.setItem('audioData', JSON.stringify({ currentTime, duration, progress }));
+  }, [currentTime, duration, progress]);
 
   const playPauseToggle = () => {
     if (isPlaying) {
@@ -26,7 +46,7 @@ const AudioPlayer = () => {
   const handleTimeUpdate = () => {
     const currentTime = audioRef.current.currentTime;
     setCurrentTime(currentTime);
-    console.log(duration);
+
     if (duration > 0) {
       const newProgress = (currentTime / duration) * 100;
       setProgress(newProgress);
@@ -34,7 +54,8 @@ const AudioPlayer = () => {
   };
 
   const handleDurationChange = () => {
-    setDuration(audioRef.current.duration);
+    const newDuration = audioRef.current.duration;
+    setDuration(newDuration);
   };
 
   const handleVolumeToggle = () => {
@@ -55,7 +76,7 @@ const AudioPlayer = () => {
     setCurrentTime(newTime);
     setProgress(e.target.value);
   };
- 
+
   return (
     <div className="w-[screen] h-[80px] bg-[#bbb] flex p-[10px] gap-5 m-2 rounded-[30px]">
       <div className="w-[60px] w-[60px] block border border-white rounded-full">
@@ -87,7 +108,9 @@ const AudioPlayer = () => {
 function formatTime(seconds) {
   const minutes = Math.floor(seconds / 60);
   const remainderSeconds = Math.floor(seconds % 60);
-  return `${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+  const formattedMinutes = String(minutes).padStart(2, '0'); // Agregar ceros a la izquierda si es necesario
+  const formattedSeconds = String(remainderSeconds).padStart(2, '0'); // Agregar ceros a la izquierda si es necesario
+  return `${formattedMinutes}:${formattedSeconds}`;
 }
 
 export default AudioPlayer;
