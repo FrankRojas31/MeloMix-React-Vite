@@ -46,6 +46,7 @@ create table megusta(
     CONSTRAINT FK_Usuario FOREIGN KEY (UsuarioID) REFERENCES usuarios(Id),
     CONSTRAINT FK_Cancion FOREIGN KEY (CancionID) REFERENCES canciones(Id)
 );
+
 create table historial(
 	UsuarioID INT,
     CancionID INT,
@@ -90,3 +91,23 @@ SELECT
   (select count(*) as administradores from usuarios where RolID = 1) AS a,
   (select count(*) as artistas from artistas) AS l,
   (SELECT COUNT(*) as canciones FROM canciones) AS d;
+
+CREATE VIEW VW_MeGusta AS
+SELECT
+    m.UsuarioID AS UsuarioID,
+    m.CancionID AS CancionID,
+    u.Nombre AS UsuarioNombre,
+    c.Nombre AS CancionNombre
+FROM megusta AS m
+INNER JOIN usuarios AS u ON m.UsuarioID = u.Id
+INNER JOIN canciones AS c ON m.CancionID = c.Id;
+
+CREATE VIEW VW_Historial AS
+SELECT
+    h.UsuarioID AS UsuarioID,
+    h.CancionID AS CancionID,
+    u.Nombre AS UsuarioNombre,
+    c.Nombre AS CancionNombre
+FROM historial AS h
+INNER JOIN usuarios AS u ON h.UsuarioID = u.Id
+INNER JOIN canciones AS c ON h.CancionID = c.Id;
