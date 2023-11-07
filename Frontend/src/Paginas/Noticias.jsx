@@ -5,23 +5,21 @@ import Footer from "../componentes/Footer";
 export default function Noticias() {
     const [eventos, setEventos] = useState([]);
 
-  useEffect(() => {
-    // Reemplaza "TU_API_KEY" con tu clave de API de Last.fm.
+    useEffect(() => {
     const apiKey = "a80a901841fd1d66120c1296f6c85121";
     const location = "Mexico City, MX"; 
-    // Realiza una solicitud a la API de Last.fm para obtener información sobre eventos/conciertos.
     fetch(`http://ws.audioscrobbler.com/2.0/?method=geo.getevents&location=${location}&api_key=${apiKey}&format=json`)
-      .then((response) => response.json())
-      .then((data) => {
+        .then((response) => response.json())
+        .then((data) => {
         if (data.events && data.events.event) {
-          // Una vez que obtengas los datos, actualiza el estado de "eventos".
-          setEventos(data.events.event);
+            setEventos(data.events.event);
         }
-      })
-      .catch((error) => {
+    })
+        .catch((error) => {
         console.error("Error al obtener eventos:", error);
-      });
-  }, []);
+        });
+}, []);
+
     const navigate = useNavigate();
     return (
         <>
