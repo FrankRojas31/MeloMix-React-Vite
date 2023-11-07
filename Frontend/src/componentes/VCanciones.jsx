@@ -38,7 +38,8 @@ export default function VCanciones({ components }) {
     Caratula: "",
     Direccion: "",
     Video: "",
-    ArtistaId: 1
+    ArtistaId: 1,
+    Duracion:""
   });
   const [listas2, setListas2] = useState([]);
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function VCanciones({ components }) {
   };
 
   const Enviar = async () => {
-    if (!body.Nombre || !body.Caratula || !body.Direccion || !body.Video) {
+    if (!body.Nombre || !body.Caratula || !body.Direccion || !body.Video || !body.Duracion) {
       return;
     }
 
@@ -69,6 +70,7 @@ export default function VCanciones({ components }) {
         Caratula: "",
         Direccion: "",
         Video: "",
+        Duracion:""
       });
       setNeedsUpdate(true);
       setAgregar(false);
@@ -122,13 +124,14 @@ export default function VCanciones({ components }) {
       console.log(error);
     }
   };
-  const modificar = (id, Nombre, Caratula, Direccion, Video, ArtistaId) => {
+  const modificar = (id, Nombre, Caratula, Direccion, Video, ArtistaId, Duracion) => {
     setBody({
       Nombre: Nombre,
       Caratula: Caratula,
       Direccion: Direccion,
       Video: Video,
-      ArtistaId:ArtistaId
+      ArtistaId:ArtistaId,
+      Duracion:Duracion,
     });
     setId(id);
     setEditar(true);
@@ -146,6 +149,7 @@ export default function VCanciones({ components }) {
               Caratula: "",
               Direccion: "",
               Video: "",
+              Duracion:"",
             });setEditar(false);}}
           >
             <i className="nf nf-oct-x text-2xl"></i>
@@ -202,6 +206,19 @@ export default function VCanciones({ components }) {
               />
             </div>
           </div>
+          <div className="mb-4">
+            <div className="relative">
+              <i className="nf nf-oct-video absolute left-3 top-3 text-2xl"></i>
+              <input
+                type="text"
+                value={body.Duracion}
+                onChange={cambioEntrada}
+                name="Duracion"
+                className="w-full pl-12 py-3 border rounded-md outline-none"
+                placeholder="Duracion de la cancion"
+              />
+            </div>
+          </div>
           <div className="mb-4" onChange={seleccion}>
             <select className="w-full pl-12 py-3 border rounded-md outline-none">
             {listas2.map((lista, index) => {
@@ -233,7 +250,8 @@ export default function VCanciones({ components }) {
                 Nombre: "",
                 Caratula: "",
                 Direccion: "",
-                Video: ""
+                Video: "",
+                Duracion: "",
               }); setAgregar(false);
             }}
           >
@@ -288,6 +306,19 @@ export default function VCanciones({ components }) {
                 name="Video"
                 className="w-full pl-12 py-3 border rounded-md outline-none"
                 placeholder="Direccion de Video"
+              />
+            </div>
+          </div>
+          <div className="mb-4">
+            <div className="relative">
+              <i className="nf nf-oct-video absolute left-3 top-3 text-2xl"></i>
+              <input
+                type="text"
+                value={body.Duracion}
+                onChange={cambioEntrada}
+                name="Duracion"
+                className="w-full pl-12 py-3 border rounded-md outline-none"
+                placeholder="Duracion de la cancion"
               />
             </div>
           </div>
@@ -356,7 +387,7 @@ export default function VCanciones({ components }) {
                     {lista.CancionVideo}
                   </td>
                   <td class="text-black border-0 flex gap-10 justify-center">
-                    <i class="nf nf-md-lead_pencil text-[30px] text-[#bb4] cursor-pointer "onClick={() => { modificar(lista.CancionId, lista.CancionNombre, lista.CancionCaratula, lista.CancionDireccion, lista.CancionVideo,lista.ArtistaId) }}></i>
+                    <i class="nf nf-md-lead_pencil text-[30px] text-[#bb4] cursor-pointer "onClick={() => { modificar(lista.CancionId, lista.CancionNombre, lista.CancionCaratula, lista.CancionDireccion, lista.CancionVideo,lista.ArtistaId, lista.CancionDuracion) }}></i>
                     <i class="nf nf-cod-trash text-[30px] text-[#d00] cursor-pointer" onClick={() => borrar(valor)}></i>
                   </td>
                 </tr>

@@ -66,3 +66,12 @@ body {
       transform: rotate(360deg);
     }
   }
+
+  .agrandar {
+    transform: scale(1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  .agrandar:hover {
+    transform: scale(1.1);
+  }

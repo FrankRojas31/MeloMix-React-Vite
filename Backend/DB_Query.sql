@@ -32,9 +32,9 @@ create table canciones(
     Nombre VARCHAR(100) NOT NULL,
     Caratula VARCHAR(1000) NOT NULL,
     Direccion VARCHAR(1000) NOT NULL,
-    Duracion VARCHAR(100) NOT NULL,
     Video VARCHAR(1000) NOT NULL,
     ArtistaId INT NOT NULL,
+    Duracion VARCHAR(100) NOT NULL,
     CONSTRAINT FK_Artista FOREIGN KEY (ArtistaId) REFERENCES artistas(Id)
 );
 

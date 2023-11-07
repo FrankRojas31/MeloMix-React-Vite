@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../componentes/Header";
 import Footer from "../componentes/Footer";
 
 export default function RMusica(){
+    const [listas, setListas] = useState([]);
+    const { id } = useParams();
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const respuesta = await axios.get(
+              `http://localhost:3000/canciones/${id}`
+            );
+            setListas(respuesta.data[0]);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchData();
+      }, []);
+    
     return(
         <>
             <Header></Header>
@@ -10,12 +28,12 @@ export default function RMusica(){
                 <section className="w-full min-h-screen bg-[#000b] py-10 px-12 gap-5">
                     <div className="w-full rounded-xl bg-[#DAA52099] grid grid-cols-4 shadow-2xl mb-5 p-5">
                         <span className="col-span-1 p-3 flex items-center justify-center">
-                            <img src="/imagenes/logo.jpg" className="w-[250px] rounded-xl" alt="" />
+                            <img src={listas.CancionCaratula} className="w-[250px] rounded-xl" alt="" />
                         </span>
                         <span className="col-span-3 flex items-center justify-center">
                             <div className="w-full h-full flex flex-wrap gap-7 content-center justify-center">
-                                <h3 className="w-full text-white font-bold text-[60px] text-center">Nombre</h3>
-                                <p className="w-full text-white font-medium text-4xl text-center">Artista</p>
+                                <h3 className="w-full text-white font-bold text-[60px] text-center">{listas.CancionNombre}</h3>
+                                <p className="w-full text-white font-medium text-4xl text-center">{listas.ArtistaNombre}</p>
                                 <span className="w-full flex justify-center relative">
                                     <i className="nf nf-cod-chevron_left text-white font-medium text-[50px] mr-5"></i>
                                     <i className="nf nf-md-pause text-white font-medium text-[50px]"></i>

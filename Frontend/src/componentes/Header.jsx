@@ -77,7 +77,7 @@ export default function Header() {
         {inicio ? (
           <figure className="flex col-span-1 flex justify-center items-center w-full h-[80px]"><Link to="/usuario"><img className="w-[70px] h-[70px] rounded-full" src={profile.picture} alt="" /></Link></figure>
         ) : (
-          <figure className="flex col-span-1 flex justify-center items-center w-full h-[80px]"><Link to="/inicio" className="h-full text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Iniciar Sesion</Link></figure>
+          <figure className="flex col-span-1 flex justify-center items-center w-full h-[80px]"><Link to="/inicio" className="h-full text-lg text-white text-center no-underline uppercase flex items-center hover:underline px-3 py-2 font-medium">Iniciar Sesion</Link></figure>
         )}
       </header>
       <nav className={clases.menu}>

@@ -1,17 +1,34 @@
-import React from "react";
 import Header from "../componentes/Header";
 import Footer from "../componentes/Footer";
+import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Artista(){
     const artistas = Array(5).fill(null);
+    const { id } = useParams();
+    const [listas, setListas] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const respuesta = await axios.get(
+                    `http://localhost:3000/Artistas/${id}`
+                );
+                setListas(respuesta.data[0]);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, []);
     return(
         <>
             <Header/>
             <main className="w-full min-h-screen">
-                <div className="w-full h-[400px] bg-[url('/imagenes/partista.jpg')] inset-0 bg-cover bg-center relative">
+                <div className={"w-full h-[400px] bg-[url('"+listas.Foto+"')] inset-0 bg-cover bg-center relative"}>
                     <span className="absolute bottom-10 left-10 flex items-center">
                         <i className="nf nf-oct-play text-white text-[50px] font-medium mr-3"></i>
-                        <h1 className="text-white text-[50px] font-medium">Aurora</h1>
+                        <h1 className="text-white text-[50px] font-medium">{listas.Nombre}</h1>
                     </span>
                 </div>
                 <div className="w-full p-5 md:p-10 grid grid-cols-1 lg:grid-cols-3 gap-5">

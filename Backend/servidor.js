@@ -300,12 +300,25 @@ app.get('/Artista', (req, res) => {
       }
     });
   });
+  app.get('/canciones/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'SELECT * FROM VW_Canciones where CancionId = ?';
+  
+    conexion.query(query,id, (err, result) => {
+      if (err) {
+        console.error('Error al obtener la lista de canciones:', err);
+        res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  });
   
   // Ruta POST para crear una nueva canción
   app.post('/canciones', (req, res) => {
-    const { Nombre, Caratula, Direccion, Video, ArtistaId } = req.body;
-    const query = 'INSERT INTO canciones (Nombre, Caratula, Direccion, Video, ArtistaId) VALUES (?, ?, ?, ?, ?)';
-    const values = [Nombre, Caratula, Direccion, Video, ArtistaId];
+    const { Nombre, Caratula, Direccion, Video, ArtistaId,Duracion } = req.body;
+    const query = 'INSERT INTO canciones (Nombre, Caratula, Direccion, Video, ArtistaId, Duracion) VALUES (?, ?, ?, ?, ?,?)';
+    const values = [Nombre, Caratula, Direccion, Video, ArtistaId,Duracion];
   
     conexion.query(query, values, (err, result) => {
       if (err) {

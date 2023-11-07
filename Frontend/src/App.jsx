@@ -31,8 +31,8 @@ function App() {
           <Route path="/artistas" element={<Artistas />} />
           <Route path="/noticias" element={<Noticias />} />
           <Route path="/usuario" element={<PUsuarios />} />
-          <Route path="/reproductor" element={<RMusica />} />
-          <Route path="/artista" element={<Artista />} />
+          <Route path="/reproductor/:id" element={<RMusica />} />
+          <Route path="/artista/:id" element={<Artista />} />
           <Route path="/gobierno" element={<Gobierno />} />
         </Routes>
       </BrowserRouter>
