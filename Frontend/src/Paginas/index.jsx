@@ -27,10 +27,11 @@ export default function Index() {
 
     async function getSong(cancion) {
         try {
+            let url=`https://spotify23.p.rapidapi.com/search/?q=${cancion}&type=multi&offset=0&limit=10&numberOfTopResults=5` //Error corregido
             let data = await fetch(url, options);
             let res = await data.json();
             setCanciones(res.tracks.items);
-            let url=`https://spotify23.p.rapidapi.com/search/?q=${cancion}&type=multi&offset=0&limit=10&numberOfTopResults=5;            `
+            
         } catch (error) {
             console.log(`Upsss... ha ocurrido un error: ${error}`);
         }
