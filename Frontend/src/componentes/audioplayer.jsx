@@ -8,31 +8,15 @@ const AudioPlayer = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Obtén la información del reproductor desde el almacenamiento local
-    const savedAudioData = JSON.parse(localStorage.getItem('audioData'));
-
-    if (savedAudioData) {
-      setCurrentTime(savedAudioData.currentTime);
-      setDuration(savedAudioData.duration);
-      setProgress(savedAudioData.progress);
-    }
-
     audioRef.current.src = "/musica/Age Old Blue.mp3";
     audioRef.current.load();
     audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
     audioRef.current.addEventListener('durationchange', handleDurationChange);
-
+  
     audioRef.current.addEventListener('canplaythrough', () => {
-      // El archivo está listo para reproducirse, ahora puedes obtener la duración.
       handleDurationChange();
     });
   }, []);
-
-  useEffect(() => {
-    // Guarda la información del reproductor en el almacenamiento local al cambiar
-    // currentTime, duration y progress
-    localStorage.setItem('audioData', JSON.stringify({ currentTime, duration, progress }));
-  }, [currentTime, duration, progress]);
 
   const playPauseToggle = () => {
     if (isPlaying) {
@@ -46,7 +30,7 @@ const AudioPlayer = () => {
   const handleTimeUpdate = () => {
     const currentTime = audioRef.current.currentTime;
     setCurrentTime(currentTime);
-
+    console.log('Current Time:', currentTime);
     if (duration > 0) {
       const newProgress = (currentTime / duration) * 100;
       setProgress(newProgress);
@@ -56,7 +40,9 @@ const AudioPlayer = () => {
   const handleDurationChange = () => {
     const newDuration = audioRef.current.duration;
     setDuration(newDuration);
+    console.log('New Duration:', newDuration);
   };
+  
 
   const handleVolumeToggle = () => {
     audioRef.current.muted = !muted;
