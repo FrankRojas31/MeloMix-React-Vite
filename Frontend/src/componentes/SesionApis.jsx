@@ -88,7 +88,7 @@ export default function SesionApis({ onComponentChange }) {
                         )}
                     />
                     <span className="is-input cursor-pointer" onClick={() => LoginWithGoogle()}>
-                        <div className="is-logo2"><i class="nf nf-fa-google"></i></div>
+                        <div className="is-logo2"><i className="nf nf-fa-google"></i></div>
                         <p>Continuar con Google</p>
                     </span>
                     <FacebookLogin
@@ -97,12 +97,8 @@ export default function SesionApis({ onComponentChange }) {
                         fields="name,email,picture"
                         onClick={LoginWithFacebook}
                         callback={responseFacebook}
-                        render={renderProps => (
-                            <span className="is-input cursor-pointer" onClick={renderProps.onClick}>
-                                <div className="is-logo2"><i className="nf nf-fa-facebook_official"></i></div>
-                                <p>Continuar con Facebook</p>
-                            </span>
-                        )}
+                        icon='fa-facebook'
+                        cssClass='cssFacebok'
                     />
                 </section>
                 <span
