@@ -170,3 +170,8 @@
     height: 200px;
     background-color: aliceblue;
 }
+
+.cssFacebook{
+    border-radius: 2px;
+    background-color: #000;
+}
