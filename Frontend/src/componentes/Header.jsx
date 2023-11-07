@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AudioPlayer from "./audioplayer";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -94,7 +93,6 @@ export default function Header() {
           <></>
         )}
       </nav>
-      <AudioPlayer></AudioPlayer>
     </>
   );
 }

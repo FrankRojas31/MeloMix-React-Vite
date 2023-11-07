@@ -1,0 +1,33 @@
+
+.banner {
+    background: url(/fondo.png) 50% no-repeat;   
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-right: #000 solid;
+  }
+
+  .h1 {
+    font-weight: bold;
+    font-size: 60px;
+    font-family: 'Lilita One', sans-serif;
+    Color: #23B4C4; /*Azul florecente*/
+    margin: 0;
+    margin-left: 15vh;
+  }
+
+  .p {
+    /*max-width: 300px; */
+    margin-top: 10px;
+    font-size: 40px;
+    font-family: 'Crimson Text', serif;
+    Color: #FF9999; /*rosa pastel*/
+    font-weight: bold;
+    margin: 0;
+    margin-left: 10vh;
+  }
+  
