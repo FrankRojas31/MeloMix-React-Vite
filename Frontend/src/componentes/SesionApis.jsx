@@ -44,7 +44,7 @@ export default function SesionApis({ onComponentChange }) {
             };
             localStorage.setItem("perfil", JSON.stringify(userData));
             console.log(userData);
-            //navigate("/");
+            navigate("/");
         }
     };
 
