@@ -42,10 +42,9 @@ export default function SesionApis({ onComponentChange }) {
                 picture: response.picture.data.url,
                 correo: response.email
             };
-    
             localStorage.setItem("perfil", JSON.stringify(userData));
-            
-            navigate("/");
+            console.log(userData);
+            //navigate("/");
         }
     };
 
@@ -95,10 +94,11 @@ export default function SesionApis({ onComponentChange }) {
                         appId="298719456344887"
                         autoLoad={false}
                         fields="name,email,picture"
+                        textButton='Registrate con Facebook'
                         onClick={LoginWithFacebook}
                         callback={responseFacebook}
-                        icon='fa-facebook'
-                        cssClass='cssFacebok'
+                        cssClass='iconoFacebok'
+                        icon="fa-facebook"
                     />
                 </section>
                 <span
