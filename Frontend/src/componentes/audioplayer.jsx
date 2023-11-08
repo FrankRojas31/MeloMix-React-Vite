@@ -7,17 +7,17 @@ const AudioPlayer = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
-  const playlistId = '7dXiYBXRC8dNcMQfHe9BGM';
 
+  const apikey = "7dXiYBXRC8dNcMQfHe9BGM" 
+  const url = `https://open.spotify.com/embed/playlist/${apikey}?utm_source=generator&theme=0`
+  
   useEffect(() => {
     audioRef.current.src = "/musica/Age Old Blue.mp3";
     audioRef.current.load();
     audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
     audioRef.current.addEventListener('durationchange', handleDurationChange);
   
-    audioRef.current.addEventListener('canplaythrough', () => {
-      handleDurationChange();
-    });
+   // audioRef.current.addEventListener('canplaythrough',  handleDurationChange);
   }, []);
 
   const playPauseToggle = () => {
@@ -89,18 +89,17 @@ const AudioPlayer = () => {
         <button className='text-[22px] md:text-[25px]' onClick={handleVolumeToggle}>{muted ? <i className='nf nf-md-volume_mute'></i> : <i className='nf nf-md-volume_high'></i>}</button>
       </div>
       <audio ref={audioRef}></audio>
-      <iframe
-  title="Spotify Embed: Recommendation Playlist "
-  src={`https://open.spotify.com/embed/playlist/7dXiYBXRC8dNcMQfHe9BGM?utm_source=generator&theme=0`}
-  width="100%"
-  height="100%"
-  style={{ minHeight: '360px' }}
-  frameBorder="0"
-  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-  loading="lazy"
-/>
+      {/*<iframe
+        title="Spotify Embed: Recommendation Playlist "
+        src={`https://open.spotify.com/embed/playlist/7dXiYBXRC8dNcMQfHe9BGM?utm_source=generator&theme=0`}
+        width="100%"
+        height="100%"
+        style={{ minHeight: '360px' }}
+        frameBorder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+      />*/ }
     </div>
-    
   );
 };
 
