@@ -16,6 +16,7 @@ import PUsuarios from './Paginas/PUsuario';
 import RMusica from './Paginas/RMusica';
 import Artista from './Paginas/Artista';
 import Gobierno from './Paginas/Gobierno';
+import '@madzadev/audio-player/dist/index.css'
 
 function App() {
   return(
