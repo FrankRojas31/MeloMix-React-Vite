@@ -42,9 +42,8 @@ export default function SesionApis({ onComponentChange }) {
                 picture: response.picture.data.url,
                 correo: response.email
             };
-    
             localStorage.setItem("perfil", JSON.stringify(userData));
-            
+            console.log(userData);
             navigate("/");
         }
     };
@@ -88,21 +87,18 @@ export default function SesionApis({ onComponentChange }) {
                         )}
                     />
                     <span className="is-input cursor-pointer" onClick={() => LoginWithGoogle()}>
-                        <div className="is-logo2"><i class="nf nf-fa-google"></i></div>
+                        <div className="is-logo2"><i className="nf nf-fa-google"></i></div>
                         <p>Continuar con Google</p>
                     </span>
                     <FacebookLogin
                         appId="298719456344887"
                         autoLoad={false}
                         fields="name,email,picture"
+                        textButton='Registrate con Facebook'
                         onClick={LoginWithFacebook}
                         callback={responseFacebook}
-                        render={renderProps => (
-                            <span className="is-input cursor-pointer" onClick={renderProps.onClick}>
-                                <div className="is-logo2"><i className="nf nf-fa-facebook_official"></i></div>
-                                <p>Continuar con Facebook</p>
-                            </span>
-                        )}
+                        cssClass='iconoFacebok'
+                        icon="fa-facebook"
                     />
                 </section>
                 <span

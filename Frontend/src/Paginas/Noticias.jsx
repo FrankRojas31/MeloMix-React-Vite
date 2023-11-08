@@ -3,7 +3,23 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "../componentes/Header";
 import Footer from "../componentes/Footer";
 export default function Noticias() {
-    const artistas = Array(10).fill(null);
+    const [eventos, setEventos] = useState([]);
+
+    useEffect(() => {
+    const apiKey = "a80a901841fd1d66120c1296f6c85121";
+    const location = "Mexico City, MX"; 
+    fetch(`http://ws.audioscrobbler.com/2.0/?method=geo.getevents&location=${location}&api_key=${apiKey}&format=json`)
+        .then((response) => response.json())
+        .then((data) => {
+        if (data.events && data.events.event) {
+            setEventos(data.events.event);
+        }
+    })
+        .catch((error) => {
+        console.error("Error al obtener eventos:", error);
+        });
+}, []);
+
     const navigate = useNavigate();
     return (
         <>
@@ -24,15 +40,15 @@ export default function Noticias() {
 
                 <aside className="col-span-3 flex flex-col p-5">
                     <h2 className="nt-titulo2 my-5 w-full text-center font-bold text-xl">
-                        Noticias mas recientes
+                        Eventos Musicales mas recientes
                     </h2>
 
                     <div className="h-[600px] overflow-scroll">
                         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-5">
-                        {artistas.map((_, index) => (
+                        {eventos.map((evento, index) => (
                                 <article className="flex flex-wrap items-center justify-center w-full h-[200px] bg-black rounded-xl">
                                     <img className="w-[125px] h-[125px] rounded-[40px]" src="/imagenes/logo.jpg" alt="" />
-                                    <h3 className="w-full text-white text-xl text-center">Subtitulo</h3>
+                                    <h3 className="w-full text-white text-xl text-center">{evento.tittle}</h3>
                                 </article>
                         ))}
                         </div>
