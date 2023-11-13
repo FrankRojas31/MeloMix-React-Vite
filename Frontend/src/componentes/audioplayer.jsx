@@ -6,7 +6,12 @@ const AudioPlayer = () => {
       url: '/musica/AgeOldBlue.mp3',
       title: 'Age Old Blue',
       tags: ['house']
-    }
+    },
+    {
+      url: '/musica/AgeOldBlue.mp3',
+      title: 'Age Old Blue',
+      tags: ['house']
+    },
   ]
   const colors = `html {
     --tagsBackground: #9440f3;

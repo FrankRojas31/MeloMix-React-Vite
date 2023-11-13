@@ -5,9 +5,17 @@ import Header from "../componentes/Header";
 import Footer from "../componentes/Footer";
 import Player from '@madzadev/audio-player'
 
-export default function RMusica(){
+export default function RMusica() {
     const [listas, setListas] = useState([]);
     const { id } = useParams();
+    const [videoid,setVideoid]=useState("");
+    const [tracks, setTracks] = useState([
+        {
+            url: 'https://mbeta.123tokyo.xyz/get.php/e/4c/K17df81RL9Y.mp3?cid=MmEwMTo0Zjg6YzAxMDo5ZmE2OjoxfE5BfERF&h=I7_hgmUe2mqeJyRYWKccCA&s=1699838711&n=AURORA%20-%20Cure%20For%20Me',
+            title: 'Age Old Blue',
+            tags: ['house']
+        },
+    ])
     const [isHearted, setIsHearted] = useState(false); // Estado para controlar si se ha hecho clic en el corazón
     const toggleHeart = () => {
         setIsHearted(!isHearted); // Alternar el estado al hacer clic
@@ -37,28 +45,45 @@ export default function RMusica(){
     useEffect(() => {
         var element = document.querySelector("._RZMQZ");
         if (element) {
-        element.classList.add("hidden");
+            element.classList.add("hidden");
         }
         const fetchData = async () => {
-          try {
-            const respuesta = await axios.get(
-              `http://localhost:3000/canciones/${id}`
-            );
-            setListas(respuesta.data[0]);
-          } catch (error) {
-            console.log(error);
-          }
+            try {
+                const respuesta = await axios.get(
+                    `http://localhost:3000/canciones/${id}`
+                );
+                setListas(respuesta.data[0]);
+                const respuesta2 = await axios.get(
+                    `http://localhost:3000/youtube/${respuesta.data[0].CancionVideo}`
+                );
+                console.log(respuesta2.data[0].id.videoId);
+                setVideoid(respuesta2.data[0].id.videoId);
+            } catch (error) {
+                console.log(error);
+            }
         };
+        esperarCincoSegundos(() => {
+            console.log("Han pasado 5 segundos. Realizar alguna acción aquí.");
+            setTracks([
+                {
+                    url: 'https://dl4502.ymcdn.website/2468c4f4071892fb00a3045e729a85c1/K17df81RL9Y?dl=1',
+                    title: 'Age Old Blue',
+                    tags: ['house']
+                },
+                {
+                    url: 'https://malpha.123tokyo.xyz/get.php/7/8e/0lhXW1Q_e_0.mp3?cid=MmEwMTo0Zjg6YzAxMDo5ZmE2OjoxfE5BfERF&h=U7vSRRibV8gLlTccfxSakg&s=1699839253&n=SPACEHOG%20-%20In%20the%20Meantime',
+                    title: 'Age Old Blue',
+                    tags: ['house']
+                }
+            ])
+        });
         fetchData();
-      }, []);
-      const tracks = [
-        {
-          url: '/musica/AgeOldBlue.mp3',
-          title: 'Age Old Blue',
-          tags: ['house']
-        }
-      ]
-    return(
+    }, []);
+    function esperarCincoSegundos(callback) {
+        setTimeout(callback, 5000);
+    }
+   
+    return (
         <>
             <Header></Header>
             <main className="bg-[url('/imagenes/reproductor.jpg')] inset-0 bg-cover bg-center w-full min-h-screen">
@@ -68,15 +93,18 @@ export default function RMusica(){
                             <img src={listas.CancionCaratula} className="w-[250px] rounded-xl" alt="" />
                         </span>
                         <span className="col-span-2 lg:col-span-3 flex items-center justify-center">
-                            <Player 
-                                trackList={tracks}
-                                includeTags={false}
-                                includeSearch={false}
-                                showPlaylist={true}
-                                autoPlayNextTrack={true}
-                                customColorScheme={colors}
-                            />
+                            {tracks.length > 0 && (
+                                <Player
+                                    trackList={tracks}
+                                    includeTags={false}
+                                    includeSearch={false}
+                                    showPlaylist={true}
+                                    autoPlayNextTrack={true}
+                                    customColorScheme={colors}
+                                />
+                            )}
                         </span>
+
                         <i className={`nf ${isHearted ? "nf-fa-heart" : "nf-cod-heart"} text-[#f00] ${isHearted ? "explosion" : ""} absolute text-white font-medium text-[50px] right-[2%] bottom-[10%] cursor-pointer`} onClick={toggleHeart} ></i>
                     </div>
                     <aside className="rounded-xl grid grid-cols-1 lg:grid-cols-5 gap-10">
@@ -89,7 +117,7 @@ export default function RMusica(){
                             </p>
                         </div>
                         <span className="bg-[#0f0] col-span-3 lg:col-span-2 w-full aspect-video rounded-xl">
-                            
+                            <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${videoid}`} frameborder="0" allowfullscreen></iframe>
                         </span>
                         <div className="bg-[#262626bb] lg:hidden col-span-3 py-5 px-10 rounded-xl overflow-scroll max-h-[600px]">
                             <h4 className="text-white text-[50px] font-medium">Letra</h4>

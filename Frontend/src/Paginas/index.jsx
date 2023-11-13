@@ -10,7 +10,7 @@ export default function Index() {
   async function getTopTracks() {
     try {
       const apiKey = "a80a901841fd1d66120c1296f6c85121";
-      const url = `http://ws.audioscrobbler.com/2.0/?method=chart.getTopTracks&api_key=${apiKey}&format=json&limit=4`;
+      const url = `http://ws.audioscrobbler.com/2.0/?method=chart.getTopTracks&api_key=${apiKey}&format=json&limit=6`;
 
       const response = await fetch(url);
       const data = await response.json();
@@ -35,8 +35,8 @@ export default function Index() {
         <>
             <Header></Header>
             <AudioPlayer></AudioPlayer>
-            <div className="banner">
-                <div className="banner-texto">
+            <div className="w-screen h-screen bg-[url('/imagenes/index.jpg')] bg-cover flex justify-center items-center">
+                <div className="banner">
                 <h1 className="h1">MELOMIX</h1>
                 <p className="p">*¡La mejor música, ahora a tu alcance!</p>
                 </div>
@@ -60,8 +60,8 @@ export default function Index() {
                                 </div>
                         </span>
                     </div>
-                    <aside className="w-full p-5 col-span-1">
                     <h5 className="text-white text-[30px] font-medium text-center mb-3">Canciones Populares</h5>
+                    <aside className="w-full p-5 col-span-1 overflow-scroll h-[500px]">
                     {cancionesPopulares.map((cancion, index) => (
                         <article key={index} className="w-full flex gap-5 border-t-2 py-2 items-center">
                             <img

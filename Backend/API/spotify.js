@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from "axios";
 
 function buscarCancion(clientId, clientSecret, searchQuery) {
     // Codificando las credenciales para la autenticación
@@ -41,9 +41,9 @@ function buscarCancion(clientId, clientSecret, searchQuery) {
 }
 
 // Ejemplo de uso
-const clientId = 'TU_ID_DE_CLIENTE';
-const clientSecret = 'TU_SECRETO_DE_CLIENTE';
-const searchQuery = 'nombre de la canción';
+const clientId = '8130933d946e4eddbf215afdfe8e63ec';
+const clientSecret = 'c0d2bd34630e425e8a002f9269c0ef49';
+const searchQuery = 'Cure for me';
 
 buscarCancion(clientId, clientSecret, searchQuery)
     .then(resultados => {

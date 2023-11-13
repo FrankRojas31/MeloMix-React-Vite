@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from "axios";
 
-const apiKey = 'clave_api'; // Esto te lo paso por .env en el repositorio.
+const apiKey = 'AIzaSyD7IikkRs_9W3rY1jbW4dVLzF8Gs8gC-o0'; // Esto te lo paso por .env en el repositorio.
 
 
 function buscarVideos(query) {
@@ -24,7 +24,7 @@ function buscarVideos(query) {
 }
 
     // Ejemplo de uso
-    const terminoBusqueda = 'tutorial javascript';
+    const terminoBusqueda = 'cure for me official video ';
     buscarVideos(terminoBusqueda)
     .then(videos => {
         console.log('Videos encontrados:', videos);

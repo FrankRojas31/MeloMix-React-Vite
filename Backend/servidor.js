@@ -2,6 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 import cors from 'cors';
 import multer from 'multer';
+import axios from "axios";
 import jwt from 'jsonwebtoken';
 
 const app = express();
@@ -300,6 +301,19 @@ app.get('/Artista', (req, res) => {
       }
     });
   });
+  app.get('/cancionesA/:id', (req, res) => {
+    const id = req.params.id;
+    const query = 'SELECT * FROM VW_Canciones WHERE ArtistaId = ? LIMIT 10';
+  
+    conexion.query(query, id, (err, result) => {
+      if (err) {
+        console.error('Error al obtener la lista de canciones:', err);
+        res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
+      } else {
+        res.status(200).json(result);
+      }
+    });
+});
   app.get('/canciones/:id', (req, res) => {
     const id = req.params.id;
     const query = 'SELECT * FROM VW_Canciones where CancionId = ?';
@@ -425,5 +439,47 @@ app.get('/Artista', (req, res) => {
       } else {
         res.status(200).json(result);
       }
+    });
+  });
+
+  app.get('/biografia/:id', (req, res) => {
+    const nombre = req.params.id;
+    const url = "https://es.wikipedia.org/w/api.php";
+    const params = {
+        action: 'query',
+        format: 'json',
+        titles: nombre,
+        prop: 'extracts',
+        exintro: true,
+    };
+    return axios.get(url, { params })
+        .then(response => {
+            // Extraer el contenido de la página
+            const pages = response.data.query.pages;
+            const pageId = Object.keys(pages)[0];
+            const extract = pages[pageId].extract;
+
+            res.status(200).json(extract);
+        })
+        .catch(error => {
+            console.error("Error al buscar en Wikipedia:", error);
+        });
+  });
+  app.get('/youtube/:id', (req, res) => {
+    const nombre = req.params.id;
+    const apiKey = 'AIzaSyD7IikkRs_9W3rY1jbW4dVLzF8Gs8gC-o0';
+    const url = 'https://www.googleapis.com/youtube/v3/search';
+    const params = {
+        part: 'snippet',
+        q: nombre,
+        type: 'video',
+        key: apiKey,
+    };
+    return axios.get(url, { params })
+        .then(response => {
+          res.status(200).json(response.data.items);
+        })
+        .catch(error => {
+        console.error('Error al buscar videos en YouTube:', error);
     });
   });

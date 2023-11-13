@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from "axios";
 
 function buscarEnWikipedia(termino) {
     // URL de la API de Wikipedia
@@ -16,21 +16,21 @@ function buscarEnWikipedia(termino) {
     // Realizar la solicitud con Axios
     return axios.get(url, { params })
         .then(response => {
-        // Extraer el contenido de la página
-        const pages = response.data.query.pages;
-        const pageId = Object.keys(pages)[0];
-        const extract = pages[pageId].extract;
+            // Extraer el contenido de la página
+            const pages = response.data.query.pages;
+            const pageId = Object.keys(pages)[0];
+            const extract = pages[pageId].extract;
 
-        return extract;
+            return extract;
         })
         .catch(error => {
-        console.error("Error al buscar en Wikipedia:", error);
+            console.error("Error al buscar en Wikipedia:", error);
         });
-    }
+}
 
 // Ejemplo de uso
-    const terminoBusqueda = "JavaScript";
-    buscarEnWikipedia(terminoBusqueda)
+const terminoBusqueda = "Aurora_Aksnes";
+buscarEnWikipedia(terminoBusqueda)
     .then(resultado => {
         console.log(resultado);
     });

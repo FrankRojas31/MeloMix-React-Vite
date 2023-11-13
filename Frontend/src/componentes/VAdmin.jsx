@@ -12,6 +12,7 @@ export default function VAdmin({ components }) {
   const [modifiedRows, setModifiedRows] = useState({});
   const [botones, setBotones] = useState(false);
   const [Editar, setEditar] = useState(false);
+  const [idusuario, setId] = useState(1);
   const [Agregar, setAgregar] = useState(false);
 
   useEffect(() => {
@@ -121,7 +122,7 @@ export default function VAdmin({ components }) {
       const id = localStorage.getItem("id");
       try {
           const respuesta = await axios.put(
-              `http://localhost:3000/Usuario_Update/${id}`,
+              `http://localhost:3000/Usuario_Update/${idusuario}`,
               body
           );
           console.log(respuesta.data.message);
@@ -133,6 +134,7 @@ export default function VAdmin({ components }) {
   };
 
   const modificar = (id, Nombre, Correo, Avatar) => {
+    setId(id);
     setBody({
       Nombre: Nombre,
       Correo: Correo,

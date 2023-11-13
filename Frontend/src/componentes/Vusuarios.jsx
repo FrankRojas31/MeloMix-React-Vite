@@ -12,6 +12,7 @@ export default function Vusuarios({ components }) {
   const [modifiedRows, setModifiedRows] = useState({});
   const [botones, setBotones] = useState(false);
   const [Editar, setEditar] = useState(false);
+  const [idusuario, setId] = useState(1);
   const [Agregar, setAgregar] = useState(false);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function Vusuarios({ components }) {
       const usuarioId = valor;
       try {
         const respuesta = await axios.delete(
-          `http://localhost:3000/Usuarios_Globales/${usuarioId}`
+          `http://localhost:3000/Delete_Usuario/${usuarioId}`
         );
         if (respuesta.data) {
           setNeedsUpdate(true);
@@ -118,10 +119,9 @@ export default function Vusuarios({ components }) {
   };
 
   const modificarUsuario = async () => {
-      const id = localStorage.getItem("id");
       try {
           const respuesta = await axios.put(
-              `http://localhost:3000/Usuario_Update/${id}`,
+              `http://localhost:3000/Usuario_Update/${idusuario}`,
               body
           );
           console.log(respuesta.data.message);
@@ -133,12 +133,13 @@ export default function Vusuarios({ components }) {
   };
 
   const modificar = (id, Nombre, Correo, Avatar) => {
+    setId(id);
     setBody({
       Nombre: Nombre,
       Correo: Correo,
       Avatar: Avatar,
       RolID: 2,
-  });
+    });
     setEditar(true);
   }
 
@@ -146,7 +147,7 @@ export default function Vusuarios({ components }) {
     <>
       {Editar && (
         <div className="bg-white p-8 rounded-lg shadow-md w-96 absolute z-10">
-        <h1 className="text-3xl font-bold text-center mb-8">Modificar Usuario</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Modificar Usuario {idusuario}</h1>
         <button
             className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
             onClick={() => {setBody({Nombre: "",Correo: "",Avatar: "",RolID: 2,});setEditar(false);}}
@@ -308,7 +309,7 @@ export default function Vusuarios({ components }) {
                     {lista.RolID}
                   </td>
                   <td class="text-black border-0 flex gap-10 justify-center">
-                    <i class="nf nf-md-lead_pencil text-[30px] text-[#bb4] cursor-pointer " onClick={() => { modificar(lista.Id, lista.Nombre, lista.Correo, lista.Avatar) }}></i>
+                    <i class="nf nf-md-lead_pencil text-[30px] text-[#bb4] cursor-pointer " onClick={() => { modificar(lista.id, lista.Nombre, lista.Correo, lista.Avatar) }}></i>
                     <i class="nf nf-cod-trash text-[30px] text-[#d00] cursor-pointer" onClick={() => borrar(valor)}></i>
                   </td>
                 </tr>
