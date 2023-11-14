@@ -16,16 +16,21 @@ import PUsuarios from './Paginas/PUsuario';
 import RMusica from './Paginas/RMusica';
 import Artista from './Paginas/Artista';
 import '@madzadev/audio-player/dist/index.css'
+import Page404 from './Paginas/404';
 
 function App() {
+  const autenticado = localStorage.getItem("perfil");
+
   return(
     <>
       <BrowserRouter>
         <Routes>
+          <Route path='*' element={<Page404/>} />
+          <Route path="/404" element={<Page404/>} />
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/inicio" element={<Login />} />
-          <Route path="/registro" element={<Signin />} />
+          <Route path="/dashboard" element={autenticado ? <Dashboard /> : <Navigate to= "/404"/>} />
+          <Route path="/inicio" element={autenticado ? <Navigate to="/404"/> : <Login />} />
+          <Route path="/registro" element={autenticado ? <Navigate to="/404"/> : <Signin />} />
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/musica" element={<Musica />} />
           <Route path="/artistas" element={<Artistas />} />
