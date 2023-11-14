@@ -15,7 +15,6 @@ import Noticias from './Paginas/Noticias';
 import PUsuarios from './Paginas/PUsuario';
 import RMusica from './Paginas/RMusica';
 import Artista from './Paginas/Artista';
-import Gobierno from './Paginas/Gobierno';
 import '@madzadev/audio-player/dist/index.css'
 
 function App() {
@@ -34,7 +33,6 @@ function App() {
           <Route path="/usuario" element={<PUsuarios />} />
           <Route path="/reproductor/:id" element={<RMusica />} />
           <Route path="/artista/:id" element={<Artista />} />
-          <Route path="/gobierno" element={<Gobierno />} />
         </Routes>
       </BrowserRouter>
     </>
