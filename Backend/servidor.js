@@ -2,7 +2,7 @@ import express from 'express';
 import mysql from 'mysql';
 import cors from 'cors';
 import multer from 'multer';
-import axios from "axios";
+import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(express.json());
 const conexion = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'Chaparro1',
     database: 'melomix'
 });
 
