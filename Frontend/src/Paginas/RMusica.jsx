@@ -11,8 +11,8 @@ export default function RMusica() {
     const [videoid,setVideoid]=useState("");
     const [tracks, setTracks] = useState([
         {
-            url: 'https://mbeta.123tokyo.xyz/get.php/e/4c/K17df81RL9Y.mp3?cid=MmEwMTo0Zjg6YzAxMDo5ZmE2OjoxfE5BfERF&h=I7_hgmUe2mqeJyRYWKccCA&s=1699838711&n=AURORA%20-%20Cure%20For%20Me',
-            title: 'Age Old Blue',
+            url: 'https://drive.google.com/uc?id=16ZkjOp6utANKEJO3Gkjbpd3dh3u8ANF5',
+            title: 'Prueba',
             tags: ['house']
         },
     ])
@@ -52,6 +52,14 @@ export default function RMusica() {
                 const respuesta = await axios.get(
                     `http://localhost:3000/canciones/${id}`
                 );
+                
+                setTracks([
+                    {
+                        url: respuesta.data[0].CancionDireccion,
+                        title: respuesta.data[0].CancionNombre,
+                        tags: ['house']
+                    },
+                ])
                 setListas(respuesta.data[0]);
                 const respuesta2 = await axios.get(
                     `http://localhost:3000/youtube/${respuesta.data[0].CancionVideo}`
@@ -64,18 +72,7 @@ export default function RMusica() {
         };
         esperarCincoSegundos(() => {
             console.log("Han pasado 5 segundos. Realizar alguna acción aquí.");
-            setTracks([
-                {
-                    url: 'https://dl4502.ymcdn.website/2468c4f4071892fb00a3045e729a85c1/K17df81RL9Y?dl=1',
-                    title: 'Age Old Blue',
-                    tags: ['house']
-                },
-                {
-                    url: 'https://malpha.123tokyo.xyz/get.php/7/8e/0lhXW1Q_e_0.mp3?cid=MmEwMTo0Zjg6YzAxMDo5ZmE2OjoxfE5BfERF&h=U7vSRRibV8gLlTccfxSakg&s=1699839253&n=SPACEHOG%20-%20In%20the%20Meantime',
-                    title: 'Age Old Blue',
-                    tags: ['house']
-                }
-            ])
+            
         });
         fetchData();
     }, []);

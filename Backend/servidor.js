@@ -450,7 +450,6 @@ app.get('/Artista', (req, res) => {
         format: 'json',
         titles: nombre,
         prop: 'extracts',
-        exintro: true,
     };
     return axios.get(url, { params })
         .then(response => {

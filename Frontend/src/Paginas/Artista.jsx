@@ -21,11 +21,13 @@ export default function Artista(){
     
             // Extraer el nombre para la búsqueda de Wikipedia
             const nombre = respuesta.data[0].Biografia;
+            console.log(nombre);
     
             const bioRespuesta = await axios.get(
               `http://localhost:3000/biografia/${nombre}`
             );
             setBiografia(DOMPurify.sanitize(bioRespuesta.data));
+            console.log(bioRespuesta.data);
 
             const respuesta2 = await axios.get(
                 `http://localhost:3000/cancionesA/${respuesta.data[0].Id}`
