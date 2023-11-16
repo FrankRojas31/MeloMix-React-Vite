@@ -26,8 +26,11 @@ export default function Artista(){
             const bioRespuesta = await axios.get(
               `http://localhost:3000/biografia/${nombre}`
             );
+            const numerosFiltrados = filtrarNumerosEntreCorchetes(bioRespuesta.data);
+
+            // Actualizar el estado con la biografía filtrada
             setBiografia(DOMPurify.sanitize(bioRespuesta.data));
-            console.log(bioRespuesta.data);
+            console.log(numerosFiltrados);
 
             const respuesta2 = await axios.get(
                 `http://localhost:3000/cancionesA/${respuesta.data[0].Id}`
@@ -40,6 +43,13 @@ export default function Artista(){
     
         fetchData();
       }, [id]);
+      const filtrarNumerosEntreCorchetes = (texto) => {
+        const expresionRegular = /\[(\d+)\]/g;
+        const coincidencias = texto.match(expresionRegular);
+        const numerosFiltrados = coincidencias ? coincidencias.map(match => parseInt(match[1], 10)) : [];
+    
+        return numerosFiltrados;
+      };
     return(
         <>
             <Header/>
@@ -47,20 +57,20 @@ export default function Artista(){
                 <div className={"w-full h-[400px] inset-0 bg-cover bg-center relative"}>
                     <img src={listas.Foto} alt="" className="w-full h-full absolute object-cover"/>
                     <span className="absolute bottom-10 left-10 flex items-center">
-                        <i className="nf nf-oct-play text-white text-[50px] font-medium mr-3"></i>
-                        <h1 className="text-white text-[50px] font-medium">{listas.Nombre}</h1>
+                        <i className="nf nf-oct-play text-white text-[50px] font-medium mr-3 stroke"></i>
+                        <h1 className="text-white text-[50px] font-medium stroke">{listas.Nombre}</h1>
                     </span>
                 </div>
                 <div className="w-full p-5 md:p-10 grid grid-cols-1 lg:grid-cols-3 gap-5">
-                    <section className="bg-[#262626bb] col-span-2 py-5 px-10 rounded-xl">
-                            <h4 className="text-white text-[30px] font-medium">Aurora:</h4>
+                    <section className="bg-[#262626bb] col-span-2 py-5 px-10 rounded-xl ">
+                            <h4 className="text-white text-[30px] font-medium">{listas.Nombre}:</h4>
                             <div
-                                className="text-white text-[20px] text-justify"
+                                className="text-white text-[20px] text-justify max-h-[500px] overflow-scroll"
                                 dangerouslySetInnerHTML={{ __html: biografia }}
                                 />
                     </section>
                     <aside className="w-full p-5 col-span-1">
-                        <h5 className="text-white text-[30px] font-medium text-center mb-3">Canciones</h5>
+                        <h5 className="text-white text-[30px] font-medium text-center mb-3 stroke">Canciones</h5>
                         {canciones.map((can, index) => (
                             <Link to={"/reproductor/"+can.CancionId}>
                                 <article className="w-full flex gap-5 border-t-2 p-2 items-center hover:bg-[#fff2] cursor-pointer">

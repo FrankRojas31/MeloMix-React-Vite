@@ -23,7 +23,7 @@ export default function Musica(){
         <>
             <Header/>
             <main className="w-full min-h-screen bg-[url('/imagenes/musica.jpg')] bg-cover">
-                <h2 className="w-full text-white font-medium text-4xl bg-[#000b] p-5">Top de las canciones:</h2>
+                <h2 className="w-full text-white font-medium text-4xl bg-[#000b] p-5 stroke">Top de las canciones:</h2>
                 <div className="w-full h-screen bg-[#000b] overflow-scroll py-5">
                     <aside className="w-full py-5 px-5 md:px-10 col-span-1">
                             {listas.map((lista, index) => (

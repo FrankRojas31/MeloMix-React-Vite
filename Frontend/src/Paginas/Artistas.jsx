@@ -24,7 +24,7 @@ export default function Artistas() {
         <>
             <Header />
             <main className="w-full min-h-screen bg-[url('/imagenes/artistas.jpg')] bg-cover">
-                <h2 className="w-full text-white font-medium text-4xl bg-[#6669] p-5">Top de los artistas:</h2>
+                <h2 className="w-full text-white font-medium text-4xl bg-[#6669] p-5 stroke">Top de los artistas:</h2>
                 <div className="w-full min-h-screen p-5 lg:p-20 flex justify-center items-start bg-[#fff6]">
                     <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 place-items-center">
                         {listas.map((lista, index) => (
@@ -37,7 +37,7 @@ export default function Artistas() {
                                     src={lista.Foto}
                                     alt=""
                                 />
-                                <p className="w-full text-center text-white font-medium text-xl">
+                                <p className="w-full text-center text-white font-medium text-xl stroke">
                                     {lista.Nombre}
                                 </p>
                             </article>
