@@ -10,21 +10,6 @@ export default function SesionApis({ onComponentChange }) {
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
     const [profile, setProfile] = useState([]);
-    const [msalInstance, onMsalInstanceChange] = useState();
-
-    const loginHandler = (err, data, msal) => {
-        if (!err && data) {
-            onMsalInstanceChange(msal);
-
-            const userData = {
-                given_name: data.account.name,
-                correo: data.account.email,
-                picture: data.account.url
-            };
-            localStorage.setItem("perfil", JSON.stringify(userData));
-            navigate("/");
-        }
-    };
 
     const LoginWithGoogle = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
@@ -76,16 +61,6 @@ export default function SesionApis({ onComponentChange }) {
             <main className="is-man relative">
                 <section className="is-sec">
                     <h1 className="is-titulo">INICIAR SESIÓN</h1>
-                    <MicrosoftLogin
-                        clientId="b19438d9-1b4b-4b5b-a070-acf903937e51" /* Aqui ira el cliente */
-                        authCallback={loginHandler}
-                        render={props => (
-                            <span className="is-input cursor-pointer" onClick={props.onClick}>
-                            <div className="is-logo2"><i className="nf nf-dev-apple"></i></div>
-                                <p>Continuar con Microsoft</p>
-                            </span>
-                        )}
-                    />
                     <span className="is-input cursor-pointer" onClick={() => LoginWithGoogle()}>
                         <div className="is-logo2"><i className="nf nf-fa-google"></i></div>
                         <p>Continuar con Google</p>
