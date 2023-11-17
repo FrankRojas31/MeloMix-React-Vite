@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios  from "axios";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -8,25 +9,26 @@ export default function Header() {
 
   useEffect(() => {
     const storedUserProfile = localStorage.getItem("perfil");
-    const autenticado= localStorage.getItem("token");
-    /* const decodificar = jwt.verify(autenticado, "secreto");
-    console.log(decodificar); */
+    const userLocal = localStorage.getItem("token");
+  
+    if (userLocal) {
+      axios.post('http://localhost:3000/UsuarioActual', { token: userLocal })
+        .then(response => {
+          console.log(response.data);
+  
+          const usuarioAutenticado = response.data.usuarioAutenticado;
+          const parse = JSON.parse(usuarioAutenticado);
+          setProfile(usuarioAutenticado);
+          setInicio(true); // Mover aquí para asegurar que la solicitud esté completa
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
   
     if (storedUserProfile) {
       const userProfile = JSON.parse(storedUserProfile);
       setProfile(userProfile);
-      setInicio(true);
-    }
-    
-    if (autenticado) {
-      const decodedToken = jwtDecode(storedToken);
-      
-      setProfile({
-        Id_usuario: decodedToken.id, 
-        Nombre: decodedToken.Nombre,
-        RolID: decodedToken.RolID,
-        picture: decodedToken.Imagen
-      });
       setInicio(true);
     }
   }, []);  

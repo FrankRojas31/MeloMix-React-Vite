@@ -14,7 +14,7 @@ app.use(express.json());
 const conexion = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'Chaparro1',
   database: 'melomix'
 });
 
@@ -84,13 +84,36 @@ app.post("/Sesion", (req, res) => {
         if (resultado.length > 0) {
             const usuario = resultado[0];
             const token = jwt.sign({ 
-                id_usuario: usuario.id,
+                id: usuario.id,
+                given_name: usuario.nombre,
+                picture: usuario.Avatar,
+                correo: usuario.Correo,
+                Rol: usuario.RolID
             }, "secreto");
             return res.json({ Estatus: "EXITOSO", Resultado: resultado, token });
         } else {
             return res.json({ Estatus: "ERROR", Mensaje: "El correo o la contraseña son incorrectos" });
         }
     });
+});
+
+app.post("/UsuarioActual", (req, res) => {
+  const token = req.body.token;
+  const secretKey = 'secreto';
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token no proporcionado' });
+  }
+
+  try {
+    const decodedToken = jwt.verify(token, secretKey);
+    console.log(decodedToken);
+
+    res.status(200).json(decodedToken);
+  } catch (err) {
+    console.error(err);
+    res.status(401).json({ message: 'Token inválido' });
+  }
 });
 
 // Actualización de Nivel de Usuario, solo pueden verlo de nivel Administrativo: Administrador
@@ -507,3 +530,31 @@ app.get('/letras/:artista/:cancion', (req, res) => {
   getLyrics(options).then((lyrics) => { res.status(200).json(`${lyrics}`) });
   getSong(options).then((song) => console.log());
 });
+
+app.get('/api/news/music', (req, res) => {
+  const searchTerm = 'music';
+  const apiUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
+  apiKey = '3UqmIPMMCYATjTs2xzWkwAPWJ3tdwN9W';
+
+  axios.get(apiUrl, {
+      params: {
+          q: searchTerm,
+          apikey: apiKey,
+      },
+  })
+  .then(response => {
+      const docs = response.data.response.docs;
+      const news = docs.map(doc => ({
+          title: doc.headline.main,
+          abstract: doc.abstract,
+          url: doc.web_url,
+      }));
+
+      res.json(news);
+  })
+  .catch(error => {
+      console.error('Error al obtener datos:', error);
+      res.status(500).send('Error al obtener noticias de música.');
+  });
+});
+
