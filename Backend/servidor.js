@@ -572,30 +572,30 @@ app.get('/letras/:artista/:cancion', (req, res) => {
   getSong(options).then((song) => console.log());
 });
 
-app.get('/api/news/music', (req, res) => {
-  const searchTerm = 'music';
+app.get('/music', (req, res) => {
+  const searchTerm = 'Music';
   const apiUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
-  let apiKey = '3UqmIPMMCYATjTs2xzWkwAPWJ3tdwN9W';
+  const apiKey = '3UqmIPMMCYATjTs2xzWkwAPWJ3tdwN9W';
 
   axios.get(apiUrl, {
-      params: {
-          q: searchTerm,
-          apikey: apiKey,
-      },
+    params: {
+      q: searchTerm,
+      'api-key': apiKey,  // Utiliza 'api-key' como nombre del parámetro
+    },
   })
   .then(response => {
-      const docs = response.data.response.docs;
-      const news = docs.map(doc => ({
-          title: doc.headline.main,
-          abstract: doc.abstract,
-          url: doc.web_url,
-      }));
+    const docs = response.data.response.docs;
+    const news = docs.map(doc => ({
+      title: doc.headline.main,
+      abstract: doc.abstract,
+      url: doc.web_url,
+    }));
 
-      res.json(news);
+    res.json(news);
   })
   .catch(error => {
-      console.error('Error al obtener datos:', error);
-      res.status(500).send('Error al obtener noticias de música.');
+    console.error('Error al obtener datos:', error.message);
+    console.error('Detalles del error:', error.response ? error.response.data : 'No hay respuesta');
+    res.status(500).send('Error al obtener noticias de música.');
   });
 });
-
