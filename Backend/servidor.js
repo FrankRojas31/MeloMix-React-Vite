@@ -573,7 +573,7 @@ app.get('/letras/:artista/:cancion', (req, res) => {
 });
 
 app.get('/music', (req, res) => {
-  const searchTerm = 'Music';
+  const searchTerm = 'Music'; // Aqui pasas el término. Buscalo aqui: https://www.nytimes.com/subscription/all-access?campaignId=8HHXJ&ds_c=71700000105584844&gad_source=1&gclid=CjwKCAiAu9yqBhBmEiwAHTx5p8NoW56hQBBrTck3ug4TqWa3vwmhxwrVTawuasyP0OTWUZBQYqMqqRoCyCoQAvD_BwE&gclsrc=aw.ds 
   const apiUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
   const apiKey = '3UqmIPMMCYATjTs2xzWkwAPWJ3tdwN9W';
 
