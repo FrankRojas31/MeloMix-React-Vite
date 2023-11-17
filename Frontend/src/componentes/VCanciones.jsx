@@ -380,7 +380,7 @@ export default function VCanciones({ components }) {
                       <div class="font-normal text-black">{lista.ArtistaNombre}</div>
                     </div>
                   </th>
-                  <td class="border-x-1 border-y-0 px-6 py-4 text-black whitespace-nowrap font-sans text-[15px] ">
+                  <td class="border-x-1 border-y-0 px-6 py-4 text-black whitespace-nowrap font-sans text-[15px] max-w-[100px] overflow-scroll ">
                     {lista.CancionDireccion}
                   </td>
                   <td class="border-x-1 border-y-0 px-6 py-4 text-black whitespace-nowrap font-sans text-[15px] ">

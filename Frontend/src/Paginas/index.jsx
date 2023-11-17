@@ -64,10 +64,18 @@ export default function Index() {
         );
         const datosMapeados = respuesta.data.map(item => ({
           url: item.CancionDireccion,
-          title: item.CancionNombre,
+          title: `${item.CancionNombre} - ${item.ArtistaNombre}`,
           tags: ['house'] // Puedes personalizar las etiquetas según tus necesidades
         }));
         setTracks(datosMapeados);
+        var element = document.querySelector("._RZMQZ");
+        var contenedorDestino = document.getElementById('canciones');
+        contenedorDestino.appendChild(element);
+        var element2 = document.querySelector("._1PreE");
+        var contenedorDestino2 = document.getElementById('busqueda');
+        contenedorDestino2.appendChild(element2);
+        element2.classList.add("clase");
+        element2.setAttribute('placeholder', 'Buscar Canciones');
       } catch (error) {
         console.log(error);
       }
@@ -85,7 +93,7 @@ export default function Index() {
     });
   }, []);
   function esperarCincoSegundos(callback) {
-    setTimeout(callback, 50);
+    setTimeout(callback, 500);
   }
   return (
     <>

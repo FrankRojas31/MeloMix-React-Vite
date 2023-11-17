@@ -51,23 +51,32 @@ export default function RMusica() {
                 setTracks([
                     {
                         url: respuesta.data[0].CancionDireccion,
-                        title: respuesta.data[0].CancionNombre,
+                        title: `${respuesta.data[0].CancionNombre} - ${respuesta.data[0].ArtistaNombre}`,
                         tags: ['house']
                     },
                     {
                         url: respuesta.data[0].CancionDireccion,
-                        title: respuesta.data[0].CancionNombre,
+                        title: `${respuesta.data[0].CancionNombre} - ${respuesta.data[0].ArtistaNombre}`,
                         tags: ['house']
                     },
                 ]);
+                esperarCincoSegundos(() => {
+                    var element = document.querySelector("._RZMQZ");
+                    if (element) {
+                        element.classList.add("hidden");
+                    }
+                  });
 
                 setListas(respuesta.data[0]);
 
+                esperarCincoSegundos(() => {
+                    var element = document.querySelector("._RZMQZ");
+                    if (element) {
+                        element.classList.add("hidden");
+                    }
+                  });
+
                 console.log(respuesta.data[0].CancionVideo);
-                var element = document.querySelector("._RZMQZ");
-                if (element) {
-                    element.classList.add("hidden");
-                }
                 const respuesta2 = await axios.get(
                     `http://localhost:3000/youtube/${respuesta.data[0].CancionVideo}`
                 );
@@ -85,7 +94,7 @@ export default function RMusica() {
     }, [id]);
 
     function esperarCincoSegundos(callback) {
-        setTimeout(callback, 5000);
+        setTimeout(callback, 100);
     }
 
     return (
