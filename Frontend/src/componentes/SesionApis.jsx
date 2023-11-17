@@ -4,12 +4,33 @@ import axios from 'axios';
 import "../css/login.css";
 import { useNavigate } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
-import MicrosoftLogin from "react-microsoft-login"; 
+import MicrosoftLogin from "react-microsoft-login";
 
 export default function SesionApis({ onComponentChange }) {
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
     const [profile, setProfile] = useState([]);
+
+    const VerificarCorreo = async (Enviar) => {
+        try {
+            const response = await axios.get(`http://localhost:3000/VerificarCorreo/${Enviar}`);
+            const resultado = response.data.Estatus;
+            if (resultado === "EXISTE") {
+                let datos = {
+                    mensaje: "El correo ya está registrado, por favor elige otro.",
+                    id: response.data.result.Id,
+                    token: response.data.token
+                }
+                console.log(datos)
+                return datos;
+            } else {
+                return "Válido";
+            }
+        } catch (error) {
+            console.error('Error al verificar el correo:', error);
+            return "Error al verificar el correo.";
+        }
+    };
 
     const LoginWithGoogle = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
@@ -19,40 +40,111 @@ export default function SesionApis({ onComponentChange }) {
     const LoginWithFacebook = () => {
         console.log('Botón de Facebook clicado');
     };
-    
-    const responseFacebook = (response) => {
+
+    const responseFacebook = async (response) => {
+
         if (response.accessToken) {
-            const userData = {
-                given_name: response.name,
-                picture: response.picture.data.url,
-                correo: response.email
-            };
-            localStorage.setItem("perfil", JSON.stringify(userData));
-            console.log(userData);
-            navigate("/");
+            const body = response.email;
+            console.log(response.email);
+            const verificacion = await VerificarCorreo(body);
+            if (verificacion.mensaje === "El correo ya está registrado, por favor elige otro.") {
+                let perfiles = {
+                    id: verificacion.id,
+                    Nombre: response.name,
+                    Avatar: response.picture.data.url,
+                    Correo: response.email
+                };
+                const token = verificacion.Token;
+                console.log(respuesta.data.Resultado)
+                localStorage.setItem("token", token);
+                localStorage.setItem("perfil", JSON.stringify(perfiles));
+                console.log(perfiles);
+                navigate("/");
+                return;
+            } else {
+                try {
+                    const respuesta = await axios.post("http://localhost:3000/RegistroApi", {
+                        Nombre: response.name,
+                        Correo: response.email,
+                        Avatar: response.picture.data.url,
+                    });
+                    if (respuesta.data) {
+                        let perfiles = {
+                            id: respuesta.data.Usuario.Id,
+                            Nombre: response.name,
+                            Avatar: response.picture.data.url,
+                            Correo: response.email
+                        };
+                        const token = respuesta.data.Token;
+                        localStorage.setItem("token", token);
+                        localStorage.setItem("perfil", JSON.stringify(perfiles));
+                        console.log(perfiles);
+                        navigate("/");
+                        console.log("Usuario Registrado exitosamente");
+                        navigate("/inicio");
+                    }
+                } catch (error) {
+                    console.log("Error al registrar el usuario: " + error);
+                }
+            }
         }
     };
 
-    useEffect(
-        () => {
-            if (user) {
-                axios
-                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                        headers: {
-                            Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
+    useEffect(() => {
+        if (user) {
+            axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                headers: {
+                    Authorization: `Bearer ${user.access_token}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then(async (res) => {
+                    const userProfile = res.data;
+                    const body = userProfile.email;
+                    console.log(res.data);
+                    const verificacion = await VerificarCorreo(body);
+                    if (verificacion.mensaje === "El correo ya está registrado, por favor elige otro.") {
+                        let perfiles = {
+                            id: verificacion.id,
+                            Nombre: userProfile.name,
+                            Avatar: userProfile.picture,
+                            Correo: userProfile.email
+                        };
+                        const token = verificacion.token;
+                        localStorage.setItem("token", token);
+                        localStorage.setItem("perfil", JSON.stringify(perfiles));
+                        console.log(perfiles);
+                        navigate("/");
+                        return;
+                    } else {
+                        try {
+                            const respuesta = await axios.post("http://localhost:3000/RegistroApi", {
+                                Nombre: userProfile.name,
+                                Correo: userProfile.email,
+                                Avatar: userProfile.picture,
+                            });
+                            if (respuesta.data) {
+                                let perfiles = {
+                                    id: respuesta.data.Usuario.Id,
+                                    Nombre: userProfile.name,
+                                    Avatar: userProfile.picture,
+                                    Correo: userProfile.email
+                                };
+                                const token = respuesta.data.token;
+                                localStorage.setItem("token", token);
+                                localStorage.setItem("perfil", JSON.stringify(perfiles));
+                                console.log(perfiles);
+                                console.log("Usuario Registrado exitosamente");
+                                navigate("/");
+                            }
+                        } catch (error) {
+                            console.log("Error al registrar el usuario: " + error);
                         }
-                    })
-                    .then((res) => {
-                        const userProfile = res.data;
-                        setProfile(userProfile);
-                        console.log(userProfile);
-                        localStorage.setItem("perfil",JSON.stringify(userProfile))
-                        navigate("/")
-                    })
-                    .catch((err) => console.log(err));
-            }
-        },
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+    },
         [user]
     );
 

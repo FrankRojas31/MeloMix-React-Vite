@@ -86,7 +86,7 @@ app.post("/Sesion", (req, res) => {
             const token = jwt.sign({ 
                 id_usuario: usuario.id,
             }, "secreto");
-            return res.json({ Estatus: "EXITOSO", Resultado: resultado, token });
+            return res.json({ Estatus: "EXITOSO", Resultado: usuario, token });
         } else {
             return res.json({ Estatus: "ERROR", Mensaje: "El correo o la contraseña son incorrectos" });
         }
@@ -166,6 +166,42 @@ app.post("/Registro", (req, res) => {
     }
   });
 });
+
+app.post("/RegistroApi", (req, res) => {
+  const { Nombre, Correo, Avatar } = req.body;
+  const RolID = 2;
+  const Fecha_Creacion = new Date();
+
+  // Insertar el nuevo usuario
+  const insertSql = "INSERT INTO usuarios (Nombre, Correo, Avatar, RolID, Fecha_Creacion) VALUES (?, ?, ?, ?, ?)";
+  const insertValues = [Nombre, Correo, Avatar, RolID, Fecha_Creacion];
+
+  conexion.query(insertSql, insertValues, (error, results) => {
+    if (error) {
+      console.error("Error al registrar el usuario: ", error);
+      res.status(500).json({ Estatus: "Error", Mensaje: "Error al registrar el usuario" });
+    } else {
+      // Obtener los datos del usuario recién registrado
+      const userId = results.insertId;
+      const selectSql = "SELECT * FROM usuarios WHERE Id = ?";
+      const selectValues = [userId];
+
+      conexion.query(selectSql, selectValues, (selectError, selectResults) => {
+        if (selectError) {
+          console.error("Error al obtener los datos del usuario: ", selectError);
+          res.status(500).json({ Estatus: "Error", Mensaje: "Error al obtener los datos del usuario" });
+        } else {
+          const usuarioRegistrado = selectResults[0];
+          const token = jwt.sign({ 
+            id_usuario: userId,
+        }, "secreto");
+          res.json({ Estatus: "Exitoso", Mensaje: "Usuario registrado exitosamente", Usuario: usuarioRegistrado, Token: token });
+        }
+      });
+    }
+  });
+});
+
 app.post("/Registro_Admin", (req, res) => {
   const { Nombre, Correo, Contrasenia } = req.body;
   const RolID = 1;
@@ -386,15 +422,18 @@ app.delete('/canciones/:id', (req, res) => {
   });
 });
 
-app.get("/VerificarCorreo", (peticion, respuesta) => {
-  const { Correo } = peticion.query;
-  const query = "SELECT * FROM VW_Usuarios WHERE Correo = ?";
+app.get("/VerificarCorreo/:correo", (req, respuesta) => {
+  const Correo = req.params.correo;
+  const query = "SELECT * FROM usuarios WHERE Correo = ?";
   conexion.query(query, [Correo], (error, resultados) => {
     if (error) {
       return respuesta.status(500).json({ Error: "Error en la consulta" });
     } else {
       if (resultados.length > 0) {
-        return respuesta.json({ Estatus: "EXISTE" });
+        const token = jwt.sign({ 
+          id_usuario: resultados[0].Id,
+      }, "secreto");
+        return respuesta.json({ Estatus: "EXISTE", result: resultados[0],token });
       } else {
         return respuesta.json({ Estatus: "NO_EXISTE" });
       }
@@ -415,10 +454,11 @@ app.get('/cantidades', (req, res) => {
   });
 });
 
-app.get('/megusta', (req, res) => {
-  const query = 'SELECT * FROM VW_MeGusta';
+app.get('/megusta/:id', (req, res) => {
+  const id = req.params.id;
+  const query = 'SELECT * FROM VW_MeGusta where UsuarioID = ?';
 
-  conexion.query(query, (err, result) => {
+  conexion.query(query,id, (err, result) => {
     if (err) {
       console.error('Error al obtener la lista de megusta:', err);
       res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
@@ -428,10 +468,11 @@ app.get('/megusta', (req, res) => {
   });
 });
 
-app.get('/historial', (req, res) => {
-  const query = 'SELECT * FROM VW_Historial';
+app.get('/historial/:id', (req, res) => {
+  const id = req.params.id;
+  const query = 'SELECT * FROM VW_Historial where UsuarioID = ?';
 
-  conexion.query(query, (err, result) => {
+  conexion.query(query,id, (err, result) => {
     if (err) {
       console.error('Error al obtener la lista de historial', err);
       res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });

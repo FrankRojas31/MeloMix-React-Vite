@@ -24,8 +24,12 @@ export default function InicioSesion({ onComponentChange }) {
         console.log("Inicio de sesión exitoso");
 
         const token = respuesta.data.token;
+        console.log(respuesta.data.Resultado)
         localStorage.setItem("token", token);
-        window.location.href = "/";
+        userProfile = respuesta.data.Resultado;
+        console.log(userProfile);
+        localStorage.setItem("perfil", JSON.stringify(userProfile))
+        navigate("/")
       } else {
         setMensaje("El correo o la contraseña son incorrectos.");
       }

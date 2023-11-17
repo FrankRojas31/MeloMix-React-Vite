@@ -301,7 +301,7 @@ export default function VAdmin({ components }) {
                     {lista.id}
                   </td>
                   <th scope="row" class="border-x-1 border-y-0 flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white overflow-hidden">
-                    <img class="w-10 h-10 rounded-full" src={"/imagenes/"+lista.Avatar} alt="Jese image" />
+                    <img class="w-10 h-10 rounded-full" src={lista.Avatar} alt="Jese image" />
                     <div class="pl-3">
                       <div class="text-base text-black font-semibold">{lista.Nombre}</div>
                       <div class="font-normal text-black">{lista.Correo}</div>

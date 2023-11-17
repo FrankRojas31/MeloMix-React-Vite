@@ -27,13 +27,6 @@ function Dashboard() {
       setInicio(true);
     }
     if (storedToken) {
-      const decodedToken = jwtDecode.default(storedToken);
-      setProfile({
-        Id_usuario: decodedToken.id, 
-        Nombre: decodedToken.Nombre,
-        RolID: decodedToken.RolID,
-        picture: decodedToken.Avatar
-      });
       setInicio(true);
     }
   }, []);  
@@ -58,8 +51,8 @@ function Dashboard() {
     });
   }
   
-  const avatarImage = profile.picture;
-  const Message = `Hola, ${profile.given_name}`;
+  const avatarImage = profile.Avatar;
+  const Message = `Hola, ${profile.Nombre}`;
 
   return (
     <>

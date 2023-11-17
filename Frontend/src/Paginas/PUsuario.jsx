@@ -23,8 +23,8 @@ export default function PUsuarios() {
     ocultar();
   };
 
-  const Message = `Bienvenido, ${profile.given_name}`;
-  const Image = profile.picture;
+  const Message = `Bienvenido, ${profile.Nombre}`;
+  const Image = profile.Avatar;
   
   return (
     <>
