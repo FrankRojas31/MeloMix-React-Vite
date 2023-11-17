@@ -75,25 +75,22 @@ app.get('/Usuarios_Administrativos', (req, res) => {
 
 //Inicio de Sesión. Acceso: Todos
 app.post("/Sesion", (req, res) => {
-  const { Correo, Contrasenia } = req.body;
-  const sql = "SELECT id, Nombre, Correo, RolID, Avatar FROM usuarios WHERE Correo = ? AND Contrasenia = ?";
-  const arrValores = [Correo, Contrasenia];
-
-  conexion.query(sql, arrValores, (error, resultado) => {
-    if (error) return res.json({ Error: "Error en la consulta" });
-    if (resultado.length > 0) {
-      const usuario = resultado[0];
-      const token = jwt.sign({
-        Id_usuario: usuario.id,
-        Nombre: usuario.Nombre,
-        RolID: usuario.RolID,
-        picture: usuario.Avatar
-      }, "secreto");
-      return res.json({ Estatus: "EXITOSO", Resultado: resultado, token });
-    } else {
-      return res.json({ Estatus: "ERROR", Mensaje: "El correo o la contraseña son incorrectos" });
-    }
-  });
+    const { Correo, Contrasenia } = req.body;
+    const sql = "SELECT id, Nombre, Correo, RolID, Avatar FROM usuarios WHERE Correo = ? AND Contrasenia = ?";
+    const arrValores = [Correo, Contrasenia];
+    
+    conexion.query(sql, arrValores, (error, resultado) => {
+        if (error) return res.json({ Error: "Error en la consulta" });
+        if (resultado.length > 0) {
+            const usuario = resultado[0];
+            const token = jwt.sign({ 
+                id_usuario: usuario.id,
+            }, "secreto");
+            return res.json({ Estatus: "EXITOSO", Resultado: resultado, token });
+        } else {
+            return res.json({ Estatus: "ERROR", Mensaje: "El correo o la contraseña son incorrectos" });
+        }
+    });
 });
 
 // Actualización de Nivel de Usuario, solo pueden verlo de nivel Administrativo: Administrador

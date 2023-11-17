@@ -24,13 +24,15 @@ export default function PUsuarios() {
   };
 
   const Message = `Bienvenido, ${profile.given_name}`;
+  const Image = profile.picture;
+  
   return (
     <>
       <Header></Header>
       <main className="bg-[url('/imagenes/disco.png')] inset-0 bg-cover bg-center w-full min-h-screen p-10 grid md:grid-cols-6 md:grid-rows-3 gap-5">
         <div className="row-span-1 col-span-6 rounded-xl bg-[#000] grid grid-cols-4 shadow-2xl">
           <span className="col-span-1 p-3 flex items-center justify-center">
-            <img src="/imagenes/logo.jpg" className="w-[150px] rounded-full" alt="" />
+            <img src={Image} className="w-[150px] rounded-full" alt="" />
           </span>
           <span className="col-span-3 flex items-center justify-center">
             <h2 className="text-white text-[30px] md:text-[45px] font-bold">{Message}</h2>
