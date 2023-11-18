@@ -477,6 +477,7 @@ app.get('/cantidades', (req, res) => {
   });
 });
 
+// --------------------------------- TODO LO DE ME GUSTA -----------------------------------------------------
 app.get('/megusta/:id', (req, res) => {
   const id = req.params.id;
   const query = 'SELECT * FROM VW_MeGusta where UsuarioID = ?';
@@ -491,6 +492,38 @@ app.get('/megusta/:id', (req, res) => {
   });
 });
 
+app.delete('/megusta/:usuarioId/:cancionId', (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const cancionId = req.params.cancionId;
+  const query = 'DELETE FROM megusta WHERE UsuarioID = ? AND CancionID = ?';
+
+  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar la entrada de "Me Gusta"', err);
+      res.status(500).json({ error: 'Error al eliminar la entrada de "Me Gusta" de la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Entrada de "Me Gusta" eliminada correctamente' });
+    }
+  });
+});
+
+app.post('/megusta_usuario', (req, res) => {
+  const { usuarioId, cancionId } = req.body;
+  const query = 'INSERT INTO megusta (UsuarioID, CancionID) VALUES (?, ?)';
+
+  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+    if (err) {
+      console.error('Error al agregar entrada de "Me Gusta"', err);
+      res.status(500).json({ error: 'Error al agregar entrada de "Me Gusta" a la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Entrada de "Me Gusta" agregada correctamente' });
+    }
+  });
+});
+
+// ----------------------------------------------------------------------------------------------------------
+
+// ---------------------------------   TODO LO DE HISTORIAL -------------------------------------------------
 app.get('/historial/:id', (req, res) => {
   const id = req.params.id;
   const query = 'SELECT * FROM VW_Historial where UsuarioID = ?';
@@ -504,6 +537,37 @@ app.get('/historial/:id', (req, res) => {
     }
   });
 });
+
+app.delete('/historialdelete/:usuarioId/:cancionId', (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const cancionId = req.params.cancionId;
+  const query = 'DELETE FROM historial WHERE UsuarioID = ? AND CancionID = ?';
+
+  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar la entrada del historial', err);
+      res.status(500).json({ error: 'Error al eliminar la entrada del historial de la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Entrada del historial eliminada correctamente' });
+    }
+  });
+});
+
+app.post('/historial', (req, res) => {
+  const { usuarioId, cancionId } = req.body;
+  const query = 'INSERT INTO historial (UsuarioID, CancionID) VALUES (?, ?)';
+
+  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+    if (err) {
+      console.error('Error al agregar entrada al historial', err);
+      res.status(500).json({ error: 'Error al agregar entrada al historial en la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Entrada del historial agregada correctamente' });
+    }
+  });
+});
+
+// ----------------------------------------------------------------------------------------------------------
 
 app.get('/biografia/:id', async (req, res) => {
   try {
