@@ -507,6 +507,21 @@ app.delete('/megusta/:usuarioId/:cancionId', (req, res) => {
   });
 });
 
+app.delete('/megusta_borrarTodo/:usuarioId', (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const query = 'DELETE FROM megusta WHERE UsuarioID = ?';
+
+  conexion.query(query, [usuarioId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar todas las entradas de "Me Gusta" del usuario', err);
+      res.status(500).json({ error: 'Error al eliminar las entradas de "Me Gusta" de la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Todas las entradas de "Me Gusta" del usuario fueron eliminadas correctamente' });
+    }
+  });
+});
+
+
 app.post('/megusta_usuario', (req, res) => {
   const { usuarioId, cancionId } = req.body;
   const query = 'INSERT INTO megusta (UsuarioID, CancionID) VALUES (?, ?)';
@@ -552,6 +567,21 @@ app.delete('/historialdelete/:usuarioId/:cancionId', (req, res) => {
     }
   });
 });
+
+app.delete('/historial_borrarTodo/:usuarioId', (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const query = 'DELETE FROM historial WHERE UsuarioID = ?';
+
+  conexion.query(query, [usuarioId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar todas las entradas del historial del usuario', err);
+      res.status(500).json({ error: 'Error al eliminar las entradas del historial de la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Todas las entradas del historial del usuario fueron eliminadas correctamente' });
+    }
+  });
+});
+
 
 app.post('/historial', (req, res) => {
   const { usuarioId, cancionId } = req.body;
