@@ -130,14 +130,16 @@ export default function RMusica() {
                             </p>
                         ))}
                         </div>
-                        <span className="bg-[#0f0] col-span-3 lg:col-span-2 w-full aspect-video rounded-xl">
+                        <span className="col-span-3 lg:col-span-2 w-full aspect-video rounded-xl">
                             <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${videoid}`} frameborder="0" allowfullscreen></iframe>
                         </span>
                         <div className="bg-[#262626bb] lg:hidden col-span-3 py-5 px-10 rounded-xl overflow-scroll max-h-[600px]">
                             <h4 className="text-white text-[50px] font-medium">Letra</h4>
+                            {letra.map((frase, index) => (
                             <p className="text-white text-[25px]">
-                            {letra} 
+                               {frase}
                             </p>
+                        ))}
                         </div>
                     </aside>
                 </section>

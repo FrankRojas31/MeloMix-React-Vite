@@ -29,7 +29,7 @@ function buscarEnWikipedia(termino) {
 }
 
 // Ejemplo de uso
-const terminoBusqueda = "Aurora_Aksnes";
+const terminoBusqueda = "Al Bowlly";
 buscarEnWikipedia(terminoBusqueda)
     .then(resultado => {
         console.log(resultado);

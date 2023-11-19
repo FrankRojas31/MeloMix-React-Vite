@@ -69,6 +69,7 @@ export default function Index() {
         }));
         setTracks(datosMapeados);
         var element = document.querySelector("._RZMQZ");
+        element.classList.add("overflow-hidden");
         var contenedorDestino = document.getElementById('canciones');
         contenedorDestino.appendChild(element);
         var element2 = document.querySelector("._1PreE");
@@ -136,7 +137,7 @@ export default function Index() {
             </span>
           </div>
           <h5 className="text-white text-[30px] font-medium text-center  stroke">Canciones Populares</h5>
-          <aside className="w-full overflow-hidden h-[500px]" id="canciones">
+          <aside className="w-full overflow-auto h-[500px]" id="canciones">
             
           </aside>
         </aside>
