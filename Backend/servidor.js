@@ -477,6 +477,7 @@ app.get('/cantidades', (req, res) => {
   });
 });
 
+// --------------------------------- TODO LO DE ME GUSTA -----------------------------------------------------
 app.get('/megusta/:id', (req, res) => {
   const id = req.params.id;
   const query = 'SELECT * FROM VW_MeGusta where UsuarioID = ?';
@@ -491,6 +492,53 @@ app.get('/megusta/:id', (req, res) => {
   });
 });
 
+app.delete('/megusta/:usuarioId/:cancionId', (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const cancionId = req.params.cancionId;
+  const query = 'DELETE FROM megusta WHERE UsuarioID = ? AND CancionID = ?';
+
+  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar la entrada de "Me Gusta"', err);
+      res.status(500).json({ error: 'Error al eliminar la entrada de "Me Gusta" de la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Entrada de "Me Gusta" eliminada correctamente' });
+    }
+  });
+});
+
+app.delete('/megusta_borrarTodo/:usuarioId', (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const query = 'DELETE FROM megusta WHERE UsuarioID = ?';
+
+  conexion.query(query, [usuarioId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar todas las entradas de "Me Gusta" del usuario', err);
+      res.status(500).json({ error: 'Error al eliminar las entradas de "Me Gusta" de la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Todas las entradas de "Me Gusta" del usuario fueron eliminadas correctamente' });
+    }
+  });
+});
+
+
+app.post('/megusta_usuario', (req, res) => {
+  const { usuarioId, cancionId } = req.body;
+  const query = 'INSERT INTO megusta (UsuarioID, CancionID) VALUES (?, ?)';
+
+  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+    if (err) {
+      console.error('Error al agregar entrada de "Me Gusta"', err);
+      res.status(500).json({ error: 'Error al agregar entrada de "Me Gusta" a la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Entrada de "Me Gusta" agregada correctamente' });
+    }
+  });
+});
+
+// ----------------------------------------------------------------------------------------------------------
+
+// ---------------------------------   TODO LO DE HISTORIAL -------------------------------------------------
 app.get('/historial/:id', (req, res) => {
   const id = req.params.id;
   const query = 'SELECT * FROM VW_Historial where UsuarioID = ?';
@@ -504,6 +552,52 @@ app.get('/historial/:id', (req, res) => {
     }
   });
 });
+
+app.delete('/historialdelete/:usuarioId/:cancionId', (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const cancionId = req.params.cancionId;
+  const query = 'DELETE FROM historial WHERE UsuarioID = ? AND CancionID = ?';
+
+  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar la entrada del historial', err);
+      res.status(500).json({ error: 'Error al eliminar la entrada del historial de la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Entrada del historial eliminada correctamente' });
+    }
+  });
+});
+
+app.delete('/historial_borrarTodo/:usuarioId', (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const query = 'DELETE FROM historial WHERE UsuarioID = ?';
+
+  conexion.query(query, [usuarioId], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar todas las entradas del historial del usuario', err);
+      res.status(500).json({ error: 'Error al eliminar las entradas del historial de la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Todas las entradas del historial del usuario fueron eliminadas correctamente' });
+    }
+  });
+});
+
+
+app.post('/historial', (req, res) => {
+  const { usuarioId, cancionId } = req.body;
+  const query = 'INSERT INTO historial (UsuarioID, CancionID) VALUES (?, ?)';
+
+  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+    if (err) {
+      console.error('Error al agregar entrada al historial', err);
+      res.status(500).json({ error: 'Error al agregar entrada al historial en la base de datos' });
+    } else {
+      res.status(200).json({ message: 'Entrada del historial agregada correctamente' });
+    }
+  });
+});
+
+// ----------------------------------------------------------------------------------------------------------
 
 app.get('/biografia/:id', async (req, res) => {
   try {
@@ -572,30 +666,30 @@ app.get('/letras/:artista/:cancion', (req, res) => {
   getSong(options).then((song) => console.log());
 });
 
-app.get('/api/news/music', (req, res) => {
-  const searchTerm = 'music';
+app.get('/music', (req, res) => {
+  const searchTerm = 'Music'; // Aqui pasas el término. Buscalo aqui: https://www.nytimes.com/subscription/all-access?campaignId=8HHXJ&ds_c=71700000105584844&gad_source=1&gclid=CjwKCAiAu9yqBhBmEiwAHTx5p8NoW56hQBBrTck3ug4TqWa3vwmhxwrVTawuasyP0OTWUZBQYqMqqRoCyCoQAvD_BwE&gclsrc=aw.ds 
   const apiUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
-  let apiKey = '3UqmIPMMCYATjTs2xzWkwAPWJ3tdwN9W';
+  const apiKey = '3UqmIPMMCYATjTs2xzWkwAPWJ3tdwN9W';
 
   axios.get(apiUrl, {
-      params: {
-          q: searchTerm,
-          apikey: apiKey,
-      },
+    params: {
+      q: searchTerm,
+      'api-key': apiKey,  // Utiliza 'api-key' como nombre del parámetro
+    },
   })
   .then(response => {
-      const docs = response.data.response.docs;
-      const news = docs.map(doc => ({
-          title: doc.headline.main,
-          abstract: doc.abstract,
-          url: doc.web_url,
-      }));
+    const docs = response.data.response.docs;
+    const news = docs.map(doc => ({
+      title: doc.headline.main,
+      abstract: doc.abstract,
+      url: doc.web_url,
+    }));
 
-      res.json(news);
+    res.json(news);
   })
   .catch(error => {
-      console.error('Error al obtener datos:', error);
-      res.status(500).send('Error al obtener noticias de música.');
+    console.error('Error al obtener datos:', error.message);
+    console.error('Detalles del error:', error.response ? error.response.data : 'No hay respuesta');
+    res.status(500).send('Error al obtener noticias de música.');
   });
 });
-

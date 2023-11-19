@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 
 export default function InicioSesion({ onComponentChange }) {
@@ -26,10 +26,9 @@ export default function InicioSesion({ onComponentChange }) {
         const token = respuesta.data.token;
         console.log(respuesta.data.Resultado)
         localStorage.setItem("token", token);
-        userProfile = respuesta.data.Resultado;
+        const userProfile = respuesta.data.Resultado;
         console.log(userProfile);
-        localStorage.setItem("perfil", JSON.stringify(userProfile))
-        navigate("/")
+        Navigate("/")
       } else {
         setMensaje("El correo o la contraseña son incorrectos.");
       }
