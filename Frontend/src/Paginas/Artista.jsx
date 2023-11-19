@@ -71,7 +71,8 @@ export default function Artista(){
                     </section>
                     <aside className="w-full p-5 col-span-1">
                         <h5 className="text-white text-[30px] font-medium text-center mb-3 stroke">Canciones</h5>
-                        {canciones.map((can, index) => (
+                        <div className=" max-h-[500px] overflow-scroll">
+                          {canciones.map((can, index) => (
                             <Link to={"/reproductor/"+can.CancionId}>
                                 <article className="w-full flex gap-5 border-t-2 p-2 items-center hover:bg-[#fff2] cursor-pointer">
                                     <img src={can.CancionCaratula} alt="" className="w-[75px] rounded-xl"/>
@@ -79,6 +80,8 @@ export default function Artista(){
                                 </article>
                             </Link>
                         ))}
+                        </div>
+                        
                     </aside>
                 </div>
             </main>    

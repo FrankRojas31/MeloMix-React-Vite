@@ -21,18 +21,18 @@ export default function Header() {
     }
   }, []);  
 
-  const [clases, setClases] = useState({ menu: "bg-[#1E1E1E] hidden md:hidden", opcion: true })
+  const [clases, setClases] = useState({ menu: "bg-[#1E1E1E] hidden lg:hidden", opcion: true })
   const mostrar = () => {
     setClases({
       ...clases,
-      menu: "bg-[#1E1E1E] md:hidden",
+      menu: "bg-[#1E1E1E] lg:hidden",
       opcion: false
     });
   };
   const ocultar = () => {
     setClases({
       ...clases,
-      menu: "bg-[#1E1E1E] hidden md:hidden",
+      menu: "bg-[#1E1E1E] hidden lg:hidden",
       opcion: true
     });
   };
@@ -42,14 +42,14 @@ export default function Header() {
   }
   return (
     <>
-      <header className="w-full h-[90px] bg-[#1E1E1E] grid grid-cols-3 md:grid-cols-10 justify-center items-center">
+      <header className="w-full h-[90px] bg-[#1E1E1E] grid grid-cols-3 lg:grid-cols-10 justify-center items-center">
         {clases.opcion ? (
-          <i className="nf nf-cod-menu md:hidden col-span-1 text-white text-[35px] text-center cursor-pointer" onClick={() => mostrar()}></i>
+          <i className="nf nf-cod-menu lg:hidden col-span-1 text-white text-[35px] text-center cursor-pointer" onClick={() => mostrar()}></i>
         ) : (
-          <i className="nf nf-oct-x md:hidden col-span-1 text-white text-[35px] text-center cursor-pointer" onClick={() => ocultar()}></i>
+          <i className="nf nf-oct-x lg:hidden col-span-1 text-white text-[35px] text-center cursor-pointer" onClick={() => ocultar()}></i>
         )}
         <figure className="col-span-1 flex justify-center items-center w-full h-[80px] "><Link to="/" className="bg-[url('/imagenes/logo.png')] bg-cover w-[80px] h-[80px]"></Link> </figure>
-        <div className="hidden md:flex md:bg-[#0000] w-[200px] md:h-full md:relative md:col-span-8 items-center">
+        <div className="hidden lg:flex md:bg-[#0000] w-[200px] md:h-full md:relative md:col-span-8 items-center">
           <nav className="h-[90px] flex justify-start items-center gap-1">
             <Link to="/" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Inicio</Link>
             <Link to="/noticias" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Noticias</Link>

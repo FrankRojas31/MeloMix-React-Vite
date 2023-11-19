@@ -332,6 +332,18 @@ app.get('/Artista', (req, res) => {
     }
   });
 });
+app.get('/MejoreArtista', (req, res) => {
+  const query = 'SELECT * FROM VW_Artistas_Con_Mas_Canciones';
+
+  conexion.query(query, (err, result) => {
+    if (err) {
+      console.error('Error al obtener la lista de artistas:', err);
+      res.status(500).json({ error: 'Error al obtener la lista de artistas de la base de datos' });
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
 app.get('/Artistas/:id', (req, res) => {
   const idArtista = req.params.id;
   const query = 'SELECT * FROM VW_Artistas where Id = ?';
@@ -348,7 +360,19 @@ app.get('/Artistas/:id', (req, res) => {
 
 //View de Canciones
 app.get('/canciones', (req, res) => {
-  const query = 'SELECT * FROM VW_Canciones';
+  const query = 'SELECT * FROM VW_Canciones ORDER BY CancionId';
+
+  conexion.query(query, (err, result) => {
+    if (err) {
+      console.error('Error al obtener la lista de canciones:', err);
+      res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+app.get('/MeGustacanciones', (req, res) => {
+  const query = 'SELECT * FROM VW_Canciones_Con_Mas_MeGusta';
 
   conexion.query(query, (err, result) => {
     if (err) {
@@ -361,7 +385,7 @@ app.get('/canciones', (req, res) => {
 });
 app.get('/cancionesA/:id', (req, res) => {
   const id = req.params.id;
-  const query = 'SELECT * FROM VW_Canciones WHERE ArtistaId = ? LIMIT 10';
+  const query = 'SELECT * FROM VW_Canciones WHERE ArtistaId = ?';
 
   conexion.query(query, id, (err, result) => {
     if (err) {

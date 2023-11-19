@@ -373,7 +373,7 @@ export default function VCanciones({ components }) {
                   <td class="border-x-1 border-y-0 px-4 py-4 text-black font-sans text-[15px]">
                     {lista.CancionId}
                   </td>
-                  <th scope="row" class="border-x-1 border-y-0 flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white overflow-hidden">
+                  <th scope="row" class="border-x-1 border-y-0 flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                     <img class="w-10 h-10 rounded-full" src={lista.CancionCaratula} alt="Jese image" />
                     <div class="pl-3">
                       <div class="text-base text-black font-semibold">{lista.CancionNombre}</div>
@@ -383,7 +383,7 @@ export default function VCanciones({ components }) {
                   <td class="border-x-1 border-y-0 px-6 py-4 text-black whitespace-nowrap font-sans text-[15px] max-w-[100px] overflow-scroll ">
                     {lista.CancionDireccion}
                   </td>
-                  <td class="border-x-1 border-y-0 px-6 py-4 text-black whitespace-nowrap font-sans text-[15px] ">
+                  <td class="border-x-1 border-y-0 px-6 py-4 text-black whitespace-nowrap font-sans text-[15px] max-w-[100px] overflow-scroll ">
                     {lista.CancionVideo}
                   </td>
                   <td class="text-black border-0 flex gap-10 justify-center">
