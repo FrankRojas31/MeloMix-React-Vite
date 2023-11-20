@@ -114,6 +114,7 @@ export default function Index() {
       <div className="w-screen h-screen bg-[url('/imagenes/index.jpg')] bg-cover flex justify-center items-center">
         <div className="banner">
           <h1 className="h1 stroke">MELOMIX</h1>
+          <audio src="https://drive.google.com/uc?id=1uk8Pu8817wMewe4zWmkDJvz1IRIrWu44"></audio>
           <p className="p stroke">*¡La mejor música, ahora a tu alcance!</p>
         </div>
       </div>

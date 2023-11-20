@@ -92,29 +92,35 @@ SELECT
 
 CREATE VIEW VW_MeGusta AS
 SELECT
+    m.Id as Id,
     m.UsuarioID AS UsuarioID,
     m.CancionID AS CancionID,
     u.Nombre AS UsuarioNombre,
     c.Nombre AS CancionNombre,
 	c.Caratula as Caratula,
     c.ArtistaId as ArtistaId,
+    a.Nombre as ArtistaNombre,
     c.Duracion as Duracion
 FROM megusta AS m
 INNER JOIN usuarios AS u ON m.UsuarioID = u.Id
-INNER JOIN canciones AS c ON m.CancionID = c.Id;
+INNER JOIN canciones AS c ON m.CancionID = c.Id
+INNER JOIN artistas AS a ON c.ArtistaId = a.Id;
 
 CREATE VIEW VW_Historial AS
 SELECT
+    h.Id as Id,
     h.UsuarioID AS UsuarioID,
     h.CancionID AS CancionID,
     u.Nombre AS UsuarioNombre,
     c.Nombre AS CancionNombre,
     c.Caratula as Caratula,
     c.ArtistaId as ArtistaId,
+    a.Nombre as ArtistaNombre,
     c.Duracion as Duracion
 FROM historial AS h
 INNER JOIN usuarios AS u ON h.UsuarioID = u.Id
-INNER JOIN canciones AS c ON h.CancionID = c.Id;
+INNER JOIN canciones AS c ON h.CancionID = c.Id
+INNER JOIN artistas AS a ON c.ArtistaId = a.Id;
 
 CREATE VIEW VW_Artistas_Con_Mas_Canciones AS
 SELECT

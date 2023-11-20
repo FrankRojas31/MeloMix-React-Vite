@@ -27,7 +27,7 @@ function App() {
           <Route path='*' element={<Page404/>} />
           <Route path="/404" element={<Page404/>} />
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={rolId === 1 ? <Dashboard /> : <Navigate to= "/404"/>} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/inicio" element={<Login />} />
           <Route path="/registro" element={<Signin />} />
           <Route path="/nosotros" element={<Nosotros />} />

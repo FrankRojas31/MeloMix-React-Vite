@@ -13,8 +13,35 @@ export default function RMusica() {
     const [tracks, setTracks] = useState([]);
     const [isHearted, setIsHearted] = useState(false);
 
-    const toggleHeart = () => {
-        setIsHearted(!isHearted);
+    const toggleHeart = async () => {
+        const autenticado = localStorage.getItem("token");
+        if (autenticado) {
+            try {
+                const tokencitoSuculento = autenticado.split('.');
+                const decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
+                const response = await axios.get(`http://localhost:3000/megusta/${decodi64.id}`);
+                console.log(response.data)
+                const cancionFiltrada = response.data.filter(cancion => cancion.CancionID == id);
+                console.log(cancionFiltrada)
+                if (isHearted) {
+                    // Si está hearted, eliminar el "Me gusta"
+                    await axios.delete(`http://localhost:3000/megusta/${cancionFiltrada[0].Id}`);
+                    console.log("Se borro")
+                } else {
+                    // Si no está hearted, agregar el "Me gusta"
+                    await axios.post("http://localhost:3000/megusta_usuario", {
+                        usuarioId: decodi64.id,
+                        cancionId: id
+                    });
+                    console.log("Se añadio")
+                }
+
+                // Actualizar el estado de isHearted después de la acción
+                setIsHearted(!isHearted);
+            } catch (error) {
+                console.log("Error al manejar el clic en 'Me gusta':", error);
+            }
+        }
     };
 
     const colors = `html {
@@ -39,12 +66,31 @@ export default function RMusica() {
         --playlistBackgroundHoverActive:  #18191f;
         --playlistTextHoverActive: #ffffff;
     }`;
-
+    var id2 = id;
     useEffect(() => {
+        const fetchLikes = async () => {
+            try {
+                const autenticado = localStorage.getItem("token");
+                if (autenticado) {
+                    const tokencitoSuculento = autenticado.split('.');
+                    const decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
+
+                    const response = await axios.get(`http://localhost:3000/megusta/${decodi64.id}`);
+                    const likedSongs = response.data.map((like) => like.CancionID);
+                    console.log(likedSongs)
+
+                    setIsHearted(likedSongs.some(songId => songId == id2));
+                }
+            } catch (error) {
+                console.log("Error al obtener los 'Me gusta' del usuario:", error);
+            }
+        };
+
         const fetchData = async () => {
             try {
+                await fetchLikes();
                 const respuesta = await axios.get(
-                    `http://localhost:3000/canciones/${id}`
+                    `http://localhost:3000/canciones/${id2}`
                 );
                 console.log(respuesta.data[0].CancionDireccion)
 
@@ -52,12 +98,7 @@ export default function RMusica() {
                     {
                         url: respuesta.data[0].CancionDireccion,
                         title: `${respuesta.data[0].CancionNombre} - ${respuesta.data[0].ArtistaNombre}`,
-                        tags: ['house']
-                    },
-                    {
-                        url: respuesta.data[0].CancionDireccion,
-                        title: `${respuesta.data[0].CancionNombre} - ${respuesta.data[0].ArtistaNombre}`,
-                        tags: ['house']
+                        tags: [id2]
                     },
                 ]);
                 esperarCincoSegundos(() => {
@@ -65,7 +106,7 @@ export default function RMusica() {
                     if (element) {
                         element.classList.add("hidden");
                     }
-                  });
+                });
 
                 setListas(respuesta.data[0]);
 
@@ -74,28 +115,54 @@ export default function RMusica() {
                     if (element) {
                         element.classList.add("hidden");
                     }
-                  });
-
+                });
+                const respuesta3 = await axios.get(
+                    `http://localhost:3000/letras/${respuesta.data[0].ArtistaNombre}/${respuesta.data[0].CancionNombre}`
+                );
+                setLetra(respuesta3.data.split('\n'));
                 console.log(respuesta.data[0].CancionVideo);
                 const respuesta2 = await axios.get(
                     `http://localhost:3000/youtube/${respuesta.data[0].CancionVideo}`
                 );
                 setVideoid(respuesta2.data[0].id.videoId);
-                const respuesta3 = await axios.get(
-                    `http://localhost:3000/letras/${respuesta.data[0].ArtistaNombre}/${respuesta.data[0].CancionNombre}`
-                );
-                setLetra(respuesta3.data.split('\n'));
             } catch (error) {
                 console.log(error);
             }
         };
-
         fetchData();
-    }, [id]);
+        esperar(() => {
+            const autenticado = localStorage.getItem("token");
+            if (autenticado) {
+                try {
+                    const tokencitoSuculento = autenticado.split('.');
+                    var decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
+                    Enviar(decodi64.id, id);
+                } catch (error) {
+                    console.log("valgo keso JAJAJA");
+                }
+            }
+        });
+    }, [id2]);
 
     function esperarCincoSegundos(callback) {
         setTimeout(callback, 100);
     }
+    function esperar(callback) {
+        setTimeout(callback, 5000);
+    }
+    const Enviar = async (usuario, cancion) => {
+        var body = {
+            usuarioId: usuario,
+            cancionId: cancion
+        }
+        try {
+            const respuesta = await axios.post("http://localhost:3000/historial", body);
+            console.log("Historial agregado");
+        } catch (error) {
+            console.log("Error al registrar el usuario: " + error.message);
+        }
+    };
+
 
     return (
         <>
@@ -125,10 +192,10 @@ export default function RMusica() {
                         <div className="bg-[#262626bb] hidden lg:block col-span-3 py-5 px-10 rounded-xl overflow-scroll max-h-[400px]">
                             <h4 className="text-white text-[50px] font-medium">Letra</h4>
                             {letra.map((frase, index) => (
-                            <p className="text-white text-[25px]">
-                               {frase}
-                            </p>
-                        ))}
+                                <p className="text-white text-[25px]">
+                                    {frase}
+                                </p>
+                            ))}
                         </div>
                         <span className="col-span-3 lg:col-span-2 w-full aspect-video rounded-xl">
                             <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${videoid}`} frameborder="0" allowfullscreen></iframe>
@@ -136,10 +203,10 @@ export default function RMusica() {
                         <div className="bg-[#262626bb] lg:hidden col-span-3 py-5 px-10 rounded-xl overflow-scroll max-h-[600px]">
                             <h4 className="text-white text-[50px] font-medium">Letra</h4>
                             {letra.map((frase, index) => (
-                            <p className="text-white text-[25px]">
-                               {frase}
-                            </p>
-                        ))}
+                                <p className="text-white text-[25px]">
+                                    {frase}
+                                </p>
+                            ))}
                         </div>
                     </aside>
                 </section>

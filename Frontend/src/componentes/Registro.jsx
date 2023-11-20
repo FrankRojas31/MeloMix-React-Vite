@@ -17,12 +17,12 @@ export default function Registro() {
 
     const VerificarCorreo = async (Enviar) => {
         try {
-            const response = await axios.get(`http://localhost:3000/VerificarCorreo?Correo=${Enviar.Correo}`);
+            const response = await axios.get(`http://localhost:3000/VerificarCorreo/${Enviar}`);
             const resultado = response.data.Estatus;
             if (resultado === "EXISTE") {
-                return "El correo ya está registrado, por favor elige otro.";
+                return true;
             } else {
-                return "Válido";
+                return false;
             }
         } catch (error) {
             console.error('Error al verificar el correo:', error);
@@ -54,8 +54,8 @@ export default function Registro() {
             setPasswordVerificationMessage("");
         }
 
-        const verificacion = await VerificarCorreo(body);
-        if (verificacion === "El correo ya está registrado, por favor elige otro.") {
+        const verificacion = await VerificarCorreo(body.Correo);
+        if (verificacion) {
             setEmailVerificationResult("EXISTE");
             setEmailVerificationMessage("El correo ya está registrado, por favor elige otro.");
             return;
@@ -100,9 +100,6 @@ export default function Registro() {
                             onChange={cambioEntrada}
                             name="Correo"
                         />
-                        {emailVerificationResult === "EXISTE" && (
-                            <span className="error-message">{emailVerificationMessage}</span>
-                        )}
                     </span>
                     <span className="is-input">
                         <div className="is-logo"><i className="nf nf-fa-lock"></i></div>
@@ -122,6 +119,10 @@ export default function Registro() {
                     <p className="is-p">
                         ¿Ya tienes cuenta? <Link to="/inicio">Iniciar sesión</Link>
                     </p>
+                    
+                    {emailVerificationResult === "EXISTE" && (
+                            <span className="error-message">{emailVerificationMessage}</span>
+                        )}
                 </section>
             </main>
         </>

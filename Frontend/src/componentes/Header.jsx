@@ -7,22 +7,11 @@ export default function Header() {
   const [inicio, setInicio] = useState(false);
 
   useEffect(() => {
-    const storedUserProfile = localStorage.getItem("perfil");
     const autenticado= localStorage.getItem("token");
-    console.log(autenticado);
-
-    if (storedUserProfile) {
-      const userProfile = JSON.parse(storedUserProfile);
-      setProfile(userProfile);
-      setInicio(true);
-    }
-    
     if (autenticado) {
       try {
         const tokencitoSuculento = autenticado.split('.');
         const decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
-
-        console.log("Perfil del usuario:", decodi64);
         setProfile(decodi64);
         setInicio(true);
       } catch (error){

@@ -17,7 +17,6 @@ export default function SesionApis({ onComponentChange }) {
             if (resultado === "EXISTE") {
                 const datos = {
                     mensaje: "El correo ya está registrado",
-                    id: response.data.result.Id,
                     token: response.data.token
                 };
                 console.log(datos);
@@ -32,7 +31,7 @@ export default function SesionApis({ onComponentChange }) {
     };    
 
     const LoginWithGoogle = useGoogleLogin({
-        onSuccess: ({profileObj}) => setUser(profileObj),
+        onSuccess: (codeResponse) => setUser(codeResponse),
         onError: (error) => console.log('Login Failed:', error)
     });
 
@@ -81,24 +80,18 @@ useEffect(() => {
             }
         })
             .then(async (res) => {
+                console.log("entro")
                 const userProfile = res.data;
                 const body = userProfile.email;
+                console.log(body)
                 console.log(res.data);
 
                 // Aquí debes ajustar la lógica según la respuesta del servidor
                 const verificacion = await VerificarCorreo(body);
 
                 if (verificacion.mensaje === "El correo ya está registrado") {
-                    const userProfileData = {
-                        id: verificacion.id,
-                        Nombre: userProfile.name, // Ajustar según la respuesta del servidor
-                        Avatar: userProfile.picture,
-                        Correo: userProfile.email
-                    };
-
                     const token = verificacion.token;
-                    localStorage.setItem("token", JSON.stringify({ token, userProfile: userProfileData }));
-                    console.log(userProfileData);
+                    localStorage.setItem("token", token);
                     navigate("/");
                 } else {
                     try {
@@ -109,17 +102,8 @@ useEffect(() => {
                         });
 
                         if (respuesta.data) {
-                            const userProfileData = {
-                                id: respuesta.data.Usuario.Id,
-                                Nombre: userProfile.name,
-                                Avatar: userProfile.picture,
-                                Correo: userProfile.email
-                            };
-
                             const token = respuesta.data.token;
-                            localStorage.setItem("token", JSON.stringify({ token, userProfile: userProfileData }));
-                            console.log(userProfileData);
-                            console.log("Usuario Registrado exitosamente");
+                            localStorage.setItem("token", token);
                             navigate("/");
                         }
                     } catch (error) {

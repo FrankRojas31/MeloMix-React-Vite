@@ -14,7 +14,7 @@ app.use(express.json());
 const conexion = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Chaparro1',
+  password: '',
   database: 'melomix'
 });
 
@@ -174,11 +174,12 @@ app.post("/Registro", (req, res) => {
 app.post("/RegistroApi", (req, res) => {
   const { Nombre, Correo, Avatar } = req.body;
   const RolID = 2;
+  const Contrasenia = Correo;
   const Fecha_Creacion = new Date();
 
   // Insertar el nuevo usuario
-  const insertSql = "INSERT INTO usuarios (Nombre, Correo, Avatar, RolID, Fecha_Creacion) VALUES (?, ?, ?, ?, ?)";
-  const insertValues = [Nombre, Correo, Avatar, RolID, Fecha_Creacion];
+  const insertSql = "INSERT INTO usuarios (Nombre, Correo, Contrasenia, Avatar, RolID, Fecha_Creacion) VALUES (?, ?, ?,?, ?, ?)";
+  const insertValues = [Nombre, Correo, Contrasenia, Avatar, RolID, Fecha_Creacion];
 
   conexion.query(insertSql, insertValues, (error, results) => {
     if (error) {
@@ -197,9 +198,13 @@ app.post("/RegistroApi", (req, res) => {
         } else {
           const usuarioRegistrado = selectResults[0];
           const token = jwt.sign({ 
-            id_usuario: userId,
+            id: usuarioRegistrado.Id,
+            Nombre: usuarioRegistrado.Nombre,
+            Avatar: usuarioRegistrado.Avatar,
+            correo: usuarioRegistrado.Correo,
+            Rol: usuarioRegistrado.RolID
         }, "secreto");
-          res.json({ Estatus: "Exitoso", Mensaje: "Usuario registrado exitosamente", Usuario: usuarioRegistrado, Token: token });
+          res.json({ Estatus: "Exitoso", Mensaje: "Usuario registrado exitosamente", Usuario: usuarioRegistrado, token });
         }
       });
     }
@@ -458,10 +463,15 @@ app.get("/VerificarCorreo/:correo", (req, respuesta) => {
       return respuesta.status(500).json({ Error: "Error en la consulta" });
     } else {
       if (resultados.length > 0) {
+        const usuarioRegistrado = resultados[0];
         const token = jwt.sign({ 
-          id_usuario: resultados[0].Id,
+          id: usuarioRegistrado.Id,
+          Nombre: usuarioRegistrado.Nombre,
+          Avatar: usuarioRegistrado.Avatar,
+          correo: usuarioRegistrado.Correo,
+          Rol: usuarioRegistrado.RolID
       }, "secreto");
-        return respuesta.json({ Estatus: "EXISTE", result: resultados[0],token });
+        return respuesta.json({ Estatus: "EXISTE",token });
       } else {
         return respuesta.json({ Estatus: "NO_EXISTE" });
       }
@@ -497,17 +507,17 @@ app.get('/megusta/:id', (req, res) => {
   });
 });
 
-app.delete('/megusta/:usuarioId/:cancionId', (req, res) => {
-  const usuarioId = req.params.usuarioId;
-  const cancionId = req.params.cancionId;
-  const query = 'DELETE FROM megusta WHERE UsuarioID = ? AND CancionID = ?';
+app.delete('/megusta/:Id', (req, res) => {
+  const Id = req.params.Id;
+  const query = 'DELETE FROM megusta WHERE Id = ?';
 
-  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+  conexion.query(query, [Id], (err, result) => {
     if (err) {
       console.error('Error al eliminar la entrada de "Me Gusta"', err);
       res.status(500).json({ error: 'Error al eliminar la entrada de "Me Gusta" de la base de datos' });
     } else {
       res.status(200).json({ message: 'Entrada de "Me Gusta" eliminada correctamente' });
+      console.error('eliminar la entrada de "Me Gusta"');
     }
   });
 });
@@ -558,12 +568,11 @@ app.get('/historial/:id', (req, res) => {
   });
 });
 
-app.delete('/historialdelete/:usuarioId/:cancionId', (req, res) => {
-  const usuarioId = req.params.usuarioId;
-  const cancionId = req.params.cancionId;
-  const query = 'DELETE FROM historial WHERE UsuarioID = ? AND CancionID = ?';
+app.delete('/historialdelete/:Id', (req, res) => {
+  const Id = req.params.Id;
+  const query = 'DELETE FROM historial WHERE Id = ?';
 
-  conexion.query(query, [usuarioId, cancionId], (err, result) => {
+  conexion.query(query, [Id], (err, result) => {
     if (err) {
       console.error('Error al eliminar la entrada del historial', err);
       res.status(500).json({ error: 'Error al eliminar la entrada del historial de la base de datos' });

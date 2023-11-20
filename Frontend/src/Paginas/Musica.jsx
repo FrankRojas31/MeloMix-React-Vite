@@ -4,6 +4,7 @@ import Footer from "../componentes/Footer";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 export default function Musica() {
+    const navigate = useNavigate();
     const artistas = Array(10).fill(null);
     const [listas, setListas] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -56,7 +57,7 @@ export default function Musica() {
                     <h2 className="w-full md:text-left text-center text-white font-medium text-4xl stroke mb-5 md:m-0">
                         Top de las Canciones:
                     </h2>
-                    <div className="bg-black rounded-xl w-full  h-[35px] md:w-[600px] flex justify-center items-center ">
+                    <div className="bg-black rounded-xl w-full  h-[35px] md:w-[600px] flex justify-center items-center -ml-[20px]">
                         <input
                             type="text"
                             placeholder="Buscar por nombre de cancion o de artistas"
@@ -69,21 +70,19 @@ export default function Musica() {
                 <div className="w-full min-h-screen bg-[#000b] py-5">
                     <aside className="w-full py-5 px-5 md:px-10 col-span-1">
                         {artistasFiltrados.slice(startIndex, endIndex).map((lista, index) => (
-                            <Link to={"/reproductor/" + lista.CancionId}>
-                                <article className="w-full flex border-t-2 py-2 px-5 place-content-between items-center hover:bg-[#fff2]">
+                                <article className="w-full flex border-t-2 py-2 px-5 place-content-between items-center hover:bg-[#fff2]" onClick={()=>navigate("/reproductor/" + lista.CancionId)}>
                                     <div className="flex gap-5 md:gap-10">
                                         <img src={lista.CancionCaratula} alt="" className="w-[75px] rounded-xl" />
                                         <div>
                                             <p className="text-white text-[25px] overflow-hidden">{lista.CancionNombre}</p>
                                             <Link to={"/artista/" + lista.ArtistaId}>
-                                                <p className="text-white text-[20px]">{lista.ArtistaNombre}</p>
+                                                <p className="text-white text-[20px]" onClick={()=>navigate("/artista/" + lista.ArtistaId)}>{lista.ArtistaNombre}</p>
                                             </Link>
                                         </div>
                                     </div>
 
                                     <p className="text-white text-[25px]">{lista.CancionDuracion}</p>
                                 </article>
-                            </Link>
                         ))}
                     </aside>
                     <div className="w-full flex flex-wrap mt-4 justify-center px-5">

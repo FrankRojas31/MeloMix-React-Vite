@@ -64,8 +64,8 @@ export default function Artistas() {
                         <i className="nf nf-fa-search text-white font-medium text-xl m-3"></i>
                     </div>
                 </div>
-                <div className="w-full min-h-screen p-5 lg:p-20 flex flex-wrap justify-center items-start bg-[#fff6] gap-5">
-                    <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 place-items-center">
+                <div className="w-full min-h-screen py-5 px-2 md:px-5 flex flex-wrap justify-center items-start bg-[#fff6] gap-2 md:gap-5">
+                    <section className="w-full flex flex-wrap justify-center gap-5">
                         {artistasFiltrados.slice(startIndex, endIndex).map((lista, index) => (
                             <Link to={"/artista/" + lista.ArtistaId} key={index}>
                                 <article className="w-[225px] h-[225px] p-[20px] bg-[#000a] rounded-[20px] flex flex-wrap justify-center agrandar overflow-hidden">
