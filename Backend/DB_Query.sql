@@ -13,8 +13,8 @@ CREATE TABLE usuarios (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
     Correo VARCHAR(100) NOT NULL,
-    Contrasenia VARCHAR(100) NOT NULL,
-    Avatar VARCHAR(150) DEFAULT 'default_avatar.jpg' NOT NULL,
+    Contrasenia VARCHAR(100),
+    Avatar VARCHAR(150) DEFAULT '/imagenes/default_avatar.jpg' NOT NULL,
     Fecha_Creacion DATE NOT NULL,
     RolID INT NOT NULL,
     CONSTRAINT FK_Usuarios_Roles FOREIGN KEY (RolID) REFERENCES Roles(Id)
@@ -38,19 +38,17 @@ create table canciones(
     CONSTRAINT FK_Artista FOREIGN KEY (ArtistaId) REFERENCES artistas(Id)
 );
 
-
 create table megusta(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
 	UsuarioID INT,
     CancionID INT,
-    PRIMARY KEY (UsuarioID, CancionID),
     CONSTRAINT FK_Usuario FOREIGN KEY (UsuarioID) REFERENCES usuarios(Id),
     CONSTRAINT FK_Cancion FOREIGN KEY (CancionID) REFERENCES canciones(Id)
 );
-
 create table historial(
+	Id INT AUTO_INCREMENT PRIMARY KEY,
 	UsuarioID INT,
     CancionID INT,
-    PRIMARY KEY (UsuarioID, CancionID),
     CONSTRAINT FK_Usuario_historial FOREIGN KEY (UsuarioID) REFERENCES usuarios(Id),
     CONSTRAINT FK_Cancion_historial FOREIGN KEY (CancionID) REFERENCES canciones(Id)
 );
@@ -97,7 +95,10 @@ SELECT
     m.UsuarioID AS UsuarioID,
     m.CancionID AS CancionID,
     u.Nombre AS UsuarioNombre,
-    c.Nombre AS CancionNombre
+    c.Nombre AS CancionNombre,
+	c.Caratula as Caratula,
+    c.ArtistaId as ArtistaId,
+    c.Duracion as Duracion
 FROM megusta AS m
 INNER JOIN usuarios AS u ON m.UsuarioID = u.Id
 INNER JOIN canciones AS c ON m.CancionID = c.Id;
@@ -107,7 +108,10 @@ SELECT
     h.UsuarioID AS UsuarioID,
     h.CancionID AS CancionID,
     u.Nombre AS UsuarioNombre,
-    c.Nombre AS CancionNombre
+    c.Nombre AS CancionNombre,
+    c.Caratula as Caratula,
+    c.ArtistaId as ArtistaId,
+    c.Duracion as Duracion
 FROM historial AS h
 INNER JOIN usuarios AS u ON h.UsuarioID = u.Id
 INNER JOIN canciones AS c ON h.CancionID = c.Id;

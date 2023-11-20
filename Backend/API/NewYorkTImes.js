@@ -1,14 +1,16 @@
-const axios = require('axios');
+import axios from "axios";
 
-const apiKey = 'TU_API_KEY';
+const apiKey = '3UqmIPMMCYATjTs2xzWkwAPWJ3tdwN9W';
 const apiUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json';
 
 const searchTerm = 'music';
 
 axios.get(apiUrl, {
+    headers: {
+        'api-key': apiKey,
+    },
     params: {
         q: searchTerm,
-        apikey: apiKey,
     },
 })
     .then(response => {

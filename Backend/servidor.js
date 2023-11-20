@@ -706,6 +706,7 @@ app.get('/music', (req, res) => {
     const news = docs.map(doc => ({
       title: doc.headline.main,
       abstract: doc.abstract,
+      date:doc.pub_date,
       url: doc.web_url,
     }));
 
