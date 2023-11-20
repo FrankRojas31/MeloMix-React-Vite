@@ -15,24 +15,24 @@ export default function SesionApis({ onComponentChange }) {
             const response = await axios.get(`http://localhost:3000/VerificarCorreo/${Enviar}`);
             const resultado = response.data.Estatus;
             if (resultado === "EXISTE") {
-                let datos = {
-                    mensaje: "El correo ya está registrado, por favor elige otro.",
+                const datos = {
+                    mensaje: "El correo ya está registrado",
                     id: response.data.result.Id,
                     token: response.data.token
-                }
-                console.log(datos)
+                };
+                console.log(datos);
                 return datos;
             } else {
-                return "Válido";
+                return { mensaje: "Válido" };
             }
         } catch (error) {
             console.error('Error al verificar el correo:', error);
-            return "Error al verificar el correo.";
+            return { mensaje: "Error al verificar el correo." };
         }
-    };
+    };    
 
     const LoginWithGoogle = useGoogleLogin({
-        onSuccess: (codeResponse) => setUser(codeResponse),
+        onSuccess: ({profileObj}) => setUser(profileObj),
         onError: (error) => console.log('Login Failed:', error)
     });
 
@@ -47,18 +47,9 @@ export default function SesionApis({ onComponentChange }) {
             const verificacion = await VerificarCorreo(body);
     
             if (verificacion.mensaje === "El correo ya está registrado, por favor elige otro.") {
-                const userProfile = {
-                    id: verificacion.id,
-                    Nombre: response.name,
-                    Avatar: response.picture.data.url,
-                    Correo: response.email
-                };
-    
-                const token = verificacion.Token;
-                console.log(verificacion.Resultado);
-                localStorage.setItem("token", JSON.stringify({ token, userProfile }));
-                console.log(userProfile);
-                navigate("/");
+                const token = verificacion.token;
+                localStorage.setItem("token", token);
+                console.log("Usuario Verificado. Token almacenado en localStorage.");
             } else {
                 try {
                     const respuesta = await axios.post("http://localhost:3000/RegistroApi", {
@@ -68,82 +59,78 @@ export default function SesionApis({ onComponentChange }) {
                     });
     
                     if (respuesta.data) {
-                        const userProfile = {
-                            id: respuesta.data.Usuario.Id,
-                            Nombre: response.name,
-                            Avatar: response.picture.data.url,
-                            Correo: response.email
-                        };
-    
-                        const token = respuesta.data.Token;
-                        localStorage.setItem("token", JSON.stringify({ token, userProfile }));
-                        console.log(userProfile);
-                        console.log("Usuario Registrado exitosamente");
-                        navigate("/");
+                        const token = respuesta.data.token;
+                        localStorage.setItem("token", token);
+                        console.log("Usuario Registrado exitosamente. Token almacenado en localStorage.");
                     }
                 } catch (error) {
                     console.log("Error al registrar el usuario: " + error);
                 }
             }
         }
-    };
+    };    
     
-    useEffect(() => {
-        if (user) {
-            axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                headers: {
-                    Authorization: `Bearer ${user.access_token}`,
-                    Accept: 'application/json'
+    
+// --------------------------------------- LOG-IN GOOGLE -------------------------------------------------
+useEffect(() => {
+    if (user) {
+        axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+            headers: {
+                Authorization: `Bearer ${user.access_token}`,
+                Accept: 'application/json'
+            }
+        })
+            .then(async (res) => {
+                const userProfile = res.data;
+                const body = userProfile.email;
+                console.log(res.data);
+
+                // Aquí debes ajustar la lógica según la respuesta del servidor
+                const verificacion = await VerificarCorreo(body);
+
+                if (verificacion.mensaje === "El correo ya está registrado") {
+                    const userProfileData = {
+                        id: verificacion.id,
+                        Nombre: userProfile.name, // Ajustar según la respuesta del servidor
+                        Avatar: userProfile.picture,
+                        Correo: userProfile.email
+                    };
+
+                    const token = verificacion.token;
+                    localStorage.setItem("token", JSON.stringify({ token, userProfile: userProfileData }));
+                    console.log(userProfileData);
+                    navigate("/");
+                } else {
+                    try {
+                        const respuesta = await axios.post("http://localhost:3000/RegistroApi", {
+                            Nombre: userProfile.name,
+                            Correo: userProfile.email,
+                            Avatar: userProfile.picture,
+                        });
+
+                        if (respuesta.data) {
+                            const userProfileData = {
+                                id: respuesta.data.Usuario.Id,
+                                Nombre: userProfile.name,
+                                Avatar: userProfile.picture,
+                                Correo: userProfile.email
+                            };
+
+                            const token = respuesta.data.token;
+                            localStorage.setItem("token", JSON.stringify({ token, userProfile: userProfileData }));
+                            console.log(userProfileData);
+                            console.log("Usuario Registrado exitosamente");
+                            navigate("/");
+                        }
+                    } catch (error) {
+                        console.log("Error al registrar el usuario: " + error);
+                    }
                 }
             })
-                .then(async (res) => {
-                    const userProfile = res.data;
-                    const body = userProfile.email;
-                    console.log(res.data);
-                    const verificacion = await VerificarCorreo(body);
-    
-                    if (verificacion.mensaje === "El correo ya está registrado, por favor elige otro.") {
-                        const userProfile = {
-                            id: verificacion.id,
-                            Nombre: userProfile.name,
-                            Avatar: userProfile.picture,
-                            Correo: userProfile.email
-                        };
-    
-                        const token = verificacion.token;
-                        localStorage.setItem("token", JSON.stringify({ token, userProfile }));
-                        console.log(userProfile);
-                        navigate("/");
-                    } else {
-                        try {
-                            const respuesta = await axios.post("http://localhost:3000/RegistroApi", {
-                                Nombre: userProfile.name,
-                                Correo: userProfile.email,
-                                Avatar: userProfile.picture,
-                            });
-    
-                            if (respuesta.data) {
-                                const userProfile = {
-                                    id: respuesta.data.Usuario.Id,
-                                    Nombre: userProfile.name,
-                                    Avatar: userProfile.picture,
-                                    Correo: userProfile.email
-                                };
-    
-                                const token = respuesta.data.token;
-                                localStorage.setItem("token", JSON.stringify({ token, userProfile }));
-                                console.log(userProfile);
-                                console.log("Usuario Registrado exitosamente");
-                                navigate("/");
-                            }
-                        } catch (error) {
-                            console.log("Error al registrar el usuario: " + error);
-                        }
-                    }
-                })
-                .catch((err) => console.log(err));
-        }
-    }, [user]);    
+            .catch((err) => console.log(err));
+    }
+}, [user, navigate]);
+ 
 
     return (
         <>
