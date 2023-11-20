@@ -14,7 +14,7 @@ app.use(express.json());
 const conexion = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'Chaparro1',
   database: 'melomix'
 });
 
@@ -85,8 +85,8 @@ app.post("/Sesion", (req, res) => {
             const usuario = resultado[0];
             const token = jwt.sign({ 
                 id: usuario.id,
-                given_name: usuario.nombre,
-                picture: usuario.Avatar,
+                Nombre: usuario.nombre,
+                Avatar: usuario.Avatar,
                 correo: usuario.Correo,
                 Rol: usuario.RolID
             }, "secreto");
@@ -95,25 +95,6 @@ app.post("/Sesion", (req, res) => {
             return res.json({ Estatus: "ERROR", Mensaje: "El correo o la contraseña son incorrectos" });
         }
     });
-});
-
-app.post("/UsuarioActual", (req, res) => {
-  const token = req.body.token;
-  const secretKey = 'secreto';
-
-  if (!token) {
-    return res.status(401).json({ message: 'Token no proporcionado' });
-  }
-
-  try {
-    const decodedToken = jwt.verify(token, secretKey);
-    console.log(decodedToken);
-
-    res.status(200).json(decodedToken);
-  } catch (err) {
-    console.error(err);
-    res.status(401).json({ message: 'Token inválido' });
-  }
 });
 
 // Actualización de Nivel de Usuario, solo pueden verlo de nivel Administrativo: Administrador

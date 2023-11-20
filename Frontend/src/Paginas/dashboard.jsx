@@ -19,15 +19,23 @@ function Dashboard() {
 
   useEffect(() => {
     const storedUserProfile = localStorage.getItem("perfil");
-    const storedToken = localStorage.getItem("token");
+    const autenticado = localStorage.getItem("token");
   
     if (storedUserProfile) {
       const userProfile = JSON.parse(storedUserProfile);
       setProfile(userProfile);
       setInicio(true);
     }
-    if (storedToken) {
-      setInicio(true);
+    if (autenticado) {
+      try {
+        const tokencitoSuculento = autenticado.split('.');
+        const decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
+
+        console.log("Perfil del usuario:", decodi64);
+        setProfile(decodi64);
+      } catch (error){
+        console.log("valgo keso JAJAJA")
+      }
     }
   }, []);  
 

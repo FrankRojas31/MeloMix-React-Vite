@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios  from "axios";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -10,6 +9,8 @@ export default function Header() {
   useEffect(() => {
     const storedUserProfile = localStorage.getItem("perfil");
     const autenticado= localStorage.getItem("token");
+    console.log(autenticado);
+
     if (storedUserProfile) {
       const userProfile = JSON.parse(storedUserProfile);
       setProfile(userProfile);
@@ -17,10 +18,20 @@ export default function Header() {
     }
     
     if (autenticado) {
-      setInicio(true);
+      try {
+        const tokencitoSuculento = autenticado.split('.');
+        const decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
+
+        console.log("Perfil del usuario:", decodi64);
+        setProfile(decodi64);
+        setInicio(true);
+      } catch (error){
+        console.log("valgo keso JAJAJA")
+      }
     }
   }, []);  
 
+  const RolID = profile.Rol;
   const [clases, setClases] = useState({ menu: "bg-[#1E1E1E] hidden lg:hidden", opcion: true })
   const mostrar = () => {
     setClases({
@@ -56,7 +67,7 @@ export default function Header() {
             <Link to="/artistas" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Artistas</Link>
             <Link to="/nosotros" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Nosotros</Link>
             <Link to="/musica" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Musica</Link>
-            {inicio ? (
+            {inicio && RolID === 1 ? (
               <Link to="/dashboard" className="h-[90px] text-lg text-white no-underline uppercase flex items-center hover:bg-[#fff3] px-3 py-2 font-medium">Dashboard</Link>
             ) : (
               <></>

@@ -11,10 +11,23 @@ export default function PUsuarios() {
 
   useEffect(() => {
     const storedUserProfile = localStorage.getItem("perfil");
+    const autenticado = localStorage.getItem("token");
 
     if (storedUserProfile) {
       const userProfile = JSON.parse(storedUserProfile);
       setProfile(userProfile);
+    }
+
+    if (autenticado) {
+      try {
+        const tokencitoSuculento = autenticado.split('.');
+        const decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
+
+        console.log("Perfil del usuario:", decodi64);
+        setProfile(decodi64);
+      } catch (error){
+        console.log("valgo keso JAJAJA")
+      }
     }
   }, []);
 

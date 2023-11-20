@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import './App.css'
@@ -19,7 +16,9 @@ import '@madzadev/audio-player/dist/index.css'
 import Page404 from './Paginas/404';
 
 function App() {
-  const autenticado = localStorage.getItem("perfil");
+  const token = localStorage.getItem("token");
+  const userProfile = token ? JSON.parse(atob(token.split('.')[1])) : null;
+  const rolId = userProfile ? userProfile.Rol: null;
 
   return(
     <>
@@ -28,7 +27,7 @@ function App() {
           <Route path='*' element={<Page404/>} />
           <Route path="/404" element={<Page404/>} />
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={autenticado ? <Dashboard /> : <Navigate to= "/404"/>} />
+          <Route path="/dashboard" element={rolId === 1 ? <Dashboard /> : <Navigate to= "/404"/>} />
           <Route path="/inicio" element={<Login />} />
           <Route path="/registro" element={<Signin />} />
           <Route path="/nosotros" element={<Nosotros />} />

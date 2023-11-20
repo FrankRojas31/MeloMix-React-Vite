@@ -28,7 +28,7 @@ export default function InicioSesion({ onComponentChange }) {
         localStorage.setItem("token", token);
         const userProfile = respuesta.data.Resultado;
         console.log(userProfile);
-        Navigate("/")
+        window.location.href = '/';
       } else {
         setMensaje("El correo o la contraseña son incorrectos.");
       }

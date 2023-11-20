@@ -9,7 +9,6 @@ import MicrosoftLogin from "react-microsoft-login";
 export default function SesionApis({ onComponentChange }) {
     const navigate = useNavigate();
     const [user, setUser] = useState([]);
-    const [profile, setProfile] = useState([]);
 
     const VerificarCorreo = async (Enviar) => {
         try {
@@ -42,25 +41,24 @@ export default function SesionApis({ onComponentChange }) {
     };
 
     const responseFacebook = async (response) => {
-
         if (response.accessToken) {
             const body = response.email;
             console.log(response.email);
             const verificacion = await VerificarCorreo(body);
+    
             if (verificacion.mensaje === "El correo ya está registrado, por favor elige otro.") {
-                let perfiles = {
+                const userProfile = {
                     id: verificacion.id,
                     Nombre: response.name,
                     Avatar: response.picture.data.url,
                     Correo: response.email
                 };
+    
                 const token = verificacion.Token;
-                console.log(respuesta.data.Resultado)
-                localStorage.setItem("token", token);
-                localStorage.setItem("perfil", JSON.stringify(perfiles));
-                console.log(perfiles);
+                console.log(verificacion.Resultado);
+                localStorage.setItem("token", JSON.stringify({ token, userProfile }));
+                console.log(userProfile);
                 navigate("/");
-                return;
             } else {
                 try {
                     const respuesta = await axios.post("http://localhost:3000/RegistroApi", {
@@ -68,20 +66,20 @@ export default function SesionApis({ onComponentChange }) {
                         Correo: response.email,
                         Avatar: response.picture.data.url,
                     });
+    
                     if (respuesta.data) {
-                        let perfiles = {
+                        const userProfile = {
                             id: respuesta.data.Usuario.Id,
                             Nombre: response.name,
                             Avatar: response.picture.data.url,
                             Correo: response.email
                         };
+    
                         const token = respuesta.data.Token;
-                        localStorage.setItem("token", token);
-                        localStorage.setItem("perfil", JSON.stringify(perfiles));
-                        console.log(perfiles);
-                        navigate("/");
+                        localStorage.setItem("token", JSON.stringify({ token, userProfile }));
+                        console.log(userProfile);
                         console.log("Usuario Registrado exitosamente");
-                        navigate("/inicio");
+                        navigate("/");
                     }
                 } catch (error) {
                     console.log("Error al registrar el usuario: " + error);
@@ -89,7 +87,7 @@ export default function SesionApis({ onComponentChange }) {
             }
         }
     };
-
+    
     useEffect(() => {
         if (user) {
             axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
@@ -103,19 +101,19 @@ export default function SesionApis({ onComponentChange }) {
                     const body = userProfile.email;
                     console.log(res.data);
                     const verificacion = await VerificarCorreo(body);
+    
                     if (verificacion.mensaje === "El correo ya está registrado, por favor elige otro.") {
-                        let perfiles = {
+                        const userProfile = {
                             id: verificacion.id,
                             Nombre: userProfile.name,
                             Avatar: userProfile.picture,
                             Correo: userProfile.email
                         };
+    
                         const token = verificacion.token;
-                        localStorage.setItem("token", token);
-                        localStorage.setItem("perfil", JSON.stringify(perfiles));
-                        console.log(perfiles);
+                        localStorage.setItem("token", JSON.stringify({ token, userProfile }));
+                        console.log(userProfile);
                         navigate("/");
-                        return;
                     } else {
                         try {
                             const respuesta = await axios.post("http://localhost:3000/RegistroApi", {
@@ -123,17 +121,18 @@ export default function SesionApis({ onComponentChange }) {
                                 Correo: userProfile.email,
                                 Avatar: userProfile.picture,
                             });
+    
                             if (respuesta.data) {
-                                let perfiles = {
+                                const userProfile = {
                                     id: respuesta.data.Usuario.Id,
                                     Nombre: userProfile.name,
                                     Avatar: userProfile.picture,
                                     Correo: userProfile.email
                                 };
+    
                                 const token = respuesta.data.token;
-                                localStorage.setItem("token", token);
-                                localStorage.setItem("perfil", JSON.stringify(perfiles));
-                                console.log(perfiles);
+                                localStorage.setItem("token", JSON.stringify({ token, userProfile }));
+                                console.log(userProfile);
                                 console.log("Usuario Registrado exitosamente");
                                 navigate("/");
                             }
@@ -144,9 +143,7 @@ export default function SesionApis({ onComponentChange }) {
                 })
                 .catch((err) => console.log(err));
         }
-    },
-        [user]
-    );
+    }, [user]);    
 
     return (
         <>
