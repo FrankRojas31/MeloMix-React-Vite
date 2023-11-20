@@ -85,7 +85,7 @@ app.post("/Sesion", (req, res) => {
             const usuario = resultado[0];
             const token = jwt.sign({ 
                 id: usuario.id,
-                Nombre: usuario.nombre,
+                Nombre: usuario.Nombre,
                 Avatar: usuario.Avatar,
                 correo: usuario.Correo,
                 Rol: usuario.RolID
