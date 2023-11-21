@@ -126,7 +126,7 @@ useEffect(() => {
                         <p>Continuar con Google</p>
                     </span>
                     <FacebookLogin
-                        appId="298719456344887"
+                        appId="823244396264077"
                         autoLoad={false}
                         fields="name,email,picture"
                         textButton='Registrate con Facebook'
