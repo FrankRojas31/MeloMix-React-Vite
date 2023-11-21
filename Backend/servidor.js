@@ -14,7 +14,7 @@ app.use(express.json());
 const conexion = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'Chaparro1',
   database: 'melomix'
 });
 
@@ -230,9 +230,27 @@ app.post("/Registro_Admin", (req, res) => {
 });
 
 // Actualizar usuarios pasar el body.
-app.put('/Usuario_Update/:id', (req, res) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '/public/imagenes');
+  },
+  filename: (req, file, cb) => {
+    const timestamp = new Date().toISOString().replace(/[-T:\.Z]/g, '');
+    cb(null, timestamp + '_' + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.put('/Usuario_Update/:id', upload.single('imagen'), (req, res) => {
   const userId = req.params.id;
   const updatedUser = req.body;
+  let imageUrl = null;
+
+  if (req.file) {
+    imageUrl = req.file.path;
+    updatedUser.imagen = imageUrl;
+  }
 
   const updateQuery = 'UPDATE usuarios SET ? WHERE id = ?';
   conexion.query(updateQuery, [updatedUser, userId], (err, results) => {
