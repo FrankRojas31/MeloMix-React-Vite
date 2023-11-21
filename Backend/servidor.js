@@ -357,6 +357,18 @@ app.get('/canciones', (req, res) => {
     }
   });
 });
+app.get('/cancionesR', (req, res) => {
+  const query = 'SELECT * FROM VW_Canciones ORDER BY RAND() LIMIT 50';
+
+  conexion.query(query, (err, result) => {
+    if (err) {
+      console.error('Error al obtener la lista de canciones:', err);
+      res.status(500).json({ error: 'Error al obtener la lista de canciones de la base de datos' });
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
 app.get('/MeGustacanciones', (req, res) => {
   const query = 'SELECT * FROM VW_Canciones_Con_Mas_MeGusta';
 

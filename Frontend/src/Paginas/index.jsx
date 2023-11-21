@@ -6,32 +6,6 @@ import Header from "../componentes/Header";
 import Footer from "../componentes/Footer";
 import "../css/Inicio.css"
 export default function Index() {
-  const [cancionesPopulares, setCancionesPopulares] = useState([]);
-
-  async function getTopTracks() {
-    try {
-      const apiKey = "a80a901841fd1d66120c1296f6c85121";
-      const url = `http://ws.audioscrobbler.com/2.0/?method=chart.getTopTracks&api_key=${apiKey}&format=json&limit=6`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.tracks && data.tracks.track) {
-        const tracks = data.tracks.track;
-        setCancionesPopulares(tracks);
-      } else {
-        console.error("No se encontraron canciones populares");
-      }
-    } catch (error) {
-      console.error(`Error al obtener canciones populares: ${error}`);
-    }
-  }
-
-  useEffect(() => {
-    getTopTracks();
-  }, []);
-
-  const navigate = useNavigate();
 
   const [tracks, setTracks] = useState([]);
   const colors = `html {
@@ -60,7 +34,7 @@ export default function Index() {
     const fetchData = async () => {
       try {
         const respuesta = await axios.get(
-          `http://localhost:3000/canciones`
+          `http://localhost:3000/cancionesR`
         );
         const datosMapeados = respuesta.data.map(item => ({
           url: item.CancionDireccion,
@@ -68,6 +42,8 @@ export default function Index() {
           tags: ['house'] // Puedes personalizar las etiquetas según tus necesidades
         }));
         setTracks(datosMapeados);
+        
+        console.log(respuesta.data);
         var element = document.querySelector("._RZMQZ");
         element.classList.add("overflow-hidden");
         var contenedorDestino = document.getElementById('canciones');
