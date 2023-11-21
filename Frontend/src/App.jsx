@@ -36,7 +36,7 @@ function App() {
           <Route path="/musica" element={<Musica />} />
           <Route path="/artistas" element={<Artistas />} />
           <Route path="/noticias" element={<Noticias />} />
-          <Route path="/usuario" element={<PUsuarios />} />
+          <Route path="/usuario" element={autenticado ? <PUsuarios /> :<Navigate to ="/"/> }/>
           <Route path="/reproductor/:id" element={<RMusica />} />
           <Route path="/artista/:id" element={<Artista />} />
         </Routes>
