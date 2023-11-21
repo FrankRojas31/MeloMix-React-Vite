@@ -19,6 +19,8 @@ function App() {
   const token = localStorage.getItem("token");
   const userProfile = token ? JSON.parse(atob(token.split('.')[1])) : null;
   const rolId = userProfile ? userProfile.Rol: null;
+  console.log("Es tipo: " + rolId);
+  const autenticado = token;
 
   return(
     <>
@@ -27,9 +29,9 @@ function App() {
           <Route path='*' element={<Page404/>} />
           <Route path="/404" element={<Page404/>} />
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/inicio" element={<Login />} />
-          <Route path="/registro" element={<Signin />} />
+          <Route path="/dashboard" element={autenticado && rolId === 1 ? <Dashboard /> : <Navigate to="/" />}/>
+          <Route path="/inicio" element={autenticado ? <Navigate to = "/"/> : <Login />} />
+          <Route path="/registro" element={autenticado ? <Navigate to = "/"/> : <Signin />} />
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/musica" element={<Musica />} />
           <Route path="/artistas" element={<Artistas />} />
@@ -43,4 +45,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

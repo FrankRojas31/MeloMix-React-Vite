@@ -38,6 +38,7 @@ export default function Header() {
   };
   const salir = () =>{
     localStorage.clear();
+    window.location.reload();
     setInicio(false)
   }
   return (

@@ -40,6 +40,7 @@ export default function SesionApis({ onComponentChange }) {
     };
 
     const responseFacebook = async (response) => {
+        console.log(response);
         if (response.accessToken) {
             const body = response.email;
             console.log(response.email);
