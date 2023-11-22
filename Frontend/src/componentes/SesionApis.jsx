@@ -62,6 +62,7 @@ export default function SesionApis({ onComponentChange }) {
                         const token = respuesta.data.token;
                         localStorage.setItem("token", token);
                         console.log("Usuario Registrado exitosamente. Token almacenado en localStorage.");
+                        window.location.reload();
                     }
                 } catch (error) {
                     console.log("Error al registrar el usuario: " + error);
@@ -94,6 +95,7 @@ useEffect(() => {
                     const token = verificacion.token;
                     localStorage.setItem("token", token);
                     navigate("/");
+                    window.location.reload();
                 } else {
                     try {
                         const respuesta = await axios.post("http://localhost:3000/RegistroApi", {
