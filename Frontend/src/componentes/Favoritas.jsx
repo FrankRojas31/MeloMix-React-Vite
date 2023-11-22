@@ -40,7 +40,7 @@ export default function Favoritas() {
     const borrar = async (valor) => {
         const { value: confirmed } = await Swal.fire({
           title: '¿Estás seguro?',
-          text: 'Se borrará del historial',
+          text: 'Se borrará de favoritos',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Sí, estoy seguro',
@@ -70,7 +70,7 @@ export default function Favoritas() {
         const decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
         const { value: confirmed } = await Swal.fire({
             title: '¿Estás seguro?',
-            text: 'Se borrará del historial',
+            text: 'Se borrará favoritos',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Sí, estoy seguro',

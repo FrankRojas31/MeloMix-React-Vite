@@ -88,22 +88,52 @@ export default function Index() {
         )}
       </div>
       <div className="w-screen h-screen bg-[url('/imagenes/index.jpg')] bg-cover flex justify-center items-center">
-        <div className="banner">
+        <div className="banner p-7">
           <h1 className="h1 stroke">MELOMIX</h1>
-          <audio src="https://drive.google.com/uc?id=1uk8Pu8817wMewe4zWmkDJvz1IRIrWu44"></audio>
           <p className="p stroke">*¡La mejor música, ahora a tu alcance!</p>
         </div>
       </div>
-      <main className="w-full min-h-screen grid grid-cols-1 lg:grid-cols-8">
+      <main className="w-full min-h-screen bg-gradient-to-r from-gray-900 to-blue-950 grid grid-cols-1 lg:grid-cols-8">
         <section className="col-span-6 w-full h-full flex flex-wrap justify-center p-[20px]">
-          <h1 className="row-span-1 text-white text-[35px] font-mono text-center stroke">DISFRUTA DE LA MEJOR MUSICA EN ¡MELO MIX!</h1>
-          <p className="row-span-5 text-white mt-10 text-2xl text-justify" >
-            Melo Mix es mucho más que una simple aplicación de música; es tu compañero musical personal en un viaje apasionante a través del increíble mundo de los sonidos y ritmos. Creemos que la música es una forma de expresión universal que puede inspirar, consolar y enriquecer nuestras vidas de formas innumerables. Es por eso que hemos diseñado Melo Mix con el objetivo de brindarte una experiencia musical excepcional que va más allá de simplemente reproducir canciones.
-            Desde las canciones más icónicas hasta los artistas más innovadores, Melo Mix es tu boleto para explorar una vasta y diversa biblioteca musical. Ya sea que desees revivir viejos recuerdos con canciones clásicas o descubrir las últimas tendencias musicales, nuestra aplicación te brinda acceso a un catálogo en constante crecimiento que satisface todos tus gustos y preferencias.
-            Melo Mix se enorgullece de ser tu puerta de entrada al mundo musical. Es el lugar donde puedes perderse en la música y, al mismo tiempo, encontrarte a ti mismo. Es el compañero que siempre está ahí para elevar tu espíritu, te acompaña en tus momentos felices y te brinda consuelo en los momentos difíciles.
+        <em>
+          <h1 className="row-span-1 text-white text-[30px] font-serif text-center stroke">DISFRUTA DE LA MEJOR MUSICA EN ¡MELOMIX!</h1>      
+          </em>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 items-center justify-end">
+              <div className="w-full flex justify-center md:justify-end items-center">
+                <img src="/imagenes/musica.jpeg" alt="imagen" className="object-cover rounded-full relative h-48 w-48 bg-clip-padding p-3 bg-white-100 border-4 border-grey-100  border-dashed" />
+              </div>
+              <p className="col-span-2 w-full h-full text-white mt-10 text-2xl text-justify text-lg font-semibold px-10" >
+                <em> Melomix es mucho más que una simple aplicación de música, es tu compañero musical personal. </em>En un viaje apasionante a través del increíble mundo de los sonidos y ritmos. 
+                Creemos que la música es una forma de expresión universal que puede inspirar, consolar y enriquecer nuestras vidas de formas innumerables.
+              </p>           
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 items-center justify-end">
+              <div className="w-full flex md:hidden justify-center md:justify-end items-center">
+                <img src="/imagenes/musica2.jpeg" alt="imagen" className="object-cover rounded-full relative h-48 w-48 bg-clip-padding p-3 bg-white-100 border-4 border-grey-100  border-dashed" />  
+              </div> 
+              <p className="col-span-2 w-full h-full text-white mt-10 text-2xl text-justify text-lg font-semibold px-10" >
+              Desde las canciones más icónicas hasta los artistas más innovadores, es tu boleto para explorar una vasta y diversa biblioteca musical
+              Ya sea que desees revivir viejos recuerdos con canciones clásicas o descubrir las últimas tendencias musicales. <em> Nuestra aplicación te brinda acceso a un catálogo 
+              en constante crecimiento</em> que satisface todos tus gustos y preferencias.
+              </p>
+              <div className="hidden w-full md:flex justify-center md:justify-start items-center">
+                <img src="/imagenes/musica2.jpeg" alt="imagen" className="object-cover rounded-full relative h-48 w-48 bg-clip-padding p-3 bg-white-100 border-4 border-grey-100  border-dashed" />  
+              </div>           
+          </div>
 
-          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 items-center justify-end">
+              <div className="w-full flex justify-center md:justify-end items-center">
+                <img src="/imagenes/musica3.jpeg" alt="imagen" className="object-cover rounded-full relative h-48 w-48 bg-clip-padding p-3 bg-white-100 border-4 border-grey-100  border-dashed" />
+              </div>
+              <p className="col-span-2 w-full h-full text-white mt-10 text-2xl text-justify text-lg font-semibold px-10" >
+              Melo Mix se enorgullece de ser tu puerta de entrada al mundo musical. Es el lugar donde puedes perderse en la música y, al mismo tiempo, encontrarte a ti mismo. 
+              Es el compañero que siempre está ahí para elevar tu espíritu. <em>Te acompaña en tus momentos felices y te brinda consuelo en los momentos difíciles</em>
+              </p>           
+          </div>
         </section>
+
         <aside className="bg-[#fff5] col-span-2 p-5">
           <div className="w-full">
             <span className="flex h-[50px] justify-center w-full" >
@@ -118,18 +148,9 @@ export default function Index() {
             
           </aside>
         </aside>
+
       </main>
       <Footer />
     </>
   );
 }
-/*{cancionesPopulares.map((cancion, index) => (
-              <article key={index} className="w-full flex gap-5 border-t-2 py-2 items-center">
-                <img
-                  src={cancion.image[1]['#text']}
-                  alt={cancion.name}
-                  className="w-[75px] rounded-xl"
-                />
-                <p className="text-white text-[25px]">{cancion.name}</p>
-              </article>
-            ))}*/

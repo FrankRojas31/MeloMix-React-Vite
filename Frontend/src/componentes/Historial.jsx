@@ -70,7 +70,7 @@ export default function Historial() {
         const decodi64 = JSON.parse(atob(tokencitoSuculento[1]));
         const { value: confirmed } = await Swal.fire({
             title: '¿Estás seguro?',
-            text: 'Se borrará del historial',
+            text: 'Se borrará el historial',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Sí, estoy seguro',
