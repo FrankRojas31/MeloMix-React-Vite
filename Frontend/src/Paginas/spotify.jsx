@@ -8,7 +8,7 @@ export default function spotify () {
         <iframe  
         src="https://open.spotify.com/embed/playlist/3GCFhYH8Lv7138WvmzcrS1?utm_source=generator&theme=0" 
         width="100%"
-        height="413" 
+        height="600"
         frameBorder="0" 
         allowfullscreen="" 
         onScroll={true}

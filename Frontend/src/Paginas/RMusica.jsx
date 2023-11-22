@@ -6,6 +6,7 @@ import Footer from "../componentes/Footer";
 import Player from '@madzadev/audio-player'
 
 export default function RMusica() {
+    const navigate = useNavigate();
     const [listas, setListas] = useState([]);
     const { id } = useParams();
     const [id2, setid2] = useState(id);
@@ -69,24 +70,11 @@ export default function RMusica() {
         --playlistBackgroundHoverActive:  #18191f;
         --playlistTextHoverActive: #ffffff;
     }`;
+    const obtenerArregloDesdeLocalStorage = () => {
+        const arregloGuardado = localStorage.getItem('historial');
+        return arregloGuardado ? JSON.parse(arregloGuardado) : [];
+    };
     useEffect(() => {
-        const fetchData2 = async () => {
-            try {
-                const respuesta2 = await axios.get(
-                    `http://localhost:3000/cancionesR`
-                );
-                const datosMapeados = respuesta2.data.map(item => ({
-                    url: item.CancionDireccion,
-                    title: `${item.CancionNombre} - ${item.ArtistaNombre}`,
-                    tags: [item.CancionId] // Puedes personalizar las etiquetas según tus necesidades
-                }));
-                console.log(datosMapeados)
-                setTracks2(datosMapeados);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchData2()
         const fetchLikes = async () => {
             try {
                 const autenticado = localStorage.getItem("token");
@@ -111,17 +99,6 @@ export default function RMusica() {
                 );
                 console.log(respuesta.data[0].CancionDireccion)
 
-                setTracks([
-                    {
-                        url: respuesta.data[0].CancionDireccion,
-                        title: `${respuesta.data[0].CancionNombre} - ${respuesta.data[0].ArtistaNombre}`,
-                        tags: [id2]
-                    },
-                ]);
-                setListas(respuesta.data[0]);
-                const respuesta3 = await axios.get(
-                    `http://localhost:3000/letras/${respuesta.data[0].ArtistaNombre}/${respuesta.data[0].CancionNombre}`
-                );
                 esperarCincoSegundos(() => {
                     const autenticado = localStorage.getItem("token");
                     if (autenticado) {
@@ -133,18 +110,51 @@ export default function RMusica() {
                             console.log("valgo keso JAJAJA");
                         }
                     }
-                    const elemento = document.querySelector("._3a3Vy");
-                    // Añadir un event listener al elemento encontrado
-                    elemento.addEventListener("click", function () {
-                        // Acciones que deseas realizar cuando se hace clic en el elemento
-                        console.log("Se hizo clic en el elemento con la clase '_3a3Vy'");
-                        handleTrackEnd();
+                    const siguiente = document.querySelector("._3a3Vy")
+                    siguiente.addEventListener("click", function () {
+                        const arregloExistente = obtenerArregloDesdeLocalStorage();
+                        const nuevoArreglo = [...arregloExistente, id2];
+                        localStorage.setItem('historial', JSON.stringify(nuevoArreglo));
+                        function generarNumeroAleatorio(min, max) {
+                            return Math.floor(Math.random() * (max - min + 1)) + min;
+                        }
+                        const numeroAleatorio = generarNumeroAleatorio(1, 274);
+                        navigate("/reproductor/" + numeroAleatorio);
+                        window.location.href = window.location.href;
+                    });
+                    const anterior = document.querySelector("._3Juzi")
+                    anterior.addEventListener("click", function () {
+                        const historial = obtenerArregloDesdeLocalStorage();
+                        if (historial.length >= 2) {
+                            const nuevosElementos = historial.slice(0, -1);
+                            localStorage.setItem('historial', JSON.stringify(nuevosElementos));
+                            const penultimo = historial[historial.length - 1];
+                            navigate("/reproductor/" + penultimo);
+                            window.location.href = window.location.href;
+                        } else if (historial.length === 1) {
+                            localStorage.setItem('historial', JSON.stringify([]));
+                            navigate("/reproductor/" + historial[0]);
+                            window.location.href = window.location.href;
+                        } else {
+                            console.log("El arreglo está vacío");
+                        }
                     });
                     var element = document.querySelector("._RZMQZ");
                     if (element) {
                         element.classList.add("hidden");
                     }
                 });
+                setTracks([
+                    {
+                        url: respuesta.data[0].CancionDireccion,
+                        title: `${respuesta.data[0].CancionNombre} - ${respuesta.data[0].ArtistaNombre}`,
+                        tags: [id2]
+                    },
+                ]);
+                setListas(respuesta.data[0]);
+                const respuesta3 = await axios.get(
+                    `http://localhost:3000/letras/${respuesta.data[0].ArtistaNombre}/${respuesta.data[0].CancionNombre}`
+                );
                 setLetra(respuesta3.data.split('\n'));
                 console.log(respuesta.data[0].CancionVideo);
                 const respuesta2 = await axios.get(
@@ -180,30 +190,30 @@ export default function RMusica() {
     const handleTrackEnd = () => {
         console.log(tracks2);
         if (tracks2.length > 0) {
-          // Obtener el siguiente índice
-          const nextIndex = (currentIndex + 1) % tracks2.length;
-          setCurrentIndex(nextIndex);
-      
-          // Verificar si el objeto en tracks2[nextIndex] existe
-          if (tracks2[nextIndex]) {
-            // Actualizar la lista de reproducción con el nuevo objeto
-            setTracks([
-              {
-                url: tracks2[nextIndex].url,
-                title: `${tracks2[nextIndex].title}`,
-                tags: [tracks2[nextIndex].tags],
-              },
-            ]);
-          } else {
-            // Manejar el caso en el que tracks2[nextIndex] es undefined
-            console.error("tracks2[nextIndex] es undefined");
-          }
+            // Obtener el siguiente índice
+            const nextIndex = (currentIndex + 1) % tracks2.length;
+            setCurrentIndex(nextIndex);
+
+            // Verificar si el objeto en tracks2[nextIndex] existe
+            if (tracks2[nextIndex]) {
+                // Actualizar la lista de reproducción con el nuevo objeto
+                setTracks([
+                    {
+                        url: tracks2[nextIndex].url,
+                        title: `${tracks2[nextIndex].title}`,
+                        tags: [tracks2[nextIndex].tags],
+                    },
+                ]);
+            } else {
+                // Manejar el caso en el que tracks2[nextIndex] es undefined
+                console.error("tracks2[nextIndex] es undefined");
+            }
         } else {
-          // Manejar el caso en el que tracks2 no tiene elementos
-          console.error("tracks2 no tiene elementos");
+            // Manejar el caso en el que tracks2 no tiene elementos
+            console.error("tracks2 no tiene elementos");
         }
-      };
-      
+    };
+
 
 
     return (
