@@ -30,7 +30,7 @@ function App() {
           <Route path='*' element={<Page404/>} />
           <Route path="/404" element={<Page404/>} />
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={autenticado && rolId === 1 ? <Dashboard /> : <Navigate to="/" />}/>
+          <Route path="/dashboard" element={autenticado && rolId === 1 ? <Dashboard /> : <Navigate to="/404" />}/>
           <Route path="/inicio" element={autenticado ? <Navigate to = "/"/> : <Login />} />
           <Route path="/registro" element={autenticado ? <Navigate to = "/"/> : <Signin />} />
           <Route path="/nosotros" element={<Nosotros />} />
