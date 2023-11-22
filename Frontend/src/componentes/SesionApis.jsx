@@ -141,7 +141,7 @@ useEffect(() => {
                 </section>
                 <span
                     onClick={() => onComponentChange()}
-                    className="absolute h-full w-10 bg-black left-0 rounded-tl-[50px] rounded-bl-[50px] opacity-0 hover:opacity-20"
+                    className="absolute h-full w-10 bg-black left-0 rounded-tl-[50px] rounded-bl-[50px] opacity-0 opacity-10 hover:opacity-20 cursor-pointer"
                 ></span>
             </main>
         </>

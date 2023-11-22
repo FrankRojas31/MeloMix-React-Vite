@@ -9,20 +9,23 @@ export default function Signin() {
         const storedUserProfile = localStorage.getItem("perfil");
         const storedToken = localStorage.getItem("token");
         if (storedUserProfile || storedToken) { //Se agrega para que devuelva.
-          navigate("/")
+            navigate("/")
         }
-      }, []);
+    }, []);
     return (
         <>
-            <main className="bg-[url('/imagenes/fondo.jpeg')] bg-cover w-full h-screen flex justify-center items-center m-auto">
-            <aside className="grid grid-cols-1 lg:grid-cols-2 w-11/12">
-                    <div className="justify-center items-center hidden lg:flex">
-                    <Link to="/" className="bg-[url('/imagenes/logo.png')] bg-cover w-[200px] h-[200px] block rounded-[40px]" ></Link>
-                    </div>
-                    <div className="justify-center items-center flex">
-                        <Registro></Registro>
-                    </div>
-                </aside>
+            <main className="bg-[url('/imagenes/fondo.jpeg')] bg-cover w-full h-screen">
+                <div className="w-full h-full bg-[#000b] flex justify-center items-center m-auto">
+                    <aside className="grid grid-cols-1 lg:grid-cols-2 w-11/12">
+                        <div className="justify-center items-center hidden lg:flex">
+                            <Link to="/" className="bg-[url('/imagenes/logo.png')] bg-cover w-[200px] h-[200px] block rounded-[40px]" ></Link>
+                        </div>
+                        <div className="justify-center items-center flex">
+                            <Registro></Registro>
+                        </div>
+                    </aside>
+                </div>
+
             </main>
         </>
     );

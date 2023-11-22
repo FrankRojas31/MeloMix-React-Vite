@@ -39,7 +39,7 @@ export default function PUsuarios() {
             <img src={Image} className="w-[150px] rounded-full" alt="" />
           </span>
           <span className="col-span-6 mb-5 sm:mb-0 sm:col-span-3 flex items-center justify-center">
-            <h2 className="text-white text-[30px] md:text-[45px] font-bold">{Message}</h2>
+            <h2 className="text-white text-center text-[30px] md:text-[45px] font-bold">{Message}</h2>
           </span>
         </div>
         <aside className="row-span-1 col-span-6 md:row-span-2 md:col-span-1 rounded-xl bg-[#000] grid grid-rows-1 md:grid-rows-3 grid-cols-3 md:grid-cols-1 shadow-2xl">

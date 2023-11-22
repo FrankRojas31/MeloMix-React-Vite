@@ -14,6 +14,7 @@ export default function Registro() {
     const [passwordVerificationResult, setPasswordVerificationResult] = useState(null); // Nueva variable para el mensaje de error de la contraseña
     const [emailVerificationMessage, setEmailVerificationMessage] = useState(""); // Nuevo mensaje de error para el correo
     const [passwordVerificationMessage, setPasswordVerificationMessage] = useState(""); // Nuevo mensaje de error para la contraseña
+    const [campos, setCampos] = useState(false);
 
     const VerificarCorreo = async (Enviar) => {
         try {
@@ -41,8 +42,10 @@ export default function Registro() {
 
     const Enviar = async () => {
         if (!body.Nombre.length || !body.Correo.length || !body.Contrasenia) {
+            setCampos(true);
             return;
         }
+        setCampos(false);
 
         if (!passwordRegex.test(body.Contrasenia)) {
             // La contraseña no cumple con los requisitos.
@@ -109,9 +112,6 @@ export default function Registro() {
                             onChange={cambioEntrada}
                             name="Contrasenia"
                         />
-                        {passwordVerificationResult === "INVALIDO" && (
-                            <span className="error-message">{passwordVerificationMessage}</span>
-                        )}
                     </span>
                     <span className="is-submit">
                         <input type="submit" value="CREAR CUENTA" onClick={() => Enviar()} />
@@ -119,10 +119,18 @@ export default function Registro() {
                     <p className="is-p">
                         ¿Ya tienes cuenta? <Link to="/inicio">Iniciar sesión</Link>
                     </p>
-                    
+
                     {emailVerificationResult === "EXISTE" && (
-                            <span className="error-message">{emailVerificationMessage}</span>
-                        )}
+                        <span className="border border-[#f00] bg-[#fcc] text-[#f00] p-2 rounded-[10px]">{emailVerificationMessage}</span>
+                    )}
+                    {passwordVerificationResult === "INVALIDO" && (
+                        <span className="border border-[#f00] bg-[#fcc] text-[#f00] p-2 rounded-[10px]">{passwordVerificationMessage}</span>
+                    )}
+                    {campos && (
+                        <span className="border border-[#f00] bg-[#fcc] text-[#f00] p-2 rounded-[10px]">
+                            Todos los campos son obligatorios. Por favor, completa la información.
+                        </span>
+                    )}
                 </section>
             </main>
         </>

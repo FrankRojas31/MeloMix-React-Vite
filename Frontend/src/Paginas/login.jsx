@@ -9,9 +9,9 @@ export default function Login() {
         const storedUserProfile = localStorage.getItem("perfil");
         const storedToken = localStorage.getItem("token");
         if (storedUserProfile || storedToken) { //Agrego para que haga el cambio.
-          navigate("/")
+            navigate("/")
         }
-      }, []);
+    }, []);
     const [cambio, setCambio] = useState(true);
 
     function components() {
@@ -20,15 +20,18 @@ export default function Login() {
 
     return (
         <>
-            <main className="bg-[url('/imagenes/fondo.jpeg')] bg-cover w-full h-screen flex justify-center items-center m-auto">
-                <aside className="grid grid-cols-1 md:grid-cols-2 w-11/12">
-                    <div className="justify-center items-center hidden md:flex">
-                    <Link to="/" className="bg-[url('/imagenes/logo.png')] bg-cover w-[200px] h-[200px] block rounded-[40px]" ></Link>
-                    </div>
-                    <div className="justify-center items-center flex">
-                        {cambio ? <InicioSesion onComponentChange={components} /> : <SesionApis onComponentChange={components} />}
-                    </div>
-                </aside>
+            <main className="bg-[url('/imagenes/fondo.jpeg')] bg-cover w-full h-screen ">
+                <div className="w-full h-full bg-[#000b] flex justify-center items-center m-auto">
+                    <aside className="grid grid-cols-1 md:grid-cols-2 w-11/12">
+                        <div className="justify-center items-center hidden md:flex">
+                            <Link to="/" className="bg-[url('/imagenes/logo.png')] bg-cover w-[200px] h-[200px] block rounded-[40px]" ></Link>
+                        </div>
+                        <div className="justify-center items-center flex">
+                            {cambio ? <InicioSesion onComponentChange={components} /> : <SesionApis onComponentChange={components} />}
+                        </div>
+                    </aside>
+                </div>
+
             </main>
         </>
     );

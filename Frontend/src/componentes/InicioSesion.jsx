@@ -78,11 +78,11 @@ export default function InicioSesion({ onComponentChange }) {
           <p className="is-p">
             ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
           </p>
-          {mensaje && <p className="error">{mensaje}</p>}
+          {mensaje && <p className="border border-[#f00] bg-[#fcc] text-[#f00] p-2 rounded-[10px]">{mensaje}</p>}
         </section>
         <span
           onClick={() => onComponentChange()}
-          className="absolute h-full w-10 bg-black right-0 rounded-tr-[50px] rounded-br-[50px] opacity-0 hover:opacity-20"
+          className="absolute h-full w-10 bg-black right-0 rounded-tr-[50px] rounded-br-[50px] opacity-10 hover:opacity-20 cursor-pointer"
         ></span>
       </main>
     </>
