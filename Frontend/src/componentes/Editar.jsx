@@ -31,6 +31,7 @@ export default function Editar() {
 
     const handleEditar = async () => {
         try {
+
             const formData = new FormData();
             formData.append("Nombre", Nombre);
     
@@ -45,7 +46,16 @@ export default function Editar() {
             const response = await axios.put(`http://localhost:3000/Usuario_Update/${profile.id}`, formData);
             console.log(response.data);
             document.getElementById("img").style.backgroundColor = "#fff";
-            Swal.fire('Usuario modificado');
+            Swal.fire({
+                text: 'Usuario modificado',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.clear();
+                    window.location.reload();
+                }
+            });
         } catch (error) {
             console.error("Error al editar el usuario:", error);
         }
