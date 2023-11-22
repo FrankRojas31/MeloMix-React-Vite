@@ -14,7 +14,7 @@ app.use(express.json());
 const conexion = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Chaparro1',
+  password: '',
   database: 'melomix'
 });
 
@@ -232,27 +232,31 @@ app.post("/Registro_Admin", (req, res) => {
 // Actualizar usuarios pasar el body.
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, '/public/imagenes');
+    cb(null, '../Frontend/public/imagenes/');
   },
   filename: (req, file, cb) => {
     const timestamp = new Date().toISOString().replace(/[-T:\.Z]/g, '');
-    cb(null, timestamp + '_' + file.originalname);
+    const fileName = timestamp + '_' + file.originalname;
+    cb(null, fileName);
   },
 });
 
 const upload = multer({ storage: storage });
 
-app.put('/Usuario_Update/:id', upload.single('imagen'), (req, res) => {
+app.put('/Usuario_Update/:id', upload.single('Avatar'), (req, res) => {
   const userId = req.params.id;
   const updatedUser = req.body;
   let imageUrl = null;
 
   if (req.file) {
-    imageUrl = req.file.path;
-    updatedUser.imagen = imageUrl;
+    // Construye la URL de la imagen con "/imagenes/" seguido por el nombre del archivo
+    const fileName = req.file.filename; // Este es el nombre generado por multer
+    imageUrl = "/imagenes/" + fileName;
+    updatedUser.Avatar = imageUrl;
   }
 
   const updateQuery = 'UPDATE usuarios SET ? WHERE id = ?';
+  console.log(updatedUser); 
   conexion.query(updateQuery, [updatedUser, userId], (err, results) => {
     if (err) {
       console.error('Error al actualizar el usuario: ' + err);
@@ -263,6 +267,7 @@ app.put('/Usuario_Update/:id', upload.single('imagen'), (req, res) => {
     }
   });
 });
+
 
 // Artista para crear
 app.post('/Artista_Insert', (req, res) => {
