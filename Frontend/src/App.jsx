@@ -14,6 +14,7 @@ import RMusica from './Paginas/RMusica';
 import Artista from './Paginas/Artista';
 import '@madzadev/audio-player/dist/index.css'
 import Page404 from './Paginas/404';
+import Spotify from "./Paginas/spotify";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -39,6 +40,7 @@ function App() {
           <Route path="/usuario" element={autenticado ? <PUsuarios /> :<Navigate to ="/"/> }/>
           <Route path="/reproductor/:id" element={<RMusica />} />
           <Route path="/artista/:id" element={<Artista />} />
+          <Route path="/spotify" element={<Spotify/>}/>
         </Routes>
       </BrowserRouter>
     </>
