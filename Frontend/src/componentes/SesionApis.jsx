@@ -128,7 +128,7 @@ useEffect(() => {
                         <div className="is-logo2"><i className="nf nf-fa-google"></i></div>
                         <p>Continuar con Google</p>
                     </span>
-                    <FacebookLogin
+                    {/* <FacebookLogin
                         appId="823244396264077"
                         autoLoad={false}
                         fields="name,email,picture"
@@ -137,7 +137,7 @@ useEffect(() => {
                         callback={responseFacebook}
                         cssClass='iconoFacebok'
                         icon="fa-facebook"
-                    />
+                    /> */}
                 </section>
                 <span
                     onClick={() => onComponentChange()}

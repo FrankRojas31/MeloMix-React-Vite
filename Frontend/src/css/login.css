@@ -17,7 +17,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: space-between;
+    align-content: space-evenly;
 }
 .is-titulo{
     font-size: 30px;
