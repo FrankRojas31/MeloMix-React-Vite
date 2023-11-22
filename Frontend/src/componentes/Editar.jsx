@@ -31,24 +31,26 @@ export default function Editar() {
 
     const handleEditar = async () => {
         try {
-            if (Avatar !== "Selecciona una imagen" && Avatar !== null && Contrasenia !== undefined) {
-                const formData = new FormData();
-                formData.append("Nombre", Nombre);
+            const formData = new FormData();
+            formData.append("Nombre", Nombre);
+    
+            if (Contrasenia !== undefined && Contrasenia !== "") {
                 formData.append("Contrasenia", Contrasenia);
-                console.log(Contrasenia); 
-                formData.append("Avatar", Avatar);
-
-                const response = await axios.put(`http://localhost:3000/Usuario_Update/${profile.id}`, formData);
-                console.log(response.data);
-                document.getElementById("img").style.backgroundColor = "#fff";
-                Swal.fire('Usuario modificado');
-            }else{
-                Swal.fire('Debe agregar una imagen y su contraseña');
             }
+    
+            if (Avatar !== null && Avatar !== profile.Avatar) {
+                formData.append("Avatar", Avatar);
+            }
+    
+            const response = await axios.put(`http://localhost:3000/Usuario_Update/${profile.id}`, formData);
+            console.log(response.data);
+            document.getElementById("img").style.backgroundColor = "#fff";
+            Swal.fire('Usuario modificado');
         } catch (error) {
             console.error("Error al editar el usuario:", error);
         }
     };
+    
 
     return (
         <>
